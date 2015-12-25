@@ -1,23 +1,44 @@
-(function(owl) {
+(function(window, owl) {
     function Router(){
-        this.routes = {};
-    }
-    Router.prototype.add = function(path, resolves, callback) {
-        var params = path.split('/'),
-            currentRoute = this.routes;
-        params.forEach(function(param) {
-            if (!currentRoute[param]) {
-                currentRoute[param] = {};
+        this.routes = {
+            $: {
+                path: '*',
+                callback: function() {
+                    console.log('Default route is not defined');
+                }
             }
-            currentRoute = currentRoute[param];
-        });
-        currentRoute['$'] = {
-            path: path,
-            resolves: resolves,
-            callback: callback
         };
+    }
+    Router.prototype.init = function(options) {
+        var that = this;
+        this.options = options;
+
+        window.addEventListener('popstate', function () {
+            that.open(that.getLocation());
+        });
+        this.open(this.getLocation());
     };
-    Router.prototype.route = function(path) {
+    Router.prototype.getLocation = function () {
+        return window.location.href.replace(/.*:\/\/[^\/]*\//, '').replace(this.options.path, '');
+    };
+    Router.prototype.open = function(path) {
+        var route = this.getRoute(path);
+        route.callback();
+    };
+    Router.prototype.setRoute = function(route) {
+        var params = route.path.split('/'),
+            currentRoute = this.routes;
+        if (route.path !== '*') {
+            params.forEach(function (param) {
+                if (!currentRoute[param]) {
+                    currentRoute[param] = {};
+                }
+                currentRoute = currentRoute[param];
+            });
+        }
+        currentRoute.$ = route;
+    };
+    Router.prototype.getRoute = function(path) {
         var params = path.split('/'),
             currentRoute = this.routes;
         params.forEach(function(param) {
@@ -26,7 +47,19 @@
             }
             currentRoute = currentRoute[param];
         });
-        return currentRoute.$;
+        if (currentRoute) {
+            return currentRoute.$;
+        } else {
+            return this.routes.$;
+        }
+    };
+    Router.prototype.navigate = function(path) {
+        history.pushState(null, null, path);
+        this.open(path);
+    };
+    Router.prototype.replace = function(path) {
+        history.replaceState(null, null, path);
+        this.open(path);
     };
     owl.Router = Router;
-})(owl);
+})(window, owl);

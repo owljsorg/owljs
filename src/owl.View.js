@@ -1,12 +1,19 @@
 (function(window, owl) {
     function View(){
-        this.el = window.document.createElement('div');
-        this.el.classList.add(this.className);
+        var el = this.el;
 
-        this.events.forEach(function(event) {
-            var index = event.indexOf(' ');
-            console.log(event.substr(0, index));
-            console.log(event.substr(index));
+        if (!el) {
+            this.el = window.document.createElement('div');
+        }
+        el.className = this.className;
+
+        Object.keys(this.events).forEach(function(event) {
+            var index = event.indexOf(' '),
+                eventName = event.substr(0, index),
+                eventSelector = event.substr(index + 1);
+            el.addEventListener(eventName, function() {
+                console.log('ok');
+            });
         });
     }
     View.prototype.className = '';

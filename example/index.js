@@ -21,4 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     app.init(options);
     router.init(options);
+
+    var appView = new owl.AppView();
+
 });

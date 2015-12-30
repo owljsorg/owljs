@@ -25,7 +25,7 @@
     }
 
     owl.ajax = function (settings) {
-        return new Promise(function(resolve, reject) {
+        return new owl.Promise(function(resolve, reject) {
             var xhr = new XMLHttpRequest(),
                 method = settings.type || 'GET',
                 url = settings.url,

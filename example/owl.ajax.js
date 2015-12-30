@@ -1,4 +1,4 @@
-(function(Owl) {
+(function(owl) {
     var _headers = {
         'Content-Type': 'application/json; charset=utf-8'
     };
@@ -24,7 +24,7 @@
         return JSON.stringify(json);
     }
 
-    Owl.ajax = function (settings) {
+    owl.ajax = function (settings) {
         return new Promise(function(resolve, reject) {
             var xhr = new XMLHttpRequest(),
                 method = settings.type || 'GET',
@@ -47,7 +47,7 @@
                         settings.success && settings.success(response);
                         resolve(response);
                     } else {
-                        Owl.ajax.error(xhr);
+                        owl.ajax.error(xhr);
                         settings.error && settings.error(xhr, xhr.statusText);
                         error = new Error('Respond with ' + xhr.status);
                         error.status = xhr.status;
@@ -58,21 +58,21 @@
                 }
             };
             xhr.open(method, url, true);
-            for(key in _headers) {
-                if(_headers.hasOwnProperty(key)) {
+            for (key in _headers) {
+                if (_headers.hasOwnProperty(key)) {
                     xhr.setRequestHeader(key, _headers[key]);
                 }
             }
             xhr.send(body);
         });
     };
-    Owl.ajax.setHeader = function(key, value) {
+    owl.ajax.setHeader = function(key, value) {
         _headers[key] = value;
     };
-    Owl.ajax.removeHeader = function(key, value) {
+    owl.ajax.removeHeader = function(key, value) {
         delete _headers[key];
     };
-    Owl.ajax.error = function(xhr) {
+    owl.ajax.error = function(xhr) {
         console.log(xhr);
     };
-})(window.Owl);
+})(window.owl);

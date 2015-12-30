@@ -21,6 +21,12 @@
     Router.prototype.getLocation = function () {
         return window.location.href.replace(/.*:\/\/[^\/]*\//, '').replace(this.options.path, '');
     };
+    Router.prototype.getHash = function () {
+        return window.location.hash.substr(1);
+    };
+    Router.prototype.setHash = function(hash) {
+        window.location.hash = hash;
+    };
     Router.prototype.open = function(path) {
         var route = this.getRoute(path);
         route.callback();
@@ -54,11 +60,11 @@
         }
     };
     Router.prototype.navigate = function(path) {
-        history.pushState(null, null, path);
+        window.history.pushState(null, null, path);
         this.open(path);
     };
     Router.prototype.replace = function(path) {
-        history.replaceState(null, null, path);
+        window.history.replaceState(null, null, path);
         this.open(path);
     };
     owl.Router = Router;

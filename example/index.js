@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     var app = owl.require('app'),
-        router = owl.require('router');
+        router = owl.require('router'),
+
+        options = {
+            path: 'owl/example/'
+        };
+
     router.setRoute({
         path: '*',
         callback: function() {
@@ -13,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('user');
         }
     });
-    app.init({
-        path: 'owl/example/'
-    });
+
+    app.init(options);
+    router.init(options);
 });

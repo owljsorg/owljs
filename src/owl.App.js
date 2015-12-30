@@ -3,8 +3,6 @@
     }
     App.prototype.init = function(options) {
         this.options = options || {};
-
-        owl.require('router').init(this.options);
     };
     App.prototype.getOptions = function() {
         return this.options;

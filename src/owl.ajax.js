@@ -75,4 +75,6 @@
     owl.ajax.error = function(xhr) {
         console.log(xhr);
     };
+    owl.ajax.toQueryString = toQueryString;
+    owl.ajax.toJsonString = toJsonString;
 })(window.owl);

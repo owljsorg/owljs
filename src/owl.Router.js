@@ -12,10 +12,10 @@
             match,
             i,
             params = {};
-        if(route && route.regexp) {
+        if (route && route.regexp) {
             match = path.match(route.regexp);
             if (match) {
-                for(i = 1; i < match.length; i++) {
+                for (i = 1; i < match.length; i++) {
                     params[route.params[i - 1]] = match[i];
                 }
             }

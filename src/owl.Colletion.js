@@ -1,17 +1,23 @@
 (function(window, owl) {
-    function Collection(collection){
-
+    function Collection(){
+        this.url = '';
+        this.collection = [];
     }
-    Collection.prototype.url = '';
-    Collection.prototype.collection = [];
-    Collection.prototype.fetch = function(data) {
-
+    /**
+     * Gets data from server
+     * @param query
+     */
+    Model.prototype.fetch = function(query) {
+        return owl.ajax({
+            url: this.url + owl.ajax.toQueryString(query),
+            type: 'GET'
+        });
     };
     /**
      * Removes models from collection
      */
     Model.prototype.clear = function() {
-
+        this.collection = [];
     };
     /**
      * Get collection

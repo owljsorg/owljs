@@ -1,0 +1,12 @@
+{
+  "name": "owl",
+  "version": "0.0.1",
+  "homepage": "https://github.com/omegascorp/owl",
+  "authors": [
+    "omegascorp <omegascorp@gmail.com>"
+  ],
+  "description": "Simple Backbone-like library",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT"
+}

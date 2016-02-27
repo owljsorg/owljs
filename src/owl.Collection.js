@@ -7,7 +7,7 @@
      * Gets data from server
      * @param query
      */
-    Model.prototype.fetch = function(query) {
+    Collection.prototype.fetch = function(query) {
         return owl.ajax({
             url: this.url + owl.ajax.toQueryString(query),
             type: 'GET'
@@ -16,15 +16,15 @@
     /**
      * Removes models from collection
      */
-    Model.prototype.clear = function() {
+    Collection.prototype.clear = function() {
         this.collection = [];
     };
     /**
      * Get collection
      * @return
      */
-    Model.prototype.getJson = function() {
+    Collection.prototype.getJson = function() {
         return this.collection;
     };
-    owl.Model = Model;
+    owl.Collection = Collection;
 })(window, owl);

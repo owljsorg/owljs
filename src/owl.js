@@ -1,8 +1,6 @@
 (function(window) {
     var callbacks = {},
-        modules = {},
-        routers = [],
-        resolves = {};
+        modules = {};
 
     function require(name) {
         if (!modules[name] && callbacks[name]) {
@@ -19,28 +17,8 @@
         callbacks[name] = callback;
     }
 
-    function addRouter(routerName, routerObject) {
-        routers[routerName] = routerObject;
-    }
-
-    function removeRouter(routerName) {
-        delete routers[routerName];
-    }
-
-    function addResolve(resolveName, resolveObject) {
-        resolves[resolveName] = resolveObject;
-    }
-
-    function removeResolve(resolveName) {
-        delete resolves[resolveName];
-    }
-
     window.owl = {
         require: require,
-        define: define,
-        addRouter: addRouter,
-        removeRouter: removeRouter,
-        addResolve: addResolve,
-        removeResolve: removeResolve
+        define: define
     };
 })(window);

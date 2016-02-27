@@ -1,27 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var app = owl.require('app'),
-        router = owl.require('router'),
-
-        options = {
-            path: 'owl/example/'
-        };
-
-    router.setRoute({
-        path: '*',
-        callback: function() {
-            console.log('404 page');
-        }
-    });
+    var router = new owl.Router();
     router.setRoute({
         path: 'user',
         callback: function() {
             console.log('user');
         }
     });
+    router.setRoute({
+        path: 'user/:id',
+        callback: function(params) {
+            console.log('user', params);
+        }
+    });
+    router.setDefaultRoute({
+        callback: function() {
+            console.log('404 page');
+        }
+    });
 
-    app.init(options);
-    router.init(options);
+    owl.history.init({
+        baseUrl: '/owl/example/'
+    });
+    owl.history.setDefaultRouter(router);
+    owl.history.addRouter('main', router);
+    owl.history.start();
+    owl.history.navigate('user/111');
 
-    var appView = new owl.AppView();
+    var appView = new app.AppView();
 
 });

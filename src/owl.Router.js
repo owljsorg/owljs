@@ -1,71 +1,59 @@
 (function(window, owl) {
     function Router(){
-        this.routes = {
-            $: {
-                path: '*',
-                callback: function() {
-                    console.log('Default route is not defined');
+        this.routes = [];
+        this.defaultRoute = {
+            callback: function() {
+                console.log('Default route is not defined');
+            }
+        }
+    }
+    Router.prototype.open = function(path) {
+        var route = this.getRoute(path),
+            match,
+            i,
+            params = {};
+        if(route && route.regexp) {
+            match = path.match(route.regexp);
+            if (match) {
+                for(i = 1; i < match.length; i++) {
+                    params[route.params[i - 1]] = match[i];
                 }
             }
-        };
-    }
-    Router.prototype.init = function(options) {
-        var that = this;
-        this.options = options;
-
-        window.addEventListener('popstate', function () {
-            that.open(that.getLocation());
-        });
-        this.open(this.getLocation());
-    };
-    Router.prototype.getLocation = function () {
-        return window.location.href.replace(/.*:\/\/[^\/]*\//, '').replace(this.options.path, '');
-    };
-    Router.prototype.getHash = function () {
-        return window.location.hash.substr(1);
-    };
-    Router.prototype.setHash = function(hash) {
-        window.location.hash = hash;
-    };
-    Router.prototype.open = function(path) {
-        var route = this.getRoute(path);
-        route.callback();
+        }
+        route.callback(params);
     };
     Router.prototype.setRoute = function(route) {
-        var params = route.path.split('/'),
-            currentRoute = this.routes;
-        if (route.path !== '*') {
-            params.forEach(function (param) {
-                if (!currentRoute[param]) {
-                    currentRoute[param] = {};
-                }
-                currentRoute = currentRoute[param];
+        var paramRegexp = /\:[a-zA-Z0-9]*/g,
+            pattern = route.path.replace(paramRegexp, '(.*)'),
+            match = route.path.match(paramRegexp),
+            params = [];
+        route.regexp = new RegExp('^' + pattern + '$');
+        if (match) {
+            params = match.map(function(param) {
+                return param.substring(1);
             });
         }
-        currentRoute.$ = route;
+        route.params = params;
+        this.routes.push(route);
     };
     Router.prototype.getRoute = function(path) {
-        var params = path.split('/'),
-            currentRoute = this.routes;
-        params.forEach(function(param) {
-            if (!currentRoute) {
-                return false;
+        var that = this,
+            route,
+            params = {};
+        this.routes.forEach(function(currentRoute) {
+            var test = currentRoute.regexp.test(path);
+            if(test) {
+                route = currentRoute
             }
-            currentRoute = currentRoute[param];
         });
-        if (currentRoute) {
-            return currentRoute.$;
+        if (route) {
+            return route;
         } else {
-            return this.routes.$;
+            return this.defaultRoute;
         }
     };
-    Router.prototype.navigate = function(path) {
-        window.history.pushState(null, null, path);
-        this.open(path);
-    };
-    Router.prototype.replace = function(path) {
-        window.history.replaceState(null, null, path);
-        this.open(path);
+    Router.prototype.setDefaultRoute = function(route) {
+        this.defaultRoute = route;
     };
     owl.Router = Router;
 })(window, owl);

@@ -1,16 +1,19 @@
-(function(owl) {
+(function(app) {
     function AppView() {
-        owl.View.apply(this);
+        owl.View.call(this, {
+            el: document.querySelector('html'),
+            events: {
+                'click button': 'click',
+                'keyup input': 'keyup'
+            }
+        });
     }
     AppView.prototype = Object.create(owl.View.prototype);
-    AppView.prototype.el = document.querySelector('html');
-    AppView.prototype.events = {
-        'click a': 'click',
-        'keyup input': 'keyup'
-    };
     AppView.prototype.click = function(event) {
+        var test;
         event.preventDefault();
-        console.log('ok');
+        test = new app.TestView();
+        this.el.appendChild(test.el);
     };
-    owl.AppView = AppView;
-})(owl);
+    app.AppView = AppView;
+})(app);

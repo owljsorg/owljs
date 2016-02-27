@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title>Owl</title>
+</head>
+<body>
+    <script src="owl.js"></script>
+    <script src="module.js"></script>
+    <script src="history.js"></script>
+    <script src="util.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            owl.history.init({
+                baseUrl: '/owl/src'
+            });
+            owl.history.start();
+        });
+    </script>
+</body>
+</html>

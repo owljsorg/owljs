@@ -1,11 +1,11 @@
 (function(window, owl) {
-    function Router(){
-        this.routes = [];
-        this.defaultRoute = {
-            callback: function() {
-                console.log('Default route is not defined');
-            }
-        }
+    function Router(routes, defaultRoute){
+        this.routes = routes || [];
+        this.defaultRoute = defaultRoute || ({
+                callback: function() {
+                    console.log('Default route is not defined');
+                }
+            });
     }
     Router.prototype.open = function(path) {
         var route = this.getRoute(path),

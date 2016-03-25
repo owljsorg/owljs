@@ -1,16 +1,24 @@
 (function(window, owl) {
     function Router(routes, defaultRoute){
-        this.routes = routes || [];
+        var that = this;
+        this.routes = [];
         this.defaultRoute = defaultRoute || ({
-                callback: function() {
-                    console.log('Default route is not defined');
-                }
+            callback: function() {
+                console.log('Default route is not defined');
+            }
+        });
+
+        if (routes instanceof Array) {
+            routes.forEach(function(route) {
+                that.addRoute(route);
             });
+        }
     }
     Router.prototype.open = function(path) {
         var route = this.getRoute(path),
             match,
             i,
+            
             params = {};
         if (route && route.regexp) {
             match = path.match(route.regexp);
@@ -22,7 +30,7 @@
         }
         route.callback(params);
     };
-    Router.prototype.setRoute = function(route) {
+    Router.prototype.addRoute = function(route) {
         var paramRegexp = /\:[a-zA-Z0-9]*/g,
             pattern = route.path.replace(paramRegexp, '(.*)'),
             match = route.path.match(paramRegexp),

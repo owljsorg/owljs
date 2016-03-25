@@ -5,6 +5,7 @@
         options = options || {};
 
         this.el = options.el || window.document.createElement('div');
+        this.elements = {};
         this.className = options.className || '';
         this.events = options.events || {};
         this.template = options.template || null;
@@ -12,12 +13,14 @@
         this.el.className = this.className;
 
         Object.keys(this.events).forEach(function(event) {
-            var index = event.indexOf(' '),
+            var index = event.indexOf(':'),
                 eventName = event.substr(0, index),
                 eventSelector = event.substr(index + 1),
                 method = that.events[event];
             that.el.addEventListener(eventName, function(event) {
-                if (event.target && event.target.matches(eventSelector)) {
+                if (event.target &&
+                    event.target.matches('[data-element=' + eventSelector + ']') ||
+                    event.target.matches('[data-elements=' + eventSelector + ']')) {
                     if(that[method]) {
                         that[method](event);
                     } else {
@@ -28,8 +31,23 @@
             });
         });
     }
+    View.prototype.findElements = function(el) {
+        var that = this;
+        Array.from(el.querySelectorAll('[data-element]')).forEach(function(element) {
+            var name = element.getAttribute('data-element');
+            that.elements[name] = element;
+        });
+        Array.from(el.querySelectorAll('[data-elements]')).forEach(function(element) {
+            var name = element.getAttribute('data-elements');
+            if(!that.elements[name]) {
+                that.elements[name] = [];
+            }
+            that.elements[name].push(element);
+        });
+    };
     View.prototype.render = function(data) {
         this.el.innerHTML = this.template ? this.template(data) : '';
+        this.findElements(this.el);
     };
     View.prototype.find = function(selector) {
         return this.el.querySelector(selector);

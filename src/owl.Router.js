@@ -1,12 +1,13 @@
 (function(window, owl) {
-    function Router(routes, defaultRoute){
+    function Router(routes, defaultRoute, controller){
         var that = this;
         this.routes = [];
         this.defaultRoute = defaultRoute || ({
-            callback: function() {
-                console.log('Default route is not defined');
-            }
-        });
+                callback: function() {
+                    console.log('Default route is not defined');
+                }
+            });
+        this.controller = controller;
 
         if (routes instanceof Array) {
             routes.forEach(function(route) {
@@ -18,8 +19,10 @@
         var route = this.getRoute(path),
             match,
             i,
-            
+            controller,
+
             params = {};
+
         if (route && route.regexp) {
             match = path.match(route.regexp);
             if (match) {
@@ -28,7 +31,14 @@
                 }
             }
         }
-        route.callback(params);
+        if (route.action && (route.controller || this.controller)) {
+            controller = route.controller || this.controller;
+            owl.require(controller)[route.action]();
+        } else if(route.callback) {
+            route.callback(params);
+        } else {
+            console.error('Either controller.action and collback are messing');
+        }
     };
     Router.prototype.addRoute = function(route) {
         var paramRegexp = /\:[a-zA-Z0-9]*/g,

@@ -1,6 +1,6 @@
 {
   "name": "owl.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/omegascorp/owl",
   "authors": [
     "omegascorp <omegascorp@gmail.com>"
@@ -8,5 +8,6 @@
   "description": "Simple Backbone-like library",
   "main": "",
   "moduleType": [],
+  "ignore": ["examples"],
   "license": "MIT"
 }

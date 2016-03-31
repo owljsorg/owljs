@@ -3,8 +3,8 @@
         owl.View.call(this, {
             el: document.querySelector('html'),
             events: {
-                'click:button': 'click',
-                'keyup:input': 'keyup'
+                'click $button': 'click',
+                'keyup $input': 'keyup'
             }
         });
         this.findElements(this.el);

@@ -13,14 +13,23 @@
         this.el.className = this.className;
 
         Object.keys(this.events).forEach(function(event) {
-            var index = event.indexOf(':'),
+            var index = event.indexOf(' '),
                 eventName = event.substr(0, index),
                 eventSelector = event.substr(index + 1),
-                method = that.events[event];
+                method = that.events[event],
+                isElementSelector = eventSelector[0] === '$';
+
+                if (isElementSelector) {
+                    eventSelector = eventSelector.substr(1);
+                }
+
             that.el.addEventListener(eventName, function(event) {
-                if (event.target &&
+                var isSelectorMatches = isElementSelector ?
                     event.target.matches('[data-element=' + eventSelector + ']') ||
-                    event.target.matches('[data-elements=' + eventSelector + ']')) {
+                    event.target.matches('[data-elements=' + eventSelector + ']'):
+                    event.target.matches(eventSelector);
+
+                if (event.target && isSelectorMatches) {
                     if(that[method]) {
                         that[method](event);
                     } else {

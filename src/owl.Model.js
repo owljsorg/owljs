@@ -5,7 +5,7 @@
         this.idField = options.idField || 'id';
     }
     Model.prototype.get = function(name) {
-        return this.json[name];
+        return this.data[name];
     };
     Model.prototype.set = function(name, value) {
         this.data[name] = value;
@@ -16,9 +16,14 @@
      * @return Promise
      */
     Model.prototype.fetch = function(query) {
+        var that = this;
         return owl.ajax({
             url: this.baseUrl + '/' + this.data[this.idField] + owl.ajax.toQueryString(query),
             type: 'GET'
+        })
+        .then(function(result) {
+            that.data = result;
+            return result;
         });
     };
     /**
@@ -33,6 +38,7 @@
      * @return Promise
      */
     Model.prototype.save = function(query) {
+        var that = this;
         var url  = this.baseUrl;
         var id = this.data[this.idField];
         if(id) {
@@ -42,6 +48,12 @@
             url: url + owl.ajax.toQueryString(query),
             type: id ? 'PUT' : 'POST',
             data: this.data
+        })
+        .then(function(result) {
+            if(result[that.idField]) {
+                that.data[that.idField] = result[that.idField];
+            }
+            return result;
         });
     };
     /**
@@ -50,9 +62,14 @@
      * @return Promise
      */
     Model.prototype.destroy = function(query) {
+        var that = this;
         return owl.ajax({
             url: this.baseUrl + '/' + this.data.id + owl.ajax.toQueryString(query),
             type: 'DELETE'
+        })
+        .then(function(result) {
+            that.clear();
+            return result;
         });
     };
     /**

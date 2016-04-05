@@ -33,7 +33,13 @@
         var resolves = route.resolves;
         if (resolves && resolves.length) {
             return owl.Promise.all(resolves.map(function(resolve) {
-                return owl.history.getResolve(resolve);
+                var callback = owl.history.getResolve(resolve);
+                if(callback) {
+                    return callback();
+                } else {
+                    console.info('Resolve' + resolve + 'is not found');
+                    return null;
+                }
             }));
         } else {
             return (new owl.Promise(function(resolve, reject) {
@@ -67,6 +73,7 @@
         }
     };
     Router.prototype.addRoute = function(route) {
+        console.log(route);
         var paramRegexp = /\:[a-zA-Z0-9]*/g,
             pattern = route.path.replace(paramRegexp, '(.*)'),
             match = route.path.match(paramRegexp),

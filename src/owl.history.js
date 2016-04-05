@@ -79,12 +79,16 @@
         _defaultRouter = null;
     }
 
-    function addResolve(resolveName, resolveObject) {
-        _resolves[resolveName] = resolveObject;
+    function addResolve(resolveName, resolveCallback) {
+        _resolves[resolveName] = resolveCallback;
     }
 
     function removeResolve(resolveName) {
         delete _resolves[resolveName];
+    }
+
+    function getResolve(resolveName) {
+        return _resolves[resolveName];
     }
 
     owl.history = {
@@ -97,6 +101,7 @@
         setDefaultRouter: setDefaultRouter,
         resetDefaultRouter: resetDefaultRouter,
         addResolve: addResolve,
-        removeResolve: removeResolve
+        removeResolve: removeResolve,
+        getResolve: getResolve
     };
 }(window, window.owl));

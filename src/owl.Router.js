@@ -16,14 +16,39 @@
         }
     }
     Router.prototype.open = function(path) {
-        var route = this.getRoute(path),
-            match,
-            i,
+        var that = this,
+            route = this.getRoute(path);
+
+        if(!route) {
+            return;
+        }
+
+        return this.resolve(route)
+            .then(function() {
+                that.run(route, path);
+                return null;
+            });
+    };
+    Router.prototype.resolve = function(route) {
+        var resolves = route.resolves;
+        if (resolves && resolves.length) {
+            return owl.Promise.all(resolves.map(function(resolve) {
+                return owl.history.getResolve(resolve);
+            }));
+        } else {
+            return (new owl.Promise(function(resolve, reject) {
+                resolve();
+            }));
+        }
+    };
+    Router.prototype.run = function(route, path) {
+        var match,
             controller,
+            i,
 
             params = {};
 
-        if (route && route.regexp) {
+        if (route.regexp) {
             match = path.match(route.regexp);
             if (match) {
                 for (i = 1; i < match.length; i++) {
@@ -31,6 +56,7 @@
                 }
             }
         }
+
         if (route.action && (route.controller || this.controller)) {
             controller = route.controller || this.controller;
             owl.require(controller)[route.action]();
@@ -44,7 +70,7 @@
         var paramRegexp = /\:[a-zA-Z0-9]*/g,
             pattern = route.path.replace(paramRegexp, '(.*)'),
             match = route.path.match(paramRegexp),
-            params = [];
+            params = {};
         route.regexp = new RegExp('^' + pattern + '$');
         if (match) {
             params = match.map(function(param) {
@@ -56,8 +82,7 @@
     };
     Router.prototype.getRoute = function(path) {
         var that = this,
-            route,
-            params = {};
+            route;
         this.routes.forEach(function(currentRoute) {
             var test = currentRoute.regexp.test(path);
             if(test) {

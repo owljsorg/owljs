@@ -57,6 +57,46 @@
         });
     };
     /**
+     * Updates local data and saves model
+     * @param data
+     * @param query
+     * @return Promise
+     */
+    Model.prototype.update = function(data, query) {
+        this.data = owl.util.extend(this.data, data);
+        this.save(query);
+    };
+    /**
+     * Partially updates model
+     * @param data
+     * @param query
+     * @return Promise
+     */
+    Model.prototype.patch = function(data, query) {
+        var that = this;
+        var id = this.data[this.idField];
+        var url  = this.baseUrl + '/' + id;
+        if(!id) {
+            return new Promise(function(resolve, reject) {
+                reject('Can not patch model without id');
+            });
+        }
+
+        this.data = owl.util.extend(this.data, data);
+
+        return owl.ajax({
+                url: url + owl.ajax.toQueryString(query),
+                type: 'PATCH',
+                data: data
+            })
+            .then(function(result) {
+                if(result[that.idField]) {
+                    that.data[that.idField] = result[that.idField];
+                }
+                return result;
+            });
+    };
+    /**
      * Remove a model
      * @param query
      * @return Promise

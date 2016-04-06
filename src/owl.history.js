@@ -7,7 +7,9 @@
         _defaultRouter = null,
         _listener,
         _routers = [],
-        _resolves = {};
+        _resolves = {},
+        _events = {},
+        _started = false;
 
     function init(options) {
         _options = owl.util.extend(_defaultOptions, options);
@@ -18,6 +20,11 @@
         _listener = window.addEventListener('popstate', function() {
             open(getLocation());
         }, false);
+        _started = true;
+    }
+
+    function isStarted() {
+        return _started;
     }
 
     function stop() {
@@ -51,7 +58,7 @@
             route;
         Object.keys(_routers).find(function(routerPath) {
             if(path.indexOf(routerPath) === 0) {
-                router = _routers[path];
+                router = _routers[routerPath];
                 path = path.replace(routerPath, '');
                 return true;
             }
@@ -60,6 +67,7 @@
         if (!router) {
             router = _defaultRouter;
         }
+        trigger('change');
         router.open(path);
     }
 
@@ -91,9 +99,23 @@
         return _resolves[resolveName];
     }
 
+    function on(event, listener) {
+        if(!_events[event]) {
+            _events[event] = [];
+        }
+        _events[event].push(listener);
+    }
+
+    function trigger(event) {
+        _events[event] && _events[event].forEach(function(listener) {
+            listener();
+        });
+    }
+
     owl.history = {
         init: init,
         start: start,
+        isStarted: isStarted,
         navigate: navigate,
         replace: replace,
         addRouter: addRouter,
@@ -102,6 +124,8 @@
         resetDefaultRouter: resetDefaultRouter,
         addResolve: addResolve,
         removeResolve: removeResolve,
-        getResolve: getResolve
+        getResolve: getResolve,
+        on: on,
+        trigger: trigger
     };
-}(window, window.owl));
+})(window, owl);

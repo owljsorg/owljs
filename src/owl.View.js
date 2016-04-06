@@ -58,6 +58,10 @@
         this.el.innerHTML = this.template ? this.template(data) : '';
         this.findElements(this.el);
     };
+    View.prototype.remove = function() {
+        this.el.innerHTML = null;
+        this.elements = {};
+    };
     View.prototype.find = function(selector) {
         return this.el.querySelector(selector);
     };

@@ -26,14 +26,14 @@
             }
 
             that.el.addEventListener(eventName, function(event) {
-                var isSelectorMatches = isElementSelector ?
-                    that.matchesSelector(event.target, '[data-element=' + eventSelector + ']') ||
-                    that.matchesSelector(event.target, '[data-elements=' + eventSelector + ']'):
-                    that.matchesSelector(event.target, eventSelector);
+                var matchingElement = isElementSelector ?
+                    that.getMatchingElement(event.target, '[data-element=' + eventSelector + ']') ||
+                    that.getMatchingElement(event.target, '[data-elements=' + eventSelector + ']'):
+                    that.getMatchingElement(event.target, eventSelector);
 
-                if (event.target && isSelectorMatches) {
+                if (event.target && matchingElement) {
                     if(that[method]) {
-                        that[method](event);
+                        that[method](matchingElement, event);
                     } else {
                         console.error('Method ' + method + ' is not defined' +
                             (that.className ? 'in ' + that.className : ''));
@@ -43,14 +43,14 @@
         });
     }
 
-    View.prototype.matchesSelector = function(element, selector) {
+    View.prototype.getMatchingElement = function(element, selector) {
         while (element && element !== this.el) {
             if (element.matches(selector)) {
-                return true;
+                return element;
             }
             element = element.parentNode;
         }
-        return false;
+        return null;
     };
 
     View.prototype.findElements = function(el) {

@@ -10,7 +10,9 @@
         this.events = options.events || {};
         this.template = options.template || null;
 
-        this.el.className = this.className;
+        if (this.className) {
+            this.el.className = this.className;
+        }
 
         Object.keys(this.events).forEach(function(event) {
             var index = event.indexOf(' '),
@@ -19,15 +21,15 @@
                 method = that.events[event],
                 isElementSelector = eventSelector[0] === '$';
 
-                if (isElementSelector) {
-                    eventSelector = eventSelector.substr(1);
-                }
+            if (isElementSelector) {
+                eventSelector = eventSelector.substr(1);
+            }
 
             that.el.addEventListener(eventName, function(event) {
                 var isSelectorMatches = isElementSelector ?
-                    event.target.matches('[data-element=' + eventSelector + ']') ||
-                    event.target.matches('[data-elements=' + eventSelector + ']'):
-                    event.target.matches(eventSelector);
+                    that.matchesSelector(event.target, '[data-element=' + eventSelector + ']') ||
+                    that.matchesSelector(event.target, '[data-elements=' + eventSelector + ']'):
+                    that.matchesSelector(event.target, eventSelector);
 
                 if (event.target && isSelectorMatches) {
                     if(that[method]) {
@@ -40,6 +42,17 @@
             });
         });
     }
+
+    View.prototype.matchesSelector = function(element, selector) {
+        while (element && element !== this.el) {
+            if (element.matches(selector)) {
+                return true;
+            }
+            element = element.parentNode;
+        }
+        return false;
+    };
+
     View.prototype.findElements = function(el) {
         var that = this;
         Array.from(el.querySelectorAll('[data-element]')).forEach(function(element) {
@@ -54,17 +67,21 @@
             that.elements[name].push(element);
         });
     };
+
     View.prototype.render = function(data) {
         this.el.innerHTML = this.template ? this.template(data) : '';
         this.findElements(this.el);
     };
+
     View.prototype.remove = function() {
         this.el.innerHTML = null;
         this.elements = {};
     };
+
     View.prototype.find = function(selector) {
         return this.el.querySelector(selector);
     };
+
     View.prototype.findAll = function(selector) {
         return this.el.querySelectorAll(selector);
     };

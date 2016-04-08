@@ -9,6 +9,8 @@
         this.className = options.className || '';
         this.events = options.events || {};
         this.template = options.template || null;
+        this.model = options.model;
+        this.collection = options.collection;
 
         if (this.className) {
             this.el.className = this.className;
@@ -24,20 +26,17 @@
             if (isElementSelector) {
                 eventSelector = eventSelector.substr(1);
             }
-
+            if (eventName === 'submit') {
+                return;
+            }
             that.el.addEventListener(eventName, function(event) {
                 var matchingElement = isElementSelector ?
-                    that.getMatchingElement(event.target, '[data-element=' + eventSelector + ']') ||
-                    that.getMatchingElement(event.target, '[data-elements=' + eventSelector + ']'):
+                that.getMatchingElement(event.target, '[data-element=' + eventSelector + ']') ||
+                that.getMatchingElement(event.target, '[data-elements=' + eventSelector + ']'):
                     that.getMatchingElement(event.target, eventSelector);
 
                 if (event.target && matchingElement) {
-                    if(that[method]) {
-                        that[method](matchingElement, event);
-                    } else {
-                        console.error('Method ' + method + ' is not defined' +
-                            (that.className ? 'in ' + that.className : ''));
-                    }
+                    that.callEventListener(method, matchingElement, event);
                 }
             });
         });
@@ -53,7 +52,46 @@
         return null;
     };
 
-    View.prototype.findElements = function(el) {
+    View.prototype.update = function(el) {
+        if (!el) {
+            el = this.el;
+        }
+        this.updateEvents(el);
+        this.updateElements(el);
+    };
+
+    View.prototype.updateEvents = function(el) {
+        var that = this;
+        Object.keys(this.events).forEach(function(event) {
+            var index = event.indexOf(' '),
+                eventName = event.substr(0, index),
+                eventSelector = event.substr(index + 1),
+                method = that.events[event],
+                isElementSelector = eventSelector[0] === '$';
+            if (eventName !== 'submit') {
+                return;
+            }
+            if (isElementSelector) {
+                eventSelector = eventSelector.substr(1);
+                eventSelector = '[data-element=' + eventSelector + '],[data-elements=' + eventSelector + ']';
+            }
+            Array.from(el.querySelectorAll(eventSelector)).forEach(function(element) {
+                element.addEventListener(eventName, function(event) {
+                    that.callEventListener(method, element, event);
+                });
+            });
+        });
+    };
+    View.prototype.callEventListener = function(method, element, event) {
+        if(this[method]) {
+            this[method](element, event);
+        } else {
+            console.error('Method ' + method + ' is not defined' +
+                (that.className ? 'in ' + that.className : ''));
+        }
+    };
+
+    View.prototype.updateElements = function(el) {
         var that = this;
         Array.from(el.querySelectorAll('[data-element]')).forEach(function(element) {
             var name = element.getAttribute('data-element');
@@ -70,7 +108,7 @@
 
     View.prototype.render = function(data) {
         this.el.innerHTML = this.template ? this.template(data) : '';
-        this.findElements(this.el);
+        this.update();
     };
 
     View.prototype.remove = function() {

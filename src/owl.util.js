@@ -2,12 +2,7 @@
     function clone(object) {
         var cloneObject = {};
         Object.keys(object).forEach(function(key) {
-            var value = object[key];
-            if (typeof value === 'Object') {
-                cloneObject[key] = clone(value);
-            } else {
-                cloneObject[key] = value;
-            }
+            cloneObject[key] = object[key];
         });
         return cloneObject;
     }
@@ -22,12 +17,7 @@
         }
         resultObject = clone(firstObject);
         Object.keys(secondObject).forEach(function(key) {
-            var value = secondObject[key];
-            if(typeof value === 'Object') {
-                resultObject[key] = extend(firstObject[key], value);
-            } else {
-                resultObject[key] = value;
-            }
+            resultObject[key] = secondObject[key];
         });
         return resultObject;
     }

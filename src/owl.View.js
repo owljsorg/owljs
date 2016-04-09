@@ -88,7 +88,7 @@
             this[method](element, event);
         } else {
             console.error('Method ' + method + ' is not defined' +
-                (that.className ? 'in ' + that.className : ''));
+                (this.className ? 'in ' + this.className : ''));
         }
     };
 

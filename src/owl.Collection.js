@@ -1,7 +1,9 @@
 (function(window, owl) {
-    function Collection(){
-        this.url = '';
+    function Collection(options){
+        this.url = options.url;
+        this.model = options.model;
         this.data = [];
+        this.length = 0;
     }
     /**
      * Gets data from server
@@ -13,10 +15,14 @@
             url: this.url + owl.ajax.toQueryString(query),
             type: 'GET'
         })
-        .then(function(result) {
-            that.data = result;
-            return result;
-        });
+            .then(function(result) {
+                that.data = result;
+                that.length = result.length;
+                that.models = result.map(function(item) {
+                    return new that.model(item);
+                });
+                return result;
+            });
     };
     /**
      * Removes models from collection

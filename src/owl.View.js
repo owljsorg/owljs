@@ -11,6 +11,7 @@
         this.template = options.template || null;
         this.model = options.model;
         this.collection = options.collection;
+        this.specialEvents = ['submit', 'focus', 'blur'];
 
         if (this.className) {
             this.el.className = this.className;
@@ -26,7 +27,7 @@
             if (isElementSelector) {
                 eventSelector = eventSelector.substr(1);
             }
-            if (eventName === 'submit') {
+            if (that.specialEvents.indexOf(eventName) !== -1) {
                 return;
             }
             that.el.addEventListener(eventName, function(event) {
@@ -68,7 +69,7 @@
                 eventSelector = event.substr(index + 1),
                 method = that.events[event],
                 isElementSelector = eventSelector[0] === '$';
-            if (eventName !== 'submit') {
+            if (that.specialEvents.indexOf(eventName) === -1) {
                 return;
             }
             if (isElementSelector) {

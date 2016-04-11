@@ -8,6 +8,11 @@
   "description": "Simple Backbone-like library",
   "main": "",
   "moduleType": [],
-  "ignore": ["examples"],
+  "ignore": [
+    "examples",
+    "bower_components",
+    "node_modules",
+    "test"
+  ],
   "license": "MIT"
 }

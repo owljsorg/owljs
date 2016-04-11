@@ -1,20 +1,21 @@
 (function(window, owl) {
-    function Collection(options){
+    function Collection(data, options){
         this.url = options.url;
         this.model = options.model;
-        this.data = [];
+        this.data = options.data || [];
         this.length = 0;
     }
-    /**
-     * Gets data from server
-     * @param query
-     */
-    Collection.prototype.fetch = function(query) {
-        var that = this;
-        return owl.ajax({
-            url: this.url + owl.ajax.toQueryString(query),
-            type: 'GET'
-        })
+    Collection.prototype = {
+        /**
+         * Gets data from server
+         * @param query
+         */
+        fetch: function(query) {
+            var that = this;
+            return owl.ajax({
+                url: this.url + owl.ajax.toQueryString(query),
+                type: 'GET'
+            })
             .then(function(result) {
                 that.data = result;
                 that.length = result.length;
@@ -23,19 +24,27 @@
                 });
                 return result;
             });
-    };
-    /**
-     * Removes models from collection
-     */
-    Collection.prototype.clear = function() {
-        this.data = [];
-    };
-    /**
-     * Get collection
-     * @return
-     */
-    Collection.prototype.getData = function() {
-        return this.data;
+        },
+        /**
+         * Removes models from collection
+         */
+        clear: function() {
+            this.data = [];
+        },
+        /**
+         * Sets collection data
+         * @param data
+         */
+        setData: function(data) {
+            this.data = data;
+        },
+        /**
+         * Gets collection data
+         * @return {Array}
+         */
+        getData: function() {
+            return this.data;
+        }
     };
     owl.Collection = Collection;
 })(window, owl);

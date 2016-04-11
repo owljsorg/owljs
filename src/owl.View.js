@@ -43,86 +43,122 @@
         });
     }
 
-    View.prototype.getMatchingElement = function(element, selector) {
-        while (element && element !== this.el) {
-            if (element.matches(selector)) {
-                return element;
+    View.prototype = {
+        /**
+         * Gets element matching selector
+         * @param element
+         * @param selector
+         * @returns Object
+         */
+        getMatchingElement: function(element, selector) {
+            while (element && element !== this.el) {
+                if (element.matches(selector)) {
+                    return element;
+                }
+                element = element.parentNode;
             }
-            element = element.parentNode;
-        }
-        return null;
-    };
-
-    View.prototype.update = function(el) {
-        if (!el) {
-            el = this.el;
-        }
-        this.updateEvents(el);
-        this.updateElements(el);
-    };
-
-    View.prototype.updateEvents = function(el) {
-        var that = this;
-        Object.keys(this.events).forEach(function(event) {
-            var index = event.indexOf(' '),
-                eventName = event.substr(0, index),
-                eventSelector = event.substr(index + 1),
-                method = that.events[event],
-                isElementSelector = eventSelector[0] === '$';
-            if (that.specialEvents.indexOf(eventName) === -1) {
-                return;
+            return null;
+        },
+        /**
+         * Update events and element
+         * @param el
+         */
+        update: function(el) {
+            if (!el) {
+                el = this.el;
             }
-            if (isElementSelector) {
-                eventSelector = eventSelector.substr(1);
-                eventSelector = '[data-element=' + eventSelector + '],[data-elements=' + eventSelector + ']';
-            }
-            Array.from(el.querySelectorAll(eventSelector)).forEach(function(element) {
-                element.addEventListener(eventName, function(event) {
-                    that.callEventListener(method, element, event);
+            this.updateEvents(el);
+            this.updateElements(el);
+        },
+        /**
+         * Update events
+         * @param el
+         */
+        updateEvents: function(el) {
+            var that = this;
+            Object.keys(this.events).forEach(function(event) {
+                var index = event.indexOf(' '),
+                    eventName = event.substr(0, index),
+                    eventSelector = event.substr(index + 1),
+                    method = that.events[event],
+                    isElementSelector = eventSelector[0] === '$';
+                if (that.specialEvents.indexOf(eventName) === -1) {
+                    return;
+                }
+                if (isElementSelector) {
+                    eventSelector = eventSelector.substr(1);
+                    eventSelector = '[data-element=' + eventSelector + '],[data-elements=' + eventSelector + ']';
+                }
+                Array.from(el.querySelectorAll(eventSelector)).forEach(function(element) {
+                    element.addEventListener(eventName, function(event) {
+                        that.callEventListener(method, element, event);
+                    });
                 });
             });
-        });
-    };
-    View.prototype.callEventListener = function(method, element, event) {
-        if(this[method]) {
-            this[method](element, event);
-        } else {
-            console.error('Method ' + method + ' is not defined' +
-                (this.className ? 'in ' + this.className : ''));
-        }
-    };
-
-    View.prototype.updateElements = function(el) {
-        var that = this;
-        Array.from(el.querySelectorAll('[data-element]')).forEach(function(element) {
-            var name = element.getAttribute('data-element');
-            that.elements[name] = element;
-        });
-        Array.from(el.querySelectorAll('[data-elements]')).forEach(function(element) {
-            var name = element.getAttribute('data-elements');
-            if(!that.elements[name]) {
-                that.elements[name] = [];
+        },
+        /**
+         * Update element
+         * @param el
+         */
+        updateElements: function(el) {
+            var that = this;
+            Array.from(el.querySelectorAll('[data-element]')).forEach(function(element) {
+                var name = element.getAttribute('data-element');
+                that.elements[name] = element;
+            });
+            Array.from(el.querySelectorAll('[data-elements]')).forEach(function(element) {
+                var name = element.getAttribute('data-elements');
+                if(!that.elements[name]) {
+                    that.elements[name] = [];
+                }
+                that.elements[name].push(element);
+            });
+        },
+        /**
+         * Calls event listener
+         * @param method
+         * @param element
+         * @param event
+         */
+        callEventListener: function(method, element, event) {
+            if(this[method]) {
+                this[method](element, event);
+            } else {
+                console.error('Method ' + method + ' is not defined' +
+                    (this.className ? 'in ' + this.className : ''));
             }
-            that.elements[name].push(element);
-        });
-    };
-
-    View.prototype.render = function(data) {
-        this.el.innerHTML = this.template ? this.template(data) : '';
-        this.update();
-    };
-
-    View.prototype.remove = function() {
-        this.el.innerHTML = null;
-        this.elements = {};
-    };
-
-    View.prototype.find = function(selector) {
-        return this.el.querySelector(selector);
-    };
-
-    View.prototype.findAll = function(selector) {
-        return this.el.querySelectorAll(selector);
+        },
+        /**
+         * Calls template function and adds result to element
+         * @param data
+         */
+        render: function(data) {
+            this.el.innerHTML = this.template ? this.template(data) : '';
+            this.update();
+        },
+        /**
+         * Removes element content
+         */
+        remove: function() {
+            this.el.innerHTML = null;
+            this.elements = {};
+        },
+        /**
+         * Finds element in current component by selector
+         * @param selector
+         * @returns {Element}
+         */
+        find: function(selector) {
+            return this.el.querySelector(selector);
+        },
+        /**
+         * Finds all elements in current component by selector
+         * @param selector
+         * @returns {NodeList}
+         */
+        findAll: function(selector) {
+            return this.el.querySelectorAll(selector);
+        }
     };
 
     owl.View = View;

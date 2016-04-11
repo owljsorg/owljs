@@ -1,0 +1,36 @@
+{
+  "name": "owl",
+  "version": "0.0.8",
+  "description": "Backbone-like frontend library",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "mocha --recursive",
+    "coverage": "mocha --recursive -R html-cov > report/coverage.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omegascorp/owl.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/omegascorp/owl/issues"
+  },
+  "homepage": "https://github.com/omegascorp/owl#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "karma": "^0.13.22",
+    "karma-mocha": "^0.2.2",
+    "karma-mocha-reporter": "^2.0.0",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-sinon-chai": "^1.2.0",
+    "lolex": "^1.4.0",
+    "mocha": "^2.4.5",
+    "phantomjs-prebuilt": "^2.1.7",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0"
+  }
+}

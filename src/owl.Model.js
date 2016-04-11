@@ -7,9 +7,19 @@
         this.events = {};
     }
     Model.prototype = {
+        /**
+         * Gets attribute by name
+         * @param name
+         * @returns {Array}
+         */
         get: function(name) {
             return this.data[name] || this.defaults[name];
         },
+        /**
+         * Sets attribute value by name
+         * @param name
+         * @param value
+         */
         set: function(name, value) {
             this.data[name] = value;
             this.trigger('change:' + name);

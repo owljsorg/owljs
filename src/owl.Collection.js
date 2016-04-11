@@ -2,7 +2,7 @@
     function Collection(data, options){
         this.url = options.url;
         this.model = options.model;
-        this.data = options.data || [];
+        this.data = data || [];
         this.length = 0;
     }
     Collection.prototype = {

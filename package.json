@@ -1,14 +1,13 @@
 {
   "name": "owl",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Backbone-like frontend library",
   "main": "index.js",
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "test": "mocha --recursive",
-    "coverage": "mocha --recursive -R html-cov > report/coverage.html"
+    "test": "./node_modules/.bin/karma start --single-run  --browsers PhantomJS"
   },
   "repository": {
     "type": "git",

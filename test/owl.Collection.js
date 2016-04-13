@@ -1,59 +1,54 @@
 describe('owl.Collection', function() {
-    var server = sinon.fakeServer.create();
-    server.respondWith('GET', '/things', [
-        200,
-        { 'Content-Type': 'application/json' },
-        '[{ "id": 1, "name": "Nexus 5" },  { "id": 2, "name": "Nexus 10" }]'
-    ]);
-    server.respondWith('GET', '/things?type=tablet', [
-        200,
-        { 'Content-Type': 'application/json' },
-        '[{ "id": 2, "name": "Nexus 10" }]'
-    ]);
-
+    var result = [{ "id": 1, "name": "Nexus 5" },  { "id": 2, "name": "Nexus 10" }];
+    var collection = new owl.Collection([], {
+        url: '/things',
+        model: owl.Model
+    });
+    // set up stubs
+    sinon.stub(owl, 'ajax').returns(new owl.Promise(function(resolve, reject) {
+        resolve(result);
+    }));
     describe('fetch', function() {
         it('should make GET request to /things', function(done) {
-            var collection = new owl.Collection([], {
-                url: '/things',
-                model: owl.Model
-            });
-            collection.fetch().then(function(result) {
-
-                expect(result).to.eql([
-                    { id: 1, name: "Nexus 5" },
-                    { id: 2, name: "Nexus 10" }
-                ]);
-                expect(collection.getData()).to.eql([
-                    { id: 1, name: "Nexus 5" },
-                    { id: 2, name: "Nexus 10" }
-                ]);
+            collection.fetch().then(function() {
+                assert(owl.ajax.calledWith({
+                    url: '/things',
+                    type: 'GET'
+                }));
 
                 done();
             });
 
-            server.respond();
+        });
+        it('set the data to the collection', function(done) {
+            collection.fetch().then(function(result) {
+                expect(result).to.eql(result);
+                expect(collection.getData()).to.eql(result);
+
+                done();
+            });
         });
     });
 
     describe('fetch with data', function() {
         it('should make GET request to /things?type=tablet', function(done) {
-            var collection = new owl.Collection([], {
-                url: '/things',
-                model: owl.Model
-            });
             collection.fetch({
                 type: 'tablet'
-            }).then(function(result) {
-                expect(result).to.eql([
-                    { id: 2, name: "Nexus 10" }
-                ]);
-                expect(collection.getData()).to.eql([
-                    { id: 2, name: "Nexus 10" }
-                ]);
+            }).then(function() {
+                assert(owl.ajax.calledWith({
+                    url: '/things?type=tablet',
+                    type: 'GET'
+                }));
                 done();
             });
+        });
+        it('set the data to the collection', function(done) {
+            collection.fetch().then(function(result) {
+                expect(result).to.eql(result);
+                expect(collection.getData()).to.eql(result);
 
-            server.respond();
+                done();
+            });
         });
     });
 
@@ -89,4 +84,5 @@ describe('owl.Collection', function() {
             ]);
         });
     });
+
 });

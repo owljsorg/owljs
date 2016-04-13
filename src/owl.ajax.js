@@ -69,7 +69,7 @@
     owl.ajax.setHeader = function(key, value) {
         _headers[key] = value;
     };
-    owl.ajax.removeHeader = function(key, value) {
+    owl.ajax.removeHeader = function(key) {
         delete _headers[key];
     };
     owl.ajax.error = function(xhr) {

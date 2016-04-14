@@ -1,7 +1,6 @@
 describe('owl.history', function() {
     // Init stubs
     sinon.stub(owl.history, 'getLocation').returns('/something');
-    sinon.stub(owl.history, 'open');
     sinon.stub(window, 'addEventListener');
     sinon.stub(window, 'removeEventListener');
     describe('init', function() {
@@ -14,6 +13,7 @@ describe('owl.history', function() {
     });
     describe('start', function() {
         before(function() {
+            sinon.stub(owl.history, 'open');
             owl.history.start();
         });
         it('should call getLocation', function() {
@@ -31,7 +31,7 @@ describe('owl.history', function() {
         });
 
         after(function() {
-            owl.history.open.reset();
+            owl.history.open.restore();
         });
     });
     describe('stop', function() {
@@ -45,24 +45,53 @@ describe('owl.history', function() {
 
     describe('navigate', function() {
         before(function() {
+            sinon.stub(owl.history, 'open');
             owl.history.navigate('/something');
         });
         it('open the path', function() {
             assert(owl.history.open.calledWith('/something'));
         });
         after(function() {
-            owl.history.open.reset();
+            owl.history.open.restore();
         });
     });
     describe('replace', function() {
         before(function() {
+            sinon.stub(owl.history, 'open');
             owl.history.replace('/something');
         });
         it('open the path', function() {
             assert(owl.history.open.calledWith('/something'));
         });
         after(function() {
-            owl.history.open.reset();
+            owl.history.open.restore();
+        });
+    });
+    describe('getHash and setHash', function() {
+        before(function() {
+            owl.history.setHash('something');
+        });
+        it('set the hash', function() {
+            expect(owl.history.getHash()).to.be.eql('something');
+        });
+    });
+    describe('open (default router)', function() {
+        var router = new owl.Router();
+        before(function() {
+            sinon.stub(router, 'open');
+            sinon.stub(owl.history, 'trigger');
+
+            owl.history.setDefaultRouter(router);
+            owl.history.open('/something');
+        });
+        it('should trigger change event', function() {
+            assert(owl.history.trigger.calledWith('change'));
+        });
+        it('should open router page', function() {
+            assert(router.open.calledWith('/something'));
+        });
+        after(function() {
+            owl.history.trigger.restore();
         });
     });
 });

@@ -14,5 +14,8 @@
     "node_modules",
     "test"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.3.5"
+  }
 }

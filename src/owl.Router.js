@@ -112,7 +112,7 @@
         getRoute: function(path) {
             var that = this,
                 route;
-            this.routes.find(function(currentRoute) {
+            this.routes.forEach(function(currentRoute) {
                 var test = currentRoute.regexp.test(path);
                 if(test) {
                     route = currentRoute;

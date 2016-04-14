@@ -5,7 +5,7 @@
         },
         _defaultRouter = null,
         _listener,
-        _routers = [],
+        _routers = {},
         _resolves = {},
         _events = {},
         _started = false;
@@ -49,9 +49,8 @@
             window.location.hash = hash;
         },
         open: function(path) {
-            var router,
-                route;
-            Object.keys(_routers).find(function(routerPath) {
+            var router;
+            Object.keys(_routers).forEach(function(routerPath) {
                 if(path.indexOf(routerPath) === 0) {
                     router = _routers[routerPath];
                     path = path.replace(routerPath, '');
@@ -63,6 +62,10 @@
                 router = _defaultRouter;
             }
             this.trigger('change');
+            if (!router) {
+                console.log('Default router is not defined');
+                return;
+            }
             router.open(path);
         },
         addRouter: function(path, router) {

@@ -1,6 +1,6 @@
 (function(window, owl) {
     function Model(data, options){
-        this.data = data || {};
+        this.data = data && owl.util.clone(data) || {};
         this.urlRoot = options && options.urlRoot || '';
         this.idAttribute = options && options.idAttribute || 'id';
         this.defaults = options && options.defaults || {};
@@ -40,16 +40,16 @@
                 url: url,
                 type: 'GET'
             })
-                .then(function(result) {
-                    that.data = result;
-                    Object.keys(that.events).forEach(function(name) {
-                        if (name.indexOf('change') === 0) {
-
-                        }
-                    });
-                    that.trigger('change');
-                    return result;
+            .then(function(result) {
+                that.data = result;
+                Object.keys(that.events).forEach(function(name) {
+                    if (name.indexOf('change') === 0) {
+                        that.trigger('change:' + name);
+                    }
                 });
+                that.trigger('change');
+                return result;
+            });
         },
         /**
          * Removes all attributes from the model
@@ -69,17 +69,22 @@
             if(id) {
                 url += '/' + this.data[this.idAttribute];
             }
+            console.log({
+                url: url + owl.ajax.toQueryString(query),
+                type: id ? 'PUT' : 'POST',
+                data: this.data
+            });
             return owl.ajax({
                 url: url + owl.ajax.toQueryString(query),
                 type: id ? 'PUT' : 'POST',
                 data: this.data
             })
-                .then(function(result) {
-                    if(result[that.idAttribute]) {
-                        that.data[that.idAttribute] = result[that.idAttribute];
-                    }
-                    return result;
-                });
+            .then(function(result) {
+                if(result[that.idAttribute]) {
+                    that.data[that.idAttribute] = result[that.idAttribute];
+                }
+                return result;
+            });
         },
         /**
          * Updates local data and saves model

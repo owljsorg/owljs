@@ -1,29 +1,50 @@
 (function(window, owl) {
-    function clone(object) {
-        var cloneObject = {};
-        Object.keys(object).forEach(function(key) {
-            cloneObject[key] = object[key];
-        });
-        return cloneObject;
-    }
-
-    function extend(firstObject, secondObject) {
-        var resultObject;
-        if (!firstObject) {
-            firstObject = {};
-        }
-        if (!secondObject) {
-            secondObject = {};
-        }
-        resultObject = clone(firstObject);
-        Object.keys(secondObject).forEach(function(key) {
-            resultObject[key] = secondObject[key];
-        });
-        return resultObject;
-    }
-
     owl.util = {
-        clone: clone,
-        extend: extend
+        clone: function(object) {
+            var that = this,
+                copy;
+
+            if (null === object || typeof object !== 'object') {
+                return object;
+            }
+
+            if (object instanceof Date) {
+                copy = new Date();
+                copy.setTime(object.getTime());
+                return copy;
+            }
+
+            if (object instanceof Array) {
+                copy = [];
+                object.forEach(function(element, index) {
+                    copy[index] = that.clone(element);
+                });
+                return copy;
+            }
+
+            if (object instanceof Object) {
+                copy = {};
+                Object.keys(object).forEach(function(key) {
+                    copy[key] = that.clone(object[key]);
+                });
+                return copy;
+            }
+
+            return null;
+        },
+        extend: function(firstObject, secondObject) {
+            var that = this,
+                result = this.clone(firstObject);
+
+            Object.keys(secondObject).forEach(function(key) {
+                if (typeof result[key] === "object" && result[key] !== null) {
+                    that.extend(result[key], secondObject[key]);
+                } else {
+                    result[key] = secondObject[key];
+                }
+            });
+
+            return result;
+        }
     };
-}(window, window.owl));
+}(window, owl));

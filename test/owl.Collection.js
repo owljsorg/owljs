@@ -4,10 +4,11 @@ describe('owl.Collection', function() {
         url: '/things',
         model: owl.Model
     });
-    // set up stubs
-    sinon.stub(owl, 'ajax').returns(new owl.Promise(function(resolve, reject) {
-        resolve(result);
-    }));
+    before(function() {
+        sinon.stub(owl, 'ajax').returns(new owl.Promise(function(resolve, reject) {
+            resolve(result);
+        }));
+    });
     describe('fetch', function() {
         it('should make GET request to /things', function(done) {
             collection.fetch().then(function() {
@@ -84,5 +85,7 @@ describe('owl.Collection', function() {
             ]);
         });
     });
-
+    after(function() {
+        owl.ajax.restore();
+    });
 });

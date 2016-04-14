@@ -94,4 +94,97 @@ describe('owl.history', function() {
             owl.history.trigger.restore();
         });
     });
+    describe('open (custom router)', function() {
+        var router = new owl.Router();
+        before(function() {
+            sinon.stub(router, 'open');
+            sinon.stub(owl.history, 'trigger');
+
+            owl.history.setRouter('/something', router);
+            owl.history.open('/something/else');
+        });
+        it('should trigger change event', function() {
+            assert(owl.history.trigger.calledWith('change'));
+        });
+        it('should open router page', function() {
+            assert(router.open.calledWith('/else'));
+        });
+        after(function() {
+            owl.history.trigger.restore();
+        });
+    });
+    describe('setRouter', function() {
+        var router = new owl.Router();
+        before(function() {
+            owl.history.setRouter('/something', router);
+        });
+        it('should trigger change event', function() {
+            expect(owl.history.getRouter('/something')).to.be.eql(router);
+        });
+    });
+    describe('removeRouter', function() {
+        var router = new owl.Router();
+        before(function() {
+            owl.history.setRouter('/something', router);
+            owl.history.removeRouter('/something');
+        });
+        it('should trigger change event', function() {
+            expect(owl.history.getRouter('/something')).to.be.eql(undefined);
+        });
+    });
+    describe('setDefaultRouter', function() {
+        var router = new owl.Router();
+        before(function() {
+            owl.history.setDefaultRouter(router);
+        });
+        it('should trigger change event', function() {
+            expect(owl.history.getDefaultRouter()).to.be.eql(router);
+        });
+    });
+    describe('setResolve', function() {
+        var resolve = sinon.spy();
+        before(function() {
+            owl.history.setResolve('something', resolve);
+        });
+        it('should set resolve', function() {
+            expect(owl.history.getResolve('something')).to.be.eql(resolve);
+        });
+    });
+    describe('removeResolve', function() {
+        var resolve = sinon.spy();
+        before(function() {
+            owl.history.setResolve('something', resolve);
+            owl.history.removeResolve('something');
+        });
+        it('should remove resolve', function() {
+            expect(owl.history.getResolve('something')).to.be.eql(undefined);
+        });
+    });
+    describe('on', function() {
+        var listener = sinon.spy();
+        before(function() {
+            owl.history.on('change', listener);
+            owl.history.trigger('change');
+        });
+        it('should call listener', function() {
+            assert(listener.calledOnce);
+        });
+        after(function() {
+            owl.history.off('change', listener);
+        });
+    });
+    describe('off', function() {
+        var listener = sinon.spy();
+        before(function() {
+            owl.history.on('change', listener);
+            owl.history.off('change', listener);
+            owl.history.trigger('change');
+        });
+        it('should not call listener', function() {
+            assert(listener.notCalled);
+        });
+        after(function() {
+            owl.history.off('change', listener);
+        });
+    });
 });

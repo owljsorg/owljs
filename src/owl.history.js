@@ -68,19 +68,22 @@
             }
             router.open(path);
         },
-        addRouter: function(path, router) {
+        setRouter: function(path, router) {
             _routers[path] = router;
         },
         removeRouter: function(path) {
             delete _routers[path];
         },
+        getRouter: function(path) {
+            return _routers[path];
+        },
         setDefaultRouter: function(router) {
             _defaultRouter = router;
         },
-        resetDefaultRouter: function() {
-            _defaultRouter = null;
+        getDefaultRouter: function() {
+            return _defaultRouter;
         },
-        addResolve: function(resolveName, resolveCallback) {
+        setResolve: function(resolveName, resolveCallback) {
             _resolves[resolveName] = resolveCallback;
         },
         removeResolve: function(resolveName) {
@@ -90,10 +93,21 @@
             return _resolves[resolveName];
         },
         on: function(event, listener) {
-            if(!_events[event]) {
+            if (!_events[event]) {
                 _events[event] = [];
             }
             _events[event].push(listener);
+        },
+        off: function(event, listener) {
+            if (_events[event]) {
+                var listenerIndex = -1;
+                _events[event].forEach(function(func, index) {
+                    if(func === listener) {
+                        listenerIndex = index;
+                    }
+                });
+                _events[event].splice(listenerIndex, 1);
+            }
         },
         trigger: function(event) {
             _events[event] && _events[event].forEach(function(listener) {

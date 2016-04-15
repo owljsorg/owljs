@@ -69,11 +69,6 @@
             if(id) {
                 url += '/' + this.data[this.idAttribute];
             }
-            console.log({
-                url: url + owl.ajax.toQueryString(query),
-                type: id ? 'PUT' : 'POST',
-                data: this.data
-            });
             return owl.ajax({
                 url: url + owl.ajax.toQueryString(query),
                 type: id ? 'PUT' : 'POST',
@@ -119,12 +114,12 @@
                 type: 'PATCH',
                 data: data
             })
-                .then(function(result) {
-                    if(result[that.idAttribute]) {
-                        that.data[that.idAttribute] = result[that.idAttribute];
-                    }
-                    return result;
-                });
+            .then(function(result) {
+                if(result[that.idAttribute]) {
+                    that.data[that.idAttribute] = result[that.idAttribute];
+                }
+                return result;
+            });
         },
         /**
          * Remove a model
@@ -137,10 +132,10 @@
                 url: this.urlRoot + '/' + this.data.id + owl.ajax.toQueryString(query),
                 type: 'DELETE'
             })
-                .then(function(result) {
-                    that.clear();
-                    return result;
-                });
+            .then(function(result) {
+                that.clear();
+                return result;
+            });
         },
         /**
          * Gets data
@@ -179,16 +174,16 @@
         trigger: function(event) {
             var globalEvent = event.substr(0, event.indexOf(':')),
                 listeners = this.events[event],
-                globalListenres;
+                globalListeners;
             if (listeners) {
                 listeners.forEach(function(listener) {
                     listener();
                 });
             }
             if (globalEvent) {
-                globalListenres = this.events[globalEvent];
-                if (globalListenres) {
-                    globalListenres.forEach(function (listener) {
+                globalListeners = this.events[globalEvent];
+                if (globalListeners) {
+                    globalListeners.forEach(function (listener) {
                         listener();
                     });
                 }

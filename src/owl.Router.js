@@ -23,12 +23,13 @@
         open: function(path) {
             var route = this.getRoute(path);
 
-            if(!route) {
+            if (!route) {
                 return;
             }
 
-            this.resolve(route);
-            this.run(route, path);
+            if (this.resolve(route)) {
+                this.run(path, route);
+            }
         },
         /**
          * Calls resolve callback
@@ -51,11 +52,11 @@
             return true
         },
         /**
-         * Runs the reoute
-         * @param route
+         * Runs the route
          * @param path
+         * @param route
          */
-        run: function(route, path) {
+        run: function(path, route) {
             var match,
                 controller,
                 controllerName,
@@ -87,22 +88,23 @@
             }
         },
         /**
-         *  Adds a route
+         * Adds a route
          * @param route
          */
         addRoute: function(route) {
-            var paramRegexp = /:[a-zA-Z0-9]*/g,
+            var routeClone = owl.util.clone(route),
+                paramRegexp = /:[a-zA-Z0-9]*/g,
                 pattern = route.path.replace(paramRegexp, '([^/]*)'),
                 match = route.path.match(paramRegexp),
                 params = {};
-            route.regexp = new RegExp('^' + pattern + '$');
+            routeClone.regexp = new RegExp('^' + pattern + '$');
             if (match) {
                 params = match.map(function(param) {
                     return param.substring(1);
                 });
             }
-            route.params = params;
-            this.routes.push(route);
+            routeClone.params = params;
+            this.routes.push(routeClone);
         },
         /**
          * Returns the route by path
@@ -132,6 +134,27 @@
          */
         setDefaultRoute: function(route) {
             this.defaultRoute = route;
+        },
+        /**
+         * Gets default route
+         * @returns {Function}
+         */
+        getDefaultRoute: function() {
+            return this.defaultRoute;
+        },
+        /**
+         * Sets controller
+         * @param controller
+         */
+        setController: function(controller) {
+            this.controller = controller;
+        },
+        /**
+         * Gets default controller
+         * @returns {*}
+         */
+        getController: function() {
+            return this.controller;
         }
     };
     owl.Router = Router;

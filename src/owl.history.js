@@ -40,7 +40,7 @@
             this.open(path);
         },
         getLocation: function () {
-            return window.location.pathname.replace(_options.baseUrl, '');
+            return window.location.pathname.replace(_options.baseUrl, '').replace(/\/$/, '');
         },
         getHash: function() {
             return window.location.hash.substr(1);

@@ -50,7 +50,7 @@
         },
         open: function(path) {
             var router;
-            Object.keys(_routers).forEach(function(routerPath) {
+            Object.keys(_routers).some(function(routerPath) {
                 if(path.indexOf(routerPath) === 0) {
                     router = _routers[routerPath];
                     path = path.replace(routerPath, '');

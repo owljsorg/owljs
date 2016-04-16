@@ -1,6 +1,6 @@
 (function(window, owl) {
     owl.util = {
-        clone: function(object) {
+        clone: function(object, recursive) {
             var that = this,
                 copy;
 
@@ -25,7 +25,7 @@
             if (object instanceof Object) {
                 copy = {};
                 Object.keys(object).forEach(function(key) {
-                    copy[key] = that.clone(object[key]);
+                    copy[key] = recursive ? that.clone(object[key], recursive) : object[key];
                 });
                 return copy;
             }

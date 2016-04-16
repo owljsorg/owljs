@@ -32,13 +32,13 @@
 
             return null;
         },
-        extend: function(firstObject, secondObject) {
+        extend: function(firstObject, secondObject, isRecursive) {
             var that = this,
                 result = this.clone(firstObject);
 
             Object.keys(secondObject).forEach(function(key) {
-                if (typeof result[key] === "object" && result[key] !== null) {
-                    that.extend(result[key], secondObject[key]);
+                if (typeof result[key] === 'object' && result[key] !== null && isRecursive) {
+                    that.extend(result[key], secondObject[key], isRecursive);
                 } else {
                     result[key] = secondObject[key];
                 }

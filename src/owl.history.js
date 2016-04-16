@@ -12,7 +12,7 @@
 
     owl.history = {
         init: function(options) {
-            _options = owl.util.extend(_defaultOptions, options);
+            _options = owl.util.extend(_defaultOptions, options, true);
         },
         getOption: function(name) {
             return _options[name];

@@ -1,6 +1,6 @@
 (function(window, owl) {
     function Model(data, options){
-        this.data = data && owl.util.clone(data) || {};
+        this.data = data || {};
         this.urlRoot = options && options.urlRoot || '';
         this.idAttribute = options && options.idAttribute || 'id';
         this.defaults = options && options.defaults || {};
@@ -88,7 +88,7 @@
          * @return Promise
          */
         update: function(data, query) {
-            this.data = owl.util.extend(this.data, data);
+            this.data = owl.util.extend(this.data, data, true);
             this.save(query);
         },
         /**
@@ -107,7 +107,7 @@
                 });
             }
 
-            this.data = owl.util.extend(this.data, data);
+            this.data = owl.util.extend(this.data, data, true);
 
             return owl.ajax({
                 url: url + owl.ajax.toQueryString(query),

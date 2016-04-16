@@ -92,19 +92,18 @@
          * @param route
          */
         addRoute: function(route) {
-            var routeClone = owl.util.clone(route),
-                paramRegexp = /:[a-zA-Z0-9]*/g,
+            var paramRegexp = /:[a-zA-Z0-9]*/g,
                 pattern = route.path.replace(paramRegexp, '([^/]*)'),
                 match = route.path.match(paramRegexp),
                 params = {};
-            routeClone.regexp = new RegExp('^' + pattern + '$');
+            route.regexp = new RegExp('^' + pattern + '$');
             if (match) {
                 params = match.map(function(param) {
                     return param.substring(1);
                 });
             }
-            routeClone.params = params;
-            this.routes.push(routeClone);
+            route.params = params;
+            this.routes.push(route);
         },
         /**
          * Returns the route by path

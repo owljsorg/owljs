@@ -40,7 +40,7 @@
             this.open(path);
         },
         getLocation: function () {
-            return window.location.pathname.replace(_options.baseUrl, '');
+            return window.location.pathname.replace(_options.baseUrl, '').replace(/\/$/, '');
         },
         getHash: function() {
             return window.location.hash.substr(1);
@@ -50,7 +50,7 @@
         },
         open: function(path) {
             var router;
-            Object.keys(_routers).forEach(function(routerPath) {
+            Object.keys(_routers).some(function(routerPath) {
                 if(path.indexOf(routerPath) === 0) {
                     router = _routers[routerPath];
                     path = path.replace(routerPath, '');

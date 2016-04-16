@@ -96,7 +96,9 @@
                 pattern = route.path.replace(paramRegexp, '([^/]*)'),
                 match = route.path.match(paramRegexp),
                 params = {};
-            route.regexp = new RegExp('^' + pattern + '$');
+            if (match) {
+                route.regexp = new RegExp('^' + pattern + '$');
+            }
             if (match) {
                 params = match.map(function(param) {
                     return param.substring(1);
@@ -113,8 +115,8 @@
         getRoute: function(path) {
             var that = this,
                 route;
-            this.routes.forEach(function(currentRoute) {
-                var test = currentRoute.regexp.test(path);
+            this.routes.some(function(currentRoute) {
+                var test = currentRoute.regexp ? currentRoute.regexp.test(path) : currentRoute.path === path;
                 if(test) {
                     route = currentRoute;
                     return true;

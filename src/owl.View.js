@@ -11,6 +11,7 @@
         this.template = options.template || null;
         this.model = options.model;
         this.collection = options.collection;
+        this.contorller = options.contorller;
         this.specialEvents = ['submit', 'focus', 'blur'];
 
         if (this.className) {

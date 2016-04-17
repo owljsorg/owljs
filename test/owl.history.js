@@ -8,7 +8,7 @@ describe('owl.history', function() {
             baseUrl: '/api'
         });
         it('should set options', function() {
-            expect(owl.history.getOption('baseUrl')).to.be.eql('/api');
+            expect(owl.history.getOption('baseUrl')).to.be.deep.equal('/api');
         });
     });
     describe('start', function() {
@@ -17,7 +17,7 @@ describe('owl.history', function() {
             owl.history.start();
         });
         it('should call getLocation', function() {
-            expect(owl.history.getLocation()).to.be.eql('/something');
+            expect(owl.history.getLocation()).to.be.deep.equal('/something');
         });
         it('should call open', function() {
             assert(owl.history.open.calledOnce);
@@ -72,7 +72,7 @@ describe('owl.history', function() {
             owl.history.setHash('something');
         });
         it('set the hash', function() {
-            expect(owl.history.getHash()).to.be.eql('something');
+            expect(owl.history.getHash()).to.be.deep.equal('something');
         });
     });
     describe('open (default router)', function() {
@@ -119,7 +119,7 @@ describe('owl.history', function() {
             owl.history.setRouter('/something', router);
         });
         it('should trigger change event', function() {
-            expect(owl.history.getRouter('/something')).to.be.eql(router);
+            expect(owl.history.getRouter('/something')).to.be.deep.equal(router);
         });
     });
     describe('removeRouter', function() {
@@ -129,7 +129,7 @@ describe('owl.history', function() {
             owl.history.removeRouter('/something');
         });
         it('should trigger change event', function() {
-            expect(owl.history.getRouter('/something')).to.be.eql(undefined);
+            expect(owl.history.getRouter('/something')).to.be.deep.equal(undefined);
         });
     });
     describe('setDefaultRouter', function() {
@@ -138,7 +138,7 @@ describe('owl.history', function() {
             owl.history.setDefaultRouter(router);
         });
         it('should trigger change event', function() {
-            expect(owl.history.getDefaultRouter()).to.be.eql(router);
+            expect(owl.history.getDefaultRouter()).to.be.deep.equal(router);
         });
     });
     describe('setResolve', function() {
@@ -147,7 +147,7 @@ describe('owl.history', function() {
             owl.history.setResolve('something', resolve);
         });
         it('should set resolve', function() {
-            expect(owl.history.getResolve('something')).to.be.eql(resolve);
+            expect(owl.history.getResolve('something')).to.be.deep.equal(resolve);
         });
     });
     describe('removeResolve', function() {
@@ -157,7 +157,7 @@ describe('owl.history', function() {
             owl.history.removeResolve('something');
         });
         it('should remove resolve', function() {
-            expect(owl.history.getResolve('something')).to.be.eql(undefined);
+            expect(owl.history.getResolve('something')).to.be.deep.equal(undefined);
         });
     });
     describe('on', function() {

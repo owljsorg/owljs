@@ -12,7 +12,7 @@ describe('owl.js', function() {
             assert(callback.calledOnce);
         });
         it('should return the object', function() {
-            expect(owl.require('something')).to.be.eql(object);
+            expect(owl.require('something')).to.be.deep.equal(object);
         });
     });
 });

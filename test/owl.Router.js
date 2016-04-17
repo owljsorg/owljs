@@ -14,13 +14,13 @@ describe('owl.Router.js', function() {
             route
         ], defaultRoute, controller);
         it('should set route', function() {
-            expect(router.getRoute('/something').path).to.be.eql(route.path);
+            expect(router.getRoute('/something').path).to.be.deep.equal(route.path);
         });
         it('should set default route', function() {
-            expect(router.getDefaultRoute()).to.be.eql(defaultRoute);
+            expect(router.getDefaultRoute()).to.be.deep.equal(defaultRoute);
         });
         it('should set controller', function() {
-            expect(router.getController()).to.be.eql(controller);
+            expect(router.getController()).to.be.deep.equal(controller);
         });
     });
     describe('open', function() {
@@ -130,7 +130,7 @@ describe('owl.Router.js', function() {
         };
         router.addRoute(route);
         it('should run controller action', function() {
-            expect(router.getRoute('/something').path).to.be.eql(route.path);
+            expect(router.getRoute('/something').path).to.be.deep.equal(route.path);
         });
     });
     describe('setDefaultRoute', function() {
@@ -141,7 +141,7 @@ describe('owl.Router.js', function() {
         };
         router.setDefaultRoute(route);
         it('should run controller action', function() {
-            expect(router.getRoute('/something').path).to.be.eql(route.path);
+            expect(router.getRoute('/something').path).to.be.deep.equal(route.path);
         });
     });
 });

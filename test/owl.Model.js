@@ -7,7 +7,7 @@ describe('owl.Model.js', function() {
             model.set('something', 'else');
         });
         it('should set the internal value', function() {
-            expect(model.get('something')).to.be.eql('else');
+            expect(model.get('something')).to.be.deep.equal('else');
         });
     });
     describe('fetch', function() {
@@ -30,8 +30,8 @@ describe('owl.Model.js', function() {
         });
         it('should set the internal value', function(done) {
             model.fetch().then(function(result) {
-                expect(result).to.be.eql(thing);
-                expect(model.getData()).to.be.eql(thing);
+                expect(result).to.be.deep.equal(thing);
+                expect(model.getData()).to.be.deep.equal(thing);
                 done();
             });
         });
@@ -47,7 +47,7 @@ describe('owl.Model.js', function() {
             model.clear();
         });
         it('should clear data', function() {
-            expect(model.getData()).to.be.eql({});
+            expect(model.getData()).to.be.deep.equal({});
         });
     });
     describe('save (create entry)', function() {
@@ -74,7 +74,7 @@ describe('owl.Model.js', function() {
         });
         it('should update the id', function(done) {
             model.save().then(function() {
-                expect(model.get('id')).to.be.eql(2);
+                expect(model.get('id')).to.be.deep.equal(2);
 
                 done();
             });

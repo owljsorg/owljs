@@ -6,7 +6,14 @@ function init(app) {
     });
 
     app.post('/todo/items', function(req, res) {
-
+        var id = (new Date()).getTime().toString() + Math.round(Math.random() * 100).toString();
+        todo.push({
+            id: id,
+            title: req.body.title
+        });
+        res.send({
+            id: id
+        });
     });
 
     app.delete('/todo/items/:id', function(req, res) {

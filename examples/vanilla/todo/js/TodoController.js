@@ -4,17 +4,19 @@
     }
     TodoController.prototype = {
         readAll: function() {
-            var todoItemCollection,
+            var that = this,
+                todoItemCollection,
                 todoView;
 
             todoItemCollection = new app.TodoItemCollection();
+            todoItemCollection.fetch().then(function() {
+                todoView = new app.TodoView({
+                    controller: this,
+                    collection: todoItemCollection
+                });
 
-            todoView = new app.TodoView({
-                controller: this,
-                collection: todoItemCollection
+                that.appView.showMain(todoView);
             });
-
-            this.appView.showMain(todoView);
         }
     };
     app.TodoController = TodoController;

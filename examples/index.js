@@ -1,14 +1,12 @@
 var express = require('express');
 var http = require('http');
 var serveStatic = require('serve-static');
+var bodyParser = require('body-parser');
+var todo = require(__dirname + '/server/todo.js');
 
 var app = express();
 
-app.get('/thing/*', function(req, res) {
-    res.send(JSON.stringify({
-        id: 123
-    }))
-});
+app.use(bodyParser.json());
 
 app.use('/owl', serveStatic('../src/'));
 
@@ -19,5 +17,7 @@ app.use('/vanilla', serveStatic('vanilla', {
 app.use('/vanilla/sample/*', serveStatic('vanilla/sample', {
     'index': ['index.html']
 }));
+
+todo(app);
 
 http.createServer(app).listen(8080);

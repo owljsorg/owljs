@@ -1,9 +1,15 @@
 (function(window, owl) {
     function Collection(data, options){
+        var that = this;
         this.url = options.url;
         this.model = options.model;
-        this.data = data || [];
+        this.data = [];
+        this.models = [];
         this.length = 0;
+
+        if(data) {
+            this.setData(data);
+        }
     }
     Collection.prototype = {
         /**
@@ -36,14 +42,32 @@
          * @param data
          */
         setData: function(data) {
-            this.data = data;
+            var that = this;
+            if (data instanceof Array) {
+                this.data = data;
+                this.length = data.length;
+                this.models = data.map(function(item) {
+                    return new that.model(item);
+                });
+            } else {
+                this.data = [];
+                this.models = [];
+                this.length = 0;
+            }
         },
         /**
          * Gets collection data
-         * @return {Array}
+         * @return {Array<any>}
          */
         getData: function() {
             return this.data;
+        },
+        /**
+         * Gets collection models
+         * @return {Array<owl.Model>}
+         */
+        getModels: function() {
+            return this.models;
         }
     };
     owl.Collection = Collection;

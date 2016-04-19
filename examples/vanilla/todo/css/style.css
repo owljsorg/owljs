@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #F5EEF5;
+    font-family: sans-serif;
+}
+input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #653785;
+    outline: none;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+.v-todo--counter {
+    font-size: 12px;
+    text-align: right;
+    color: #1A3A59;
+}

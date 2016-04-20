@@ -21,7 +21,17 @@ function init(app) {
     });
 
     app.patch('/todo/items/:id', function(req, res) {
-
+        var item = todo.find(function(item) {
+            return item.id === req.params.id
+        });
+        if (item) {
+            if(typeof req.body.isDone === 'boolean') {
+                item.isDone = req.body.isDone;
+            }
+            res.send({});
+        } else {
+            res.send({}, 404);
+        }
     });
 }
 

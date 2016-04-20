@@ -4,6 +4,7 @@
         this.urlRoot = options && options.urlRoot || '';
         this.idAttribute = options && options.idAttribute || 'id';
         this.defaults = options && options.defaults || {};
+        this.collection = options && options.collection || null;
         this.events = {};
     }
     Model.prototype = {
@@ -22,7 +23,7 @@
          */
         set: function(name, value) {
             this.data[name] = value;
-            this.trigger('change:' + name);
+            this.trigger('change', name);
         },
         /**
          * Gets data from the sever
@@ -44,7 +45,7 @@
                 that.data = result;
                 Object.keys(that.events).forEach(function(name) {
                     if (name.indexOf('change') === 0) {
-                        that.trigger('change:' + name);
+                        that.trigger('change', name);
                     }
                 });
                 that.trigger('change');
@@ -89,7 +90,12 @@
          */
         update: function(data, query) {
             this.data = owl.util.extend(this.data, data, true);
-            this.save(query);
+            return this
+            .save(query)
+            .then(function(result) {
+                this.trigger('change');
+                return result;
+            });
         },
         /**
          * Partially updates model
@@ -118,6 +124,7 @@
                 if(result[that.idAttribute]) {
                     that.data[that.idAttribute] = result[that.idAttribute];
                 }
+                that.trigger('change', Object.keys(data));
                 return result;
             });
         },
@@ -168,25 +175,34 @@
             }
         },
         /**
-         * Triggers event
+         * Trigger single event
          * @param event
          */
-        trigger: function(event) {
-            var globalEvent = event.substr(0, event.indexOf(':')),
-                listeners = this.events[event],
-                globalListeners;
+        triggerSingle: function(event) {
+            var listeners = this.events[event];
+            if(this.collection) {
+                this.collection.trigger(event);
+            }
             if (listeners) {
                 listeners.forEach(function(listener) {
                     listener();
                 });
             }
-            if (globalEvent) {
-                globalListeners = this.events[globalEvent];
-                if (globalListeners) {
-                    globalListeners.forEach(function (listener) {
-                        listener();
-                    });
-                }
+        },
+        /**
+         * Triggers events
+         * @param event
+         * @param subEvents
+         */
+        trigger: function(event, subEvents) {
+            var that = this;
+            this.triggerSingle(event);
+            if(subEvents && subEvents instanceof Array) {
+                subEvents.forEach(function(subEvent) {
+                    that.triggerSingle(event + ':' + subEvent);
+                });
+            } else if (subEvents) {
+                this.triggerSingle(event + ':' + subEvents);
             }
         }
     };

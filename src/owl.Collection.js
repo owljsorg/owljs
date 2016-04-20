@@ -3,6 +3,7 @@
         var that = this;
         this.url = options.url;
         this.model = options.model;
+        this.events = {};
         this.data = [];
         this.models = [];
         this.length = 0;
@@ -23,11 +24,7 @@
                 type: 'GET'
             })
             .then(function(result) {
-                that.data = result;
-                that.length = result.length;
-                that.models = result.map(function(item) {
-                    return new that.model(item);
-                });
+                that.setData(result);
                 return result;
             });
         },
@@ -36,6 +33,9 @@
          */
         clear: function() {
             this.data = [];
+            this.models = [];
+            this.length = 0;
+            this.trigger('change');
         },
         /**
          * Sets collection data
@@ -47,13 +47,16 @@
                 this.data = data;
                 this.length = data.length;
                 this.models = data.map(function(item) {
-                    return new that.model(item);
+                    return new that.model(item, {
+                        collection: that
+                    });
                 });
             } else {
                 this.data = [];
                 this.models = [];
                 this.length = 0;
             }
+            that.trigger('change');
         },
         /**
          * Gets collection data
@@ -68,6 +71,41 @@
          */
         getModels: function() {
             return this.models;
+        },
+        /**
+         * Adds event listener
+         * @param event
+         * @param listener
+         */
+        on: function(event, listener) {
+            if (!this.events[event]) {
+                this.events[event] = [];
+            }
+            this.events[event].push(listener);
+        },
+        /**
+         * Removes event listener
+         * @param event
+         * @param listener
+         */
+        off: function(event, listener) {
+            if (this.events[event]) {
+                this.events[event] = this.events[event].filter(function(currentListener) {
+                    return currentListener !== listener;
+                });
+            }
+        },
+        /**
+         * Triggers event
+         * @param event
+         */
+        trigger: function(event) {
+            var listeners = this.events[event];
+            if (listeners) {
+                listeners.forEach(function(listener) {
+                    listener();
+                });
+            }
         }
     };
     owl.Collection = Collection;

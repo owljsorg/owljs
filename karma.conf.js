@@ -11,9 +11,17 @@ module.exports = function(config) {
             'src/owl.Collection.js',
             'src/owl.Model.js',
             'src/owl.Router.js',
+            'src/owl.View.js',
             'test/*'
         ],
         browsers: ['PhantomJS'],
-        reporters: ['mocha']
+        reporters: ['mocha', 'coverage'],
+        preprocessors: {
+            'src/**/*.js': ['coverage']
+        },
+        coverageReporter: {
+            type : 'html',
+            dir : 'coverage/'
+        }
     });
 };

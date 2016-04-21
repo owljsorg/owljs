@@ -43,12 +43,7 @@
             })
             .then(function(result) {
                 that.data = result;
-                Object.keys(that.events).forEach(function(name) {
-                    if (name.indexOf('change') === 0) {
-                        that.trigger('change', name);
-                    }
-                });
-                that.trigger('change');
+                that.trigger('change', Object.keys(that.data));
                 return result;
             });
         },
@@ -79,6 +74,7 @@
                 if(result[that.idAttribute]) {
                     that.data[that.idAttribute] = result[that.idAttribute];
                 }
+                that.trigger('change', [that.idAttribute]);
                 return result;
             });
         },
@@ -89,11 +85,18 @@
          * @return Promise
          */
         update: function(data, query) {
+            var that = this,
+                id = this.data[this.idAttribute];
+            if(!id) {
+                return new Promise(function(resolve, reject) {
+                    reject('Can not update model without id');
+                });
+            }
             this.data = owl.util.extend(this.data, data, true);
             return this
             .save(query)
             .then(function(result) {
-                this.trigger('change');
+                that.trigger('change', Object.keys(data));
                 return result;
             });
         },
@@ -104,9 +107,9 @@
          * @return Promise
          */
         patch: function(data, query) {
-            var that = this;
-            var id = this.data[this.idAttribute];
-            var url  = this.urlRoot + '/' + id;
+            var that = this,
+                id = this.data[this.idAttribute],
+                url  = this.urlRoot + '/' + id;
             if(!id) {
                 return new Promise(function(resolve, reject) {
                     reject('Can not patch model without id');
@@ -150,6 +153,13 @@
          */
         getData: function() {
             return this.data;
+        },
+        /**
+         * Gets model collection
+         * @return {owl.Collection}
+         */
+        getCollection: function() {
+            return this.collection;
         },
         /**
          * Adds event listener

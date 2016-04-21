@@ -2,12 +2,19 @@ describe('owl.Model.js', function() {
     var thing = { id: 1, name: 'Nexus 5' };
     var newThing = { name: 'Nexus 5' };
     describe('get and set', function() {
-        var model = new owl.Model();
+        var model = new owl.Model(null, {
+            defaults: {
+                somethingElse: 'other'
+            }
+        });
         before(function() {
             model.set('something', 'else');
         });
-        it('should set the internal value', function() {
-            expect(model.get('something')).to.be.deep.equal('else');
+        it('should get the internal value', function() {
+            expect(model.get('something')).to.be.equal('else');
+        });
+        it('should get the default value if value is not defined', function() {
+            expect(model.get('somethingElse')).to.be.equal('other');
         });
     });
     describe('fetch', function() {
@@ -89,9 +96,7 @@ describe('owl.Model.js', function() {
         });
         before(function() {
             sinon.stub(owl, 'ajax').returns(new Promise(function(resolve) {
-                resolve({
-                    id: 1
-                });
+                resolve({});
             }));
         });
         it('should make PUT request to server', function(done) {
@@ -109,31 +114,75 @@ describe('owl.Model.js', function() {
             owl.ajax.restore();
         });
     });
-    describe('save (update entry)', function() {
-        var model = new owl.Model(thing, {
+    describe('update', function() {
+        var model = new owl.Model({
+            id: 2
+        }, {
             urlRoot: '/things'
         });
         before(function() {
-            sinon.stub(owl, 'ajax').returns(new Promise(function(resolve) {
-                resolve({
-                    id: 1
-                });
+            sinon.stub(model, 'save').returns(new Promise(function(resolve) {
+                resolve({});
             }));
         });
-        it('should make PUT request to server', function(done) {
-            model.save().then(function() {
-                assert(owl.ajax.calledWithMatch({
-                    url: '/things/1',
-                    type: 'PUT',
-                    data: thing
-                }));
+        it('should save the object', function() {
+            model.update({
+                name: 'something'
+            });
+            assert(model.save.calledOnce);
+        });
+        after(function() {
+            model.save.restore();
+        });
+    });
 
+    describe('update (id is not defined)', function() {
+        var model = new owl.Model({}, {
+            urlRoot: '/things'
+        });
+        before(function() {
+            sinon.stub(console, 'warn').returns();
+        });
+        it('should reject update', function(done) {
+            model.update({
+                name: 'something'
+            }).catch(function(error) {
                 done();
             });
         });
         after(function() {
-            owl.ajax.restore();
+            console.warn.restore();
         });
     });
+    describe('on and trigger', function() {
+        var model = new owl.Model({}, {
+            urlRoot: '/things'
+        });
+        var firstListener = sinon.spy();
+        var secondListener = sinon.spy();
+        model.on('event', firstListener);
+        model.on('event', secondListener);
+        it('should trigger event', function () {
+            model.triggerSingle('event');
 
+            assert(firstListener.calledOnce);
+            assert(secondListener.calledOnce);
+        });
+    });
+    describe('off', function() {
+        var model = new owl.Model({}, {
+            urlRoot: '/things'
+        });
+        var firstListener = sinon.spy();
+        var secondListener = sinon.spy();
+        model.on('event', firstListener);
+        model.off('event', firstListener);
+        model.off('otherEvent', secondListener);
+        it('should trigger event', function () {
+            model.triggerSingle('event');
+
+            assert(firstListener.notCalled);
+            assert(secondListener.notCalled);
+        });
+    });
 });

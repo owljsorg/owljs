@@ -83,6 +83,57 @@ describe('owl.Collection', function() {
                 {id:1, name: 'Nexus 5'},
                 {id:2, name: 'Nexus 10'}
             ]);
+            expect(collection.getModels()[0].getData()).to.eql({id:1, name: 'Nexus 5'});
+            expect(collection.getModels()[0].getCollection()).to.eql(collection);
+            expect(collection.getLength()).to.eql(2);
+        });
+    });
+
+    describe('setData (empty data)', function() {
+        it('should set collection data', function () {
+            var collection = new owl.Collection([], {
+                url: '/things',
+                model: owl.Model
+            });
+
+            collection.setData();
+            expect(collection.getData()).to.eql([]);
+            expect(collection.getModels()).to.eql([]);
+            expect(collection.getLength()).to.eql(0);
+        });
+    });
+
+    describe('on and trigger', function() {
+        var collection = new owl.Collection([], {
+            url: '/things',
+            model: owl.Model
+        });
+        var firstListener = sinon.spy();
+        var secondListener = sinon.spy();
+        collection.on('event', firstListener);
+        collection.on('event', secondListener);
+        it('should trigger event', function () {
+            collection.trigger('event');
+
+            assert(firstListener.calledOnce);
+            assert(secondListener.calledOnce);
+        });
+    });
+    describe('off', function() {
+        var collection = new owl.Collection([], {
+            url: '/things',
+            model: owl.Model
+        });
+        var firstListener = sinon.spy();
+        var secondListener = sinon.spy();
+        collection.on('event', firstListener);
+        collection.off('event', firstListener);
+        collection.off('otherEvent', secondListener);
+        it('should trigger event', function () {
+            collection.trigger('event');
+
+            assert(firstListener.notCalled);
+            assert(secondListener.notCalled);
         });
     });
     after(function() {

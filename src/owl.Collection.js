@@ -1,16 +1,10 @@
 (function(window, owl) {
     function Collection(data, options){
-        var that = this;
         this.url = options.url;
         this.model = options.model;
         this.events = {};
-        this.data = [];
-        this.models = [];
-        this.length = 0;
 
-        if(data) {
-            this.setData(data);
-        }
+        this.setData(data);
     }
     Collection.prototype = {
         /**
@@ -71,6 +65,12 @@
          */
         getModels: function() {
             return this.models;
+        },
+        /**
+         * Gets collection length
+         */
+        getLength: function() {
+            return this.length;
         },
         /**
          * Adds event listener

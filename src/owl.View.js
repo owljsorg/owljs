@@ -90,7 +90,7 @@
                     eventSelector = eventSelector.substr(1);
                     eventSelector = '[data-element=' + eventSelector + '],[data-elements=' + eventSelector + ']';
                 }
-                Array.from(el.querySelectorAll(eventSelector)).forEach(function(element) {
+                Array.prototype.forEach.call(el.querySelectorAll(eventSelector), function(element) {
                     element.addEventListener(eventName, function(event) {
                         that.callEventListener(method, element, event);
                     });
@@ -103,11 +103,11 @@
          */
         updateElements: function(el) {
             var that = this;
-            Array.from(el.querySelectorAll('[data-element]')).forEach(function(element) {
+            Array.prototype.forEach.call(el.querySelectorAll('[data-element]'), function(element) {
                 var name = element.getAttribute('data-element');
                 that.elements[name] = element;
             });
-            Array.from(el.querySelectorAll('[data-elements]')).forEach(function(element) {
+            Array.prototype.forEach.call(el.querySelectorAll('[data-elements]'), function(element) {
                 var name = element.getAttribute('data-elements');
                 if(!that.elements[name]) {
                     that.elements[name] = [];
@@ -141,7 +141,7 @@
          * Removes element content
          */
         remove: function() {
-            this.el.innerHTML = null;
+            this.el.innerHTML = '';
             this.elements = {};
         },
         /**
@@ -159,6 +159,12 @@
          */
         findAll: function(selector) {
             return this.el.querySelectorAll(selector);
+        },
+        /**
+         * Gets DOM element related to the view
+         */
+        getEl: function() {
+            return this.el;
         }
     };
 

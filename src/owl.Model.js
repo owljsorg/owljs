@@ -110,23 +110,19 @@
             var that = this,
                 id = this.data[this.idAttribute],
                 url  = this.urlRoot + '/' + id;
-            if(!id) {
+            if (!id) {
                 return new Promise(function(resolve, reject) {
                     reject('Can not patch model without id');
                 });
             }
 
             this.data = owl.util.extend(this.data, data, true);
-
             return owl.ajax({
                 url: url + owl.ajax.toQueryString(query),
                 type: 'PATCH',
                 data: data
             })
             .then(function(result) {
-                if(result[that.idAttribute]) {
-                    that.data[that.idAttribute] = result[that.idAttribute];
-                }
                 that.trigger('change', Object.keys(data));
                 return result;
             });
@@ -137,9 +133,15 @@
          * @return Promise
          */
         destroy: function(query) {
-            var that = this;
+            var that = this,
+                id = this.data[this.idAttribute];
+            if (!id) {
+                return new Promise(function(resolve, reject) {
+                    reject('Can not destroy model without id');
+                });
+            }
             return owl.ajax({
-                url: this.urlRoot + '/' + this.data.id + owl.ajax.toQueryString(query),
+                url: this.urlRoot + '/' + id + owl.ajax.toQueryString(query),
                 type: 'DELETE'
             })
             .then(function(result) {

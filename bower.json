@@ -12,7 +12,8 @@
     "examples",
     "bower_components",
     "node_modules",
-    "test"
+    "test",
+    "coverage"
   ],
   "license": "MIT",
   "dependencies": {

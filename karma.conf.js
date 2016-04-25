@@ -15,9 +15,9 @@ module.exports = function(config) {
             'test/*'
         ],
         browsers: ['PhantomJS'],
-        reporters: ['mocha', 'coverage'],
+        reporters: ['mocha', 'coverage', 'coveralls'],
         preprocessors: {
-            'src/**/*.js': ['coverage']
+            'src/**/*.js': ['coverage', 'coveralls']
         },
         coverageReporter: {
             type : 'lcov',

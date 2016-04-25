@@ -67,6 +67,21 @@ describe('owl.Router.js', function() {
             assert(router.run.notCalled);
         });
     });
+    describe('open (route is not defined)', function() {
+        var router = new owl.Router();
+        before(function() {
+            sinon.stub(router, 'getRoute').returns(null);
+            sinon.stub(router, 'resolve').returns(false);
+            sinon.stub(router, 'run');
+            router.open('/something');
+        });
+        it('should not resolve the route', function() {
+            assert(router.resolve.notCalled);
+        });
+        it('should not run the route', function() {
+            assert(router.run.notCalled);
+        });
+    });
     describe('run (controller is not defined)', function() {
         var router = new owl.Router();
         var route = {

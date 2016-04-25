@@ -22,7 +22,6 @@
          */
         open: function(path) {
             var route = this.getRoute(path);
-
             if (!route) {
                 return;
             }

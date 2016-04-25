@@ -122,15 +122,68 @@ describe('owl.Router.js', function() {
             owl.require.restore();
         });
     });
-    describe('addRoute', function() {
+    describe('resolve', function() {
+        var router = new owl.Router();
+        var route = {
+            path: '/something',
+            callback: sinon.spy(),
+            resolves: ['first', 'second', 'third']
+        };
+        var firstResolve = sinon.stub().returns(true);
+        var secondResolve = sinon.stub().returns(true);
+        before(function() {
+            var getResolve = sinon.stub(owl.history, 'getResolve');
+            getResolve.withArgs('first').returns(firstResolve);
+            getResolve.withArgs('second').returns(secondResolve);
+            sinon.stub(console, 'info');
+            router.resolve(route);
+        });
+        it('should run callback', function() {
+            assert(firstResolve.calledOnce);
+            assert(secondResolve.calledOnce);
+        });
+        after(function() {
+            owl.history.getResolve.restore();
+            console.info.restore();
+        });
+    });
+    describe('resolve (no resolves)', function() {
         var router = new owl.Router();
         var route = {
             path: '/something',
             callback: sinon.spy()
         };
-        router.addRoute(route);
+        var firstResolve = sinon.stub().returns(true);
+        before(function() {
+            var getResolve = sinon.stub(owl.history, 'getResolve');
+            getResolve.withArgs('first').returns(firstResolve);
+            sinon.stub(console, 'info');
+            router.resolve(route);
+        });
+        it('should run callback', function() {
+            assert(firstResolve.notCalled);
+        });
+        after(function() {
+            owl.history.getResolve.restore();
+            console.info.restore();
+        });
+    });
+    describe('addRoute', function() {
+        var router = new owl.Router();
+        var route = {
+            path: '/something/:id',
+            callback: sinon.spy()
+        };
+        var defaultRoute = {
+            callback: sinon.spy()
+        };
+        before(function() {
+            router.addRoute(route);
+            router.setDefaultRoute(defaultRoute);
+        });
         it('should run controller action', function() {
-            expect(router.getRoute('/something').path).to.be.deep.equal(route.path);
+            expect(router.getRoute('/something/123').path).to.be.deep.equal(route.path);
+            expect(router.getRoute('/something')).to.be.equal(defaultRoute);
         });
     });
     describe('setDefaultRoute', function() {

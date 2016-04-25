@@ -22,15 +22,11 @@
                 return copy;
             }
 
-            if (object instanceof Object) {
-                copy = {};
-                Object.keys(object).forEach(function(key) {
-                    copy[key] = recursive ? that.clone(object[key], recursive) : object[key];
-                });
-                return copy;
-            }
-
-            return null;
+            copy = {};
+            Object.keys(object).forEach(function(key) {
+                copy[key] = recursive ? that.clone(object[key], recursive) : object[key];
+            });
+            return copy;
         },
         extend: function(firstObject, secondObject, isRecursive) {
             var that = this,

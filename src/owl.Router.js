@@ -98,8 +98,6 @@
                 params = {};
             if (match) {
                 route.regexp = new RegExp('^' + pattern + '$');
-            }
-            if (match) {
                 params = match.map(function(param) {
                     return param.substring(1);
                 });

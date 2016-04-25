@@ -1,8 +1,7 @@
 describe('owl.history', function() {
     // Init stubs
-    sinon.stub(owl.history, 'getLocation').returns('/something');
-    sinon.stub(window, 'addEventListener');
-    sinon.stub(window, 'removeEventListener');
+    sinon.spy(window, 'addEventListener');
+    sinon.spy(window, 'removeEventListener');
     describe('init', function() {
         owl.history.init({
             baseUrl: '/api'
@@ -13,6 +12,7 @@ describe('owl.history', function() {
     });
     describe('start', function() {
         before(function() {
+            sinon.stub(owl.history, 'getLocation').returns('/something');
             sinon.stub(owl.history, 'open');
             owl.history.start();
         });
@@ -32,6 +32,7 @@ describe('owl.history', function() {
 
         after(function() {
             owl.history.open.restore();
+            owl.history.getLocation.restore();
         });
     });
     describe('stop', function() {
@@ -67,31 +68,66 @@ describe('owl.history', function() {
             owl.history.open.restore();
         });
     });
+    describe('getLocation', function() {
+        before(function() {
+            sinon.stub(owl.history, 'open');
+            owl.history.navigate('/something');
+        });
+        it('set the hash', function() {
+            expect(owl.history.getLocation()).to.be.equal('/something');
+        });
+        after(function() {
+            owl.history.open.restore();
+        });
+    });
     describe('getHash and setHash', function() {
         before(function() {
+            sinon.stub(owl.history, 'open');
             owl.history.setHash('something');
         });
         it('set the hash', function() {
             expect(owl.history.getHash()).to.be.deep.equal('something');
         });
+        after(function() {
+            owl.history.open.restore();
+        });
     });
     describe('open (default router)', function() {
+        var customRouter = new owl.Router();
         var router = new owl.Router();
         before(function() {
             sinon.stub(router, 'open');
             sinon.stub(owl.history, 'trigger');
 
+            owl.history.setRouter('/something', customRouter);
             owl.history.setDefaultRouter(router);
-            owl.history.open('/something');
+            owl.history.open('/somethingOther');
         });
         it('should trigger change event', function() {
             assert(owl.history.trigger.calledWith('change'));
         });
         it('should open router page', function() {
-            assert(router.open.calledWith('/something'));
+            assert(router.open.calledWith('/somethingOther'));
         });
         after(function() {
             owl.history.trigger.restore();
+            owl.history.removeRouter('/something');
+            owl.history.setDefaultRouter(null);
+        });
+    });
+    describe('open (default router is not defined)', function() {
+        before(function() {
+            sinon.stub(owl.history, 'trigger');
+            sinon.stub(console, 'log');
+
+            owl.history.open('/somethingOther');
+        });
+        it('should not trigger change event', function() {
+            assert(owl.history.trigger.notCalled);
+        });
+        after(function() {
+            owl.history.trigger.restore();
+            console.log.restore();
         });
     });
     describe('open (custom router)', function() {
@@ -177,7 +213,9 @@ describe('owl.history', function() {
         var listener = sinon.spy();
         before(function() {
             owl.history.on('change', listener);
+            owl.history.off('change', function() {});
             owl.history.off('change', listener);
+            owl.history.off('something', listener);
             owl.history.trigger('change');
         });
         it('should not call listener', function() {

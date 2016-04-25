@@ -18,6 +18,8 @@ describe('owl.util.js', function() {
         var original = {
             one: 'one',
             two: 'two',
+            data: new Date(),
+            array: ['aa', 'bb'],
             sub: {
                 something: 'else'
             }
@@ -26,7 +28,9 @@ describe('owl.util.js', function() {
         it('should clone the object', function() {
             expect(clone).to.be.deep.equal(original);
             expect(clone).to.be.not.equal(original);
-            expect(clone.sub).to.not.equal(original.sub);
+            expect(clone.date).to.be.equal(original.date);
+            expect(clone.array).to.be.deep.equal(original.array);
+            expect(clone.sub).to.be.not.equal(original.sub);
         });
     });
     describe('extend', function() {

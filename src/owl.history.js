@@ -51,7 +51,8 @@
         open: function(path) {
             var router;
             Object.keys(_routers).some(function(routerPath) {
-                if(path.indexOf(routerPath) === 0) {
+                if(path === routerPath ||
+                    (path.indexOf(routerPath) === 0 && path.length > routerPath.length && path[routerPath.length] === '/')) {
                     router = _routers[routerPath];
                     path = path.replace(routerPath, '');
                     return true;
@@ -61,11 +62,11 @@
             if (!router) {
                 router = _defaultRouter;
             }
-            this.trigger('change');
             if (!router) {
                 console.log('Default router is not defined');
                 return;
             }
+            this.trigger('change');
             router.open(path);
         },
         setRouter: function(path, router) {

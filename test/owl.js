@@ -15,4 +15,13 @@ describe('owl.js', function() {
             expect(owl.require('something')).to.be.deep.equal(object);
         });
     });
+    describe('require (when module is not defined)', function() {
+        it('should call callback', function(done) {
+            try {
+                owl.require('somethingElse');
+            } catch (e) {
+                done();
+            }
+        });
+    });
 });

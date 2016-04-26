@@ -9,7 +9,7 @@
     Collection.prototype = {
         /**
          * Gets data from server
-         * @param query
+         * @param {Object} query Query that will be passed with request
          */
         fetch: function(query) {
             var that = this;
@@ -33,7 +33,7 @@
         },
         /**
          * Sets collection data
-         * @param data
+         * @param {Object} data Collection data
          */
         setData: function(data) {
             var that = this;
@@ -54,28 +54,29 @@
         },
         /**
          * Gets collection data
-         * @return {Array<any>}
+         * @return {Array} Collection data
          */
         getData: function() {
             return this.data;
         },
         /**
          * Gets collection models
-         * @return {Array<owl.Model>}
+         * @return {Array} Collection models
          */
         getModels: function() {
             return this.models;
         },
         /**
          * Gets collection length
+         * @return {Number}
          */
         getLength: function() {
             return this.length;
         },
         /**
          * Adds event listener
-         * @param event
-         * @param listener
+         * @param {String} event Event name
+         * @param {Function} listener Event listener
          */
         on: function(event, listener) {
             if (!this.events[event]) {
@@ -85,8 +86,8 @@
         },
         /**
          * Removes event listener
-         * @param event
-         * @param listener
+         * @param {String} event Event name
+         * @param {Function} listener Event listener
          */
         off: function(event, listener) {
             if (this.events[event]) {
@@ -97,7 +98,7 @@
         },
         /**
          * Triggers event
-         * @param event
+         * @param {String} event Event name
          */
         trigger: function(event) {
             var listeners = this.events[event];

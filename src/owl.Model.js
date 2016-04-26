@@ -10,7 +10,7 @@
     Model.prototype = {
         /**
          * Gets attribute by name
-         * @param name
+         * @param {String} name Attribute name
          * @returns {Array}
          */
         get: function(name) {
@@ -18,8 +18,8 @@
         },
         /**
          * Sets attribute value by name
-         * @param name
-         * @param value
+         * @param {String} name Attribute name
+         * @param {any} value Attribure value
          */
         set: function(name, value) {
             this.data[name] = value;
@@ -27,8 +27,8 @@
         },
         /**
          * Gets data from the sever
-         * @param query
-         * @return Promise
+         * @param {Object} query Request query
+         * @return {Promise} Response promise
          */
         fetch: function(query) {
             var that = this,
@@ -55,8 +55,8 @@
         },
         /**
          * Save a model to database
-         * @param query
-         * @return Promise
+         * @param {Object} query Request query
+         * @return {Promise} Response promise
          */
         save: function(query) {
             var that = this;
@@ -80,9 +80,9 @@
         },
         /**
          * Updates local data and saves model
-         * @param data
-         * @param query
-         * @return Promise
+         * @param {Object} data Data to update
+         * @param {Object} query Request query
+         * @return {Promise} Response promise
          */
         update: function(data, query) {
             var that = this,
@@ -102,9 +102,9 @@
         },
         /**
          * Partially updates model
-         * @param data
-         * @param query
-         * @return Promise
+         * @param {Object} data Data to patch
+         * @param {Object} query Request query
+         * @return {Promise} Response promise
          */
         patch: function(data, query) {
             var that = this,
@@ -129,8 +129,8 @@
         },
         /**
          * Remove a model
-         * @param query
-         * @return Promise
+         * @param {Object} query Request query
+         * @return {Promise} Response promise
          */
         destroy: function(query) {
             var that = this,
@@ -150,23 +150,23 @@
             });
         },
         /**
-         * Gets data
-         * @return {Object}
+         * Gets models data
+         * @return {Object} Model data
          */
         getData: function() {
             return this.data;
         },
         /**
          * Gets model collection
-         * @return {owl.Collection}
+         * @return {owl.Collection} Model collection
          */
         getCollection: function() {
             return this.collection;
         },
         /**
          * Adds event listener
-         * @param event
-         * @param listener
+         * @param {String} event Event name
+         * @param {Function} listener Event listener
          */
         on: function(event, listener) {
             if (!this.events[event]) {
@@ -176,8 +176,8 @@
         },
         /**
          * Removes event listener
-         * @param event
-         * @param listener
+         * @param {String} event Event name
+         * @param {Function} listener Event listener
          */
         off: function(event, listener) {
             if (this.events[event]) {
@@ -188,7 +188,7 @@
         },
         /**
          * Trigger single event
-         * @param event
+         * @param {String} event Event name
          */
         triggerSingle: function(event) {
             var listeners = this.events[event];
@@ -203,8 +203,8 @@
         },
         /**
          * Triggers events
-         * @param event
-         * @param subEvents
+         * @param {String} event Event name
+         * @param {Array} subEvents Sub events array
          */
         trigger: function(event, subEvents) {
             var that = this;

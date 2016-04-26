@@ -37,7 +37,7 @@
                 url += '/' + this.data[this.idAttribute];
             }
             url +=  owl.ajax.toQueryString(query);
-            return owl.ajax({
+            return owl.ajax.request({
                 url: url,
                 type: 'GET'
             })
@@ -65,7 +65,7 @@
             if(id) {
                 url += '/' + this.data[this.idAttribute];
             }
-            return owl.ajax({
+            return owl.ajax.request({
                 url: url + owl.ajax.toQueryString(query),
                 type: id ? 'PUT' : 'POST',
                 data: this.data
@@ -117,7 +117,7 @@
             }
 
             this.data = owl.util.extend(this.data, data, true);
-            return owl.ajax({
+            return owl.ajax.request({
                 url: url + owl.ajax.toQueryString(query),
                 type: 'PATCH',
                 data: data
@@ -140,7 +140,8 @@
                     reject('Can not destroy model without id');
                 });
             }
-            return owl.ajax({
+            console.log( owl.ajax.request);
+            return owl.ajax.request({
                 url: this.urlRoot + '/' + id + owl.ajax.toQueryString(query),
                 type: 'DELETE'
             })

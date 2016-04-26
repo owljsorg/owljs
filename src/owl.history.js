@@ -83,14 +83,14 @@
         },
         /**
          * Sets hash
-         * @props hash
+         * @param hash
          */
         setHash: function(hash) {
             window.location.hash = hash;
         },
         /**
          * Opens the page by path
-         * @props path
+         * @param path
          */
         open: function(path) {
             var router;
@@ -115,22 +115,22 @@
         },
         /**
          * Sets router by name
-         * @props name
-         * @props router
+         * @param name
+         * @param router
          */
         setRouter: function(path, router) {
             _routers[path] = router;
         },
         /**
          * Removes router by name
-         * @props name
+         * @param name
          */
         removeRouter: function(path) {
             delete _routers[path];
         },
         /**
          * Gets router by name
-         * @props name
+         * @param name
          * @return {owl.Router}
          */
         getRouter: function(path) {
@@ -138,7 +138,7 @@
         },
         /**
          * Sets default router
-         * @props router
+         * @param router
          */
         setDefaultRouter: function(router) {
             _defaultRouter = router;
@@ -151,30 +151,30 @@
         },
         /**
          * Sets resolve
-         * @props resolveName
-         * @props resolveCallback
+         * @param resolveName
+         * @param resolveCallback
          */
         setResolve: function(resolveName, resolveCallback) {
             _resolves[resolveName] = resolveCallback;
         },
         /**
          * Removes resolve by name
-         * @props resolveName
+         * @param resolveName
          */
         removeResolve: function(resolveName) {
             delete _resolves[resolveName];
         },
         /**
          * Gets resolve by name
-         * @props resolveName
+         * @param resolveName
          */
         getResolve: function(resolveName) {
             return _resolves[resolveName];
         },
         /**
          * Adds event listener
-         * @props event
-         * @props listener
+         * @param event
+         * @param listener
          */
         on: function(event, listener) {
             if (!_events[event]) {
@@ -184,8 +184,8 @@
         },
         /**
          * Removes event listener
-         * @props event
-         * @props listener
+         * @param event
+         * @param listener
          */
         off: function(event, listener) {
             if (_events[event]) {
@@ -200,7 +200,7 @@
         },
         /**
          * Trigger event
-         * @props event
+         * @param event
          */
         trigger: function(event) {
             _events[event] && _events[event].forEach(function(listener) {

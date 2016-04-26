@@ -1,4 +1,10 @@
 (function(window, owl) {
+    /**
+     * @class Collection
+     * @param {Array} data Collection data
+     * @param {Object} options Collection options
+     * @constructor
+     */
     function Collection(data, options){
         this.url = options.url;
         this.model = options.model;
@@ -13,7 +19,7 @@
          */
         fetch: function(query) {
             var that = this;
-            return owl.ajax({
+            return owl.ajax.request({
                 url: this.url + owl.ajax.toQueryString(query),
                 type: 'GET'
             })

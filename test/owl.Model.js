@@ -22,13 +22,13 @@ describe('owl.Model.js', function() {
             urlRoot: '/things'
         });
         before(function() {
-            sinon.stub(owl, 'ajax').returns(new Promise(function (resolve) {
+            sinon.stub(owl.ajax, 'request').returns(new Promise(function (resolve) {
                 resolve(thing);
             }));
         });
         it('should make GET request', function(done) {
             model.fetch().then(function() {
-                assert(owl.ajax.calledWith({
+                assert(owl.ajax.request.calledWith({
                     url: '/things',
                     type: 'GET'
                 }));
@@ -43,7 +43,7 @@ describe('owl.Model.js', function() {
             });
         });
         after(function() {
-            owl.ajax.restore();
+            owl.ajax.request.restore();
         });
     });
     describe('clear', function() {
@@ -62,7 +62,7 @@ describe('owl.Model.js', function() {
             urlRoot: '/things'
         });
         before(function() {
-            sinon.stub(owl, 'ajax').returns(new Promise(function(resolve) {
+            sinon.stub(owl.ajax, 'request').returns(new Promise(function(resolve) {
                 resolve({
                     id: 2
                 });
@@ -70,7 +70,7 @@ describe('owl.Model.js', function() {
         });
         it('should make POST request to server', function(done) {
             model.save().then(function() {
-                assert(owl.ajax.calledWithMatch({
+                assert(owl.ajax.request.calledWithMatch({
                     url: '/things',
                     type: 'POST',
                     data: newThing
@@ -87,7 +87,7 @@ describe('owl.Model.js', function() {
             });
         });
         after(function() {
-            owl.ajax.restore();
+            owl.ajax.request.restore();
         });
     });
     describe('save (update entry)', function() {
@@ -95,14 +95,14 @@ describe('owl.Model.js', function() {
             urlRoot: '/things'
         });
         before(function() {
-            sinon.stub(owl, 'ajax').returns(new Promise(function(resolve) {
+            sinon.stub(owl.ajax, 'request').returns(new Promise(function(resolve) {
                 resolve({});
             }));
             sinon.stub(model, 'trigger');
         });
         it('should make PUT request to server', function(done) {
             model.save().then(function() {
-                assert(owl.ajax.calledWithMatch({
+                assert(owl.ajax.request.calledWithMatch({
                     url: '/things/1',
                     type: 'PUT',
                     data: thing
@@ -119,7 +119,7 @@ describe('owl.Model.js', function() {
         });
         after(function() {
             model.trigger.restore();
-            owl.ajax.restore();
+            owl.ajax.request.restore();
         });
     });
     describe('update', function() {
@@ -170,7 +170,7 @@ describe('owl.Model.js', function() {
             urlRoot: '/things'
         });
         before(function() {
-            sinon.stub(owl, 'ajax').returns(new Promise(function (resolve) {
+            sinon.stub(owl.ajax, 'request').returns(new Promise(function (resolve) {
                 resolve({});
             }));
             sinon.stub(model, 'trigger');
@@ -179,7 +179,7 @@ describe('owl.Model.js', function() {
             model.patch({
                 key: 'value'
             }).then(function() {
-                assert(owl.ajax.calledWith({
+                assert(owl.ajax.request.calledWith({
                     url: '/things/2',
                     type: 'PATCH',
                     data: {
@@ -198,7 +198,7 @@ describe('owl.Model.js', function() {
             });
         });
         after(function() {
-            owl.ajax.restore();
+            owl.ajax.request.restore();
             model.trigger.restore();
         });
     });
@@ -229,14 +229,14 @@ describe('owl.Model.js', function() {
             urlRoot: '/things'
         });
         before(function() {
-            sinon.stub(owl, 'ajax').returns(new Promise(function (resolve) {
+            sinon.stub(owl.ajax, 'request').returns(new Promise(function (resolve) {
                 resolve({});
             }));
             sinon.stub(model, 'clear');
         });
         it('should send DELETE request', function(done) {
             model.destroy().then(function() {
-                assert(owl.ajax.calledWith({
+                assert(owl.ajax.request.calledWith({
                     url: '/things/2',
                     type: 'DELETE'
                 }));
@@ -252,7 +252,7 @@ describe('owl.Model.js', function() {
             });
         });
         after(function() {
-            owl.ajax.restore();
+            owl.ajax.request.restore();
             model.clear.restore();
         });
     });

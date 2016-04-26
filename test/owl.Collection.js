@@ -5,14 +5,14 @@ describe('owl.Collection', function() {
         model: owl.Model
     });
     before(function() {
-        sinon.stub(owl, 'ajax').returns(new owl.Promise(function(resolve, reject) {
+        sinon.stub(owl.ajax, 'request').returns(new owl.Promise(function(resolve, reject) {
             resolve(result);
         }));
     });
     describe('fetch', function() {
         it('should make GET request to /things', function(done) {
             collection.fetch().then(function() {
-                assert(owl.ajax.calledWith({
+                assert(owl.ajax.request.calledWith({
                     url: '/things',
                     type: 'GET'
                 }));
@@ -36,7 +36,7 @@ describe('owl.Collection', function() {
             collection.fetch({
                 type: 'tablet'
             }).then(function() {
-                assert(owl.ajax.calledWith({
+                assert(owl.ajax.request.calledWith({
                     url: '/things?type=tablet',
                     type: 'GET'
                 }));
@@ -137,6 +137,6 @@ describe('owl.Collection', function() {
         });
     });
     after(function() {
-        owl.ajax.restore();
+        owl.ajax.request.restore();
     });
 });

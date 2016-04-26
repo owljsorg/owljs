@@ -61,6 +61,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getMatchingElement()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Gets element matching selector</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -82,16 +83,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Gets element matching selector</p></div>
-          <pre><code class="language-javascript">getMatchingElement: function(element, selector) {
-    while (element &amp;&amp; element !== this.el) {
-        if (element.matches(selector)) {
-            return element;
-        }
-        element = element.parentNode;
-    }
-    return null;
-},</code></pre>
           <section id="update">
             <h1>update</h1>
             <h5 class="subheader"></h5>
@@ -99,6 +90,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>update()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Update events and element</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -115,14 +107,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Update events and element</p></div>
-          <pre><code class="language-javascript">update: function(el) {
-    if (!el) {
-        el = this.el;
-    }
-    this.updateEvents(el);
-    this.updateElements(el);
-},</code></pre>
           <section id="updateEvents">
             <h1>updateEvents</h1>
             <h5 class="subheader"></h5>
@@ -130,6 +114,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>updateEvents()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Update events</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -146,29 +131,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Update events</p></div>
-          <pre><code class="language-javascript">updateEvents: function(el) {
-    var that = this;
-    Object.keys(this.events).forEach(function(event) {
-        var index = event.indexOf(' '),
-            eventName = event.substr(0, index),
-            eventSelector = event.substr(index + 1),
-            method = that.events[event],
-            isElementSelector = eventSelector[0] === '$';
-        if (that.specialEvents.indexOf(eventName) === -1) {
-            return;
-        }
-        if (isElementSelector) {
-            eventSelector = eventSelector.substr(1);
-            eventSelector = '[data-element=' + eventSelector + '],[data-elements=' + eventSelector + ']';
-        }
-        Array.prototype.forEach.call(el.querySelectorAll(eventSelector), function(element) {
-            element.addEventListener(eventName, function(event) {
-                that.callEventListener(method, element, event);
-            });
-        });
-    });
-},</code></pre>
           <section id="updateElements">
             <h1>updateElements</h1>
             <h5 class="subheader"></h5>
@@ -176,6 +138,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>updateElements()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Update element</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -192,21 +155,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Update element</p></div>
-          <pre><code class="language-javascript">updateElements: function(el) {
-    var that = this;
-    Array.prototype.forEach.call(el.querySelectorAll('[data-element]'), function(element) {
-        var name = element.getAttribute('data-element');
-        that.elements[name] = element;
-    });
-    Array.prototype.forEach.call(el.querySelectorAll('[data-elements]'), function(element) {
-        var name = element.getAttribute('data-elements');
-        if(!that.elements[name]) {
-            that.elements[name] = [];
-        }
-        that.elements[name].push(element);
-    });
-},</code></pre>
           <section id="callEventListener">
             <h1>callEventListener</h1>
             <h5 class="subheader"></h5>
@@ -214,6 +162,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>callEventListener()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Calls event listener</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -240,15 +189,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Calls event listener</p></div>
-          <pre><code class="language-javascript">callEventListener: function(method, element, event) {
-    if(this[method]) {
-        this[method](element, event);
-    } else {
-        console.error('Method ' + method + ' is not defined' +
-            (this.className ? 'in ' + this.className : ''));
-    }
-},</code></pre>
           <section id="render">
             <h1>render</h1>
             <h5 class="subheader"></h5>
@@ -256,6 +196,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>render()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Calls template function and adds result to element</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -272,11 +213,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Calls template function and adds result to element</p></div>
-          <pre><code class="language-javascript">render: function(data) {
-    this.el.innerHTML = this.template ? this.template(data) : '';
-    this.update();
-},</code></pre>
           <section id="remove">
             <h1>remove</h1>
             <h5 class="subheader"></h5>
@@ -285,10 +221,6 @@
             </p>
           </section>
           <div class="description"><p>Removes element content</p></div>
-          <pre><code class="language-javascript">remove: function() {
-    this.el.innerHTML = '';
-    this.elements = {};
-},</code></pre>
           <section id="find">
             <h1>find</h1>
             <h5 class="subheader"></h5>
@@ -296,6 +228,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>find()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Finds element in current component by selector</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -312,10 +245,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Finds element in current component by selector</p></div>
-          <pre><code class="language-javascript">find: function(selector) {
-    return this.el.querySelector(selector);
-},</code></pre>
           <section id="findAll">
             <h1>findAll</h1>
             <h5 class="subheader"></h5>
@@ -323,6 +252,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>findAll()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Finds all elements in current component by selector</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -339,10 +269,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Finds all elements in current component by selector</p></div>
-          <pre><code class="language-javascript">findAll: function(selector) {
-    return this.el.querySelectorAll(selector);
-},</code></pre>
           <section id="getEl">
             <h1>getEl</h1>
             <h5 class="subheader"></h5>
@@ -351,13 +277,6 @@
             </p>
           </section>
           <div class="description"><p>Gets DOM element related to the view</p></div>
-          <pre><code class="language-javascript">getEl: function() {
-    return this.el;
-}
-    };
-
-    owl.View = View;
-})(window, owl);</code></pre>
           <div class="footer site-footer">
             <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
             <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>

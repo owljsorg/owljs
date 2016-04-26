@@ -9,7 +9,7 @@ describe('owl.ajax', function() {
 
     describe('ajax', function() {
         it('should make GET request to /things', function(done) {
-            owl.ajax({
+            owl.ajax.request({
                 url: '/things',
                 type: 'GET'
             }).then(function(result) {

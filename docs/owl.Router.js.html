@@ -59,6 +59,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>open()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Opens page by path</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -75,17 +76,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Opens page by path</p></div>
-          <pre><code class="language-javascript">open: function(path) {
-    var route = this.getRoute(path);
-    if (!route) {
-        return;
-    }
-
-    if (this.resolve(route)) {
-        this.run(path, route);
-    }
-},</code></pre>
           <section id="resolve">
             <h1>resolve</h1>
             <h5 class="subheader"></h5>
@@ -93,6 +83,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>resolve()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Calls resolve callback</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -109,22 +100,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Calls resolve callback</p></div>
-          <pre><code class="language-javascript">resolve: function(route) {
-    var resolves = route.resolves;
-    if (resolves &amp;&amp; resolves.length) {
-        return resolves.every(function(resolve) {
-            var callback = owl.history.getResolve(resolve);
-            if(callback) {
-                return callback();
-            } else {
-                console.info('Resolve' + resolve + 'is not found');
-                return true;
-            }
-        });
-    }
-    return true
-},</code></pre>
           <section id="run">
             <h1>run</h1>
             <h5 class="subheader"></h5>
@@ -132,6 +107,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>run()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Runs the route</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -153,38 +129,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Runs the route</p></div>
-          <pre><code class="language-javascript">run: function(path, route) {
-    var match,
-        controller,
-        controllerName,
-        i,
-
-        params = {};
-
-    if (route.regexp) {
-        match = path.match(route.regexp);
-        if (match) {
-            for (i = 1; i &lt; match.length; i++) {
-                params[route.params[i - 1]] = match[i];
-            }
-        }
-    }
-
-    if (route.action &amp;&amp; (route.controller || this.controller)) {
-        controllerName = route.controller || this.controller;
-        controller = owl.require(controllerName);
-        if(controller[route.action]) {
-            controller[route.action](params);
-        } else {
-            console.info('Action ' + route.action + ' is missing');
-        }
-    } else if(route.callback) {
-        route.callback(params);
-    } else {
-        console.error('Either controller.action and collback are missing');
-    }
-},</code></pre>
           <section id="addRoute">
             <h1>addRoute</h1>
             <h5 class="subheader"></h5>
@@ -192,6 +136,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>addRoute()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Adds a route</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -208,21 +153,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Adds a route</p></div>
-          <pre><code class="language-javascript">addRoute: function(route) {
-    var paramRegexp = /:[a-zA-Z0-9]*/g,
-        pattern = route.path.replace(paramRegexp, '([^/]*)'),
-        match = route.path.match(paramRegexp),
-        params = {};
-    if (match) {
-        route.regexp = new RegExp('^' + pattern + '$');
-        params = match.map(function(param) {
-            return param.substring(1);
-        });
-    }
-    route.params = params;
-    this.routes.push(route);
-},</code></pre>
           <section id="getRoute">
             <h1>getRoute</h1>
             <h5 class="subheader"></h5>
@@ -230,6 +160,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getRoute()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Returns the route by path</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -246,24 +177,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Returns the route by path</p></div>
-          <pre><code class="language-javascript">getRoute: function(path) {
-    var that = this,
-        route;
-    this.routes.some(function(currentRoute) {
-        var test = currentRoute.regexp ? currentRoute.regexp.test(path) : currentRoute.path === path;
-        if(test) {
-            route = currentRoute;
-            return true;
-        }
-        return false;
-    });
-    if (route) {
-        return route;
-    } else {
-        return this.defaultRoute;
-    }
-},</code></pre>
           <section id="setDefaultRoute">
             <h1>setDefaultRoute</h1>
             <h5 class="subheader"></h5>
@@ -271,6 +184,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>setDefaultRoute()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Sets default route</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -287,10 +201,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Sets default route</p></div>
-          <pre><code class="language-javascript">setDefaultRoute: function(route) {
-    this.defaultRoute = route;
-},</code></pre>
           <section id="getDefaultRoute">
             <h1>getDefaultRoute</h1>
             <h5 class="subheader"></h5>
@@ -299,9 +209,17 @@
             </p>
           </section>
           <div class="description"><p>Gets default route</p></div>
-          <pre><code class="language-javascript">getDefaultRoute: function() {
-    return this.defaultRoute;
-},</code></pre>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
           <section id="setController">
             <h1>setController</h1>
             <h5 class="subheader"></h5>
@@ -309,6 +227,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>setController()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>Sets controller</p></div>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -325,10 +244,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Sets controller</p></div>
-          <pre><code class="language-javascript">setController: function(controller) {
-    this.controller = controller;
-},</code></pre>
           <section id="getController">
             <h1>getController</h1>
             <h5 class="subheader"></h5>
@@ -337,12 +252,17 @@
             </p>
           </section>
           <div class="description"><p>Gets default controller</p></div>
-          <pre><code class="language-javascript">getController: function() {
-    return this.controller;
-}
-    };
-    owl.Router = Router;
-})(window, owl);</code></pre>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
           <div class="footer site-footer">
             <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
             <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>

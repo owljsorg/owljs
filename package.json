@@ -7,7 +7,7 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "./node_modules/.bin/karma start --single-run  --browsers PhantomJS",
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS",
     "docs": "./node_modules/.bin/mr-doc -s src/ -o docs/ -n 'owl.js' -t 'cayman'"
   },
   "repository": {

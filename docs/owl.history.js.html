@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>owl.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/cayman.css">
+    <link rel="stylesheet" href="css/prism.css">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">owl.js</h1>
+      <h2 class="project-tagline">Backbone-like frontend library</h2><a href="https://github.com/omegascorp/owl#readme" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/owl.js" target="_blank" class="btn">View on npm</a>
+    </section>
+    <section data-spy="scroll" data-target=".scrollspy" class="main-content">
+      <div class="row">
+        <div class="col-md-3 col-xs-3 bs-docs-sidebar">
+          <ul id="sidebar" class="nav nav-stacked fixed">
+            <li><a href="index.html">Main</a></li>
+            <li><a href="owl.Collection.js.html">owl.Collection.js</a></li>
+            <li><a href="owl.Model.js.html">owl.Model.js</a></li>
+            <li><a href="owl.Promise.js.html">owl.Promise.js</a></li>
+            <li><a href="owl.Router.js.html">owl.Router.js</a></li>
+            <li><a href="owl.View.js.html">owl.View.js</a></li>
+            <li><a href="owl.ajax.js.html">owl.ajax.js</a></li>
+            <li class="active"><a href="owl.history.js.html">owl.history.js
+                <ul class="nav nav-stacked">
+                  <li><a href="#init"><i class="alert alert-info"></i><span>init</span></a>
+                  </li>
+                  <li><a href="#getOption"><i class="alert alert-info"></i><span>getOption</span></a>
+                  </li>
+                  <li><a href="#start"><i class="alert alert-info"></i><span>start</span></a>
+                  </li>
+                  <li><a href="#isStarted"><i class="alert alert-info"></i><span>isStarted</span></a>
+                  </li>
+                  <li><a href="#stop"><i class="alert alert-info"></i><span>stop</span></a>
+                  </li>
+                  <li><a href="#navigate"><i class="alert alert-info"></i><span>navigate</span></a>
+                  </li>
+                  <li><a href="#replace"><i class="alert alert-info"></i><span>replace</span></a>
+                  </li>
+                  <li><a href="#getLocation"><i class="alert alert-info"></i><span>getLocation</span></a>
+                  </li>
+                  <li><a href="#getHash"><i class="alert alert-info"></i><span>getHash</span></a>
+                  </li>
+                  <li><a href="#setHash"><i class="alert alert-info"></i><span>setHash</span></a>
+                  </li>
+                  <li><a href="#open"><i class="alert alert-info"></i><span>open</span></a>
+                  </li>
+                  <li><a href="#setRouter"><i class="alert alert-info"></i><span>setRouter</span></a>
+                  </li>
+                  <li><a href="#removeRouter"><i class="alert alert-info"></i><span>removeRouter</span></a>
+                  </li>
+                  <li><a href="#getRouter"><i class="alert alert-info"></i><span>getRouter</span></a>
+                  </li>
+                  <li><a href="#setDefaultRouter"><i class="alert alert-info"></i><span>setDefaultRouter</span></a>
+                  </li>
+                  <li><a href="#getDefaultRouter"><i class="alert alert-info"></i><span>getDefaultRouter</span></a>
+                  </li>
+                  <li><a href="#setResolve"><i class="alert alert-info"></i><span>setResolve</span></a>
+                  </li>
+                  <li><a href="#removeResolve"><i class="alert alert-info"></i><span>removeResolve</span></a>
+                  </li>
+                  <li><a href="#getResolve"><i class="alert alert-info"></i><span>getResolve</span></a>
+                  </li>
+                  <li><a href="#on"><i class="alert alert-info"></i><span>on</span></a>
+                  </li>
+                  <li><a href="#off"><i class="alert alert-info"></i><span>off</span></a>
+                  </li>
+                  <li><a href="#trigger"><i class="alert alert-info"></i><span>trigger</span></a>
+                  </li>
+                </ul></a></li>
+            <li><a href="owl.js.html">owl.js</a></li>
+            <li><a href="owl.util.js.html">owl.util.js</a></li>
+          </ul>
+        </div>
+        <div class="col-md-9">
+          <section id="init">
+            <h1>init</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>init()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>options</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Init the history</p></div>
+          <pre><code class="language-javascript">init: function(options) {
+    _options = owl.util.extend(_defaultOptions, options, true);
+},</code></pre>
+          <section id="getOption">
+            <h1>getOption</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getOption()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>name</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>any</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Gets an option</p></div>
+          <pre><code class="language-javascript">getOption: function(name) {
+    return _options[name];
+},</code></pre>
+          <section id="start">
+            <h1>start</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>start()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Starts watching popstate event</p></div>
+          <pre><code class="language-javascript">start: function() {
+    var that = this;
+    this.open(this.getLocation());
+    _listener = window.addEventListener('popstate', function() {
+        that.open(that.getLocation());
+    }, false);
+    _started = true;
+},</code></pre>
+          <section id="isStarted">
+            <h1>isStarted</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>isStarted()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Checks is history started</p></div>
+          <pre><code class="language-javascript">isStarted: function() {
+    return _started;
+},</code></pre>
+          <section id="stop">
+            <h1>stop</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>stop()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Stop watching popstate event</p></div>
+          <pre><code class="language-javascript">stop: function() {
+    window.removeEventListener('popstate', _listener);
+},</code></pre>
+          <section id="navigate">
+            <h1>navigate</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>navigate()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>path</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Adds new item to the navigation history</p></div>
+          <pre><code class="language-javascript">navigate: function(path) {
+    window.history.pushState(null, null, _options.baseUrl + path);
+    this.open(path);
+},</code></pre>
+          <section id="replace">
+            <h1>replace</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>replace()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>path</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Replaces current item in the navigation history</p></div>
+          <pre><code class="language-javascript">replace: function(path) {
+    window.history.replaceState(null, null, _options.baseUrl + path);
+    this.open(path);
+},</code></pre>
+          <section id="getLocation">
+            <h1>getLocation</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getLocation()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Gets current location</p></div>
+          <pre><code class="language-javascript">getLocation: function () {
+    return window.location.pathname.replace(_options.baseUrl, '').replace(/\/$/, '');
+},</code></pre>
+          <section id="getHash">
+            <h1>getHash</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getHash()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Gets current hash</p></div>
+          <pre><code class="language-javascript">getHash: function() {
+    return window.location.hash.substr(1);
+},</code></pre>
+          <section id="setHash">
+            <h1>setHash</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>setHash()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Sets hash</p></div>
+          <pre><code class="language-javascript">setHash: function(hash) {
+    window.location.hash = hash;
+},</code></pre>
+          <section id="open">
+            <h1>open</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>open()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Opens the page by path</p></div>
+          <pre><code class="language-javascript">open: function(path) {
+    var router;
+    Object.keys(_routers).some(function(routerPath) {
+        if(path === routerPath ||
+            (path.indexOf(routerPath) === 0 &amp;&amp; path.length &gt; routerPath.length &amp;&amp; path[routerPath.length] === '/')) {
+            router = _routers[routerPath];
+            path = path.replace(routerPath, '');
+            return true;
+        }
+        return false;
+    });
+    if (!router) {
+        router = _defaultRouter;
+    }
+    if (!router) {
+        console.log('Default router is not defined');
+        return;
+    }
+    this.trigger('change');
+    router.open(path);
+},</code></pre>
+          <section id="setRouter">
+            <h1>setRouter</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>setRouter()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Sets router by name</p></div>
+          <pre><code class="language-javascript">setRouter: function(path, router) {
+    _routers[path] = router;
+},</code></pre>
+          <section id="removeRouter">
+            <h1>removeRouter</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>removeRouter()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Removes router by name</p></div>
+          <pre><code class="language-javascript">removeRouter: function(path) {
+    delete _routers[path];
+},</code></pre>
+          <section id="getRouter">
+            <h1>getRouter</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getRouter()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Gets router by name</p></div>
+          <pre><code class="language-javascript">getRouter: function(path) {
+    return _routers[path];
+},</code></pre>
+          <section id="setDefaultRouter">
+            <h1>setDefaultRouter</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>setDefaultRouter()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Sets default router</p></div>
+          <pre><code class="language-javascript">setDefaultRouter: function(router) {
+    _defaultRouter = router;
+},</code></pre>
+          <section id="getDefaultRouter">
+            <h1>getDefaultRouter</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getDefaultRouter()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Gets default router</p></div>
+          <pre><code class="language-javascript">getDefaultRouter: function() {
+    return _defaultRouter;
+},</code></pre>
+          <section id="setResolve">
+            <h1>setResolve</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>setResolve()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Sets resolve</p></div>
+          <pre><code class="language-javascript">setResolve: function(resolveName, resolveCallback) {
+    _resolves[resolveName] = resolveCallback;
+},</code></pre>
+          <section id="removeResolve">
+            <h1>removeResolve</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>removeResolve()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Removes resolve by name</p></div>
+          <pre><code class="language-javascript">removeResolve: function(resolveName) {
+    delete _resolves[resolveName];
+},</code></pre>
+          <section id="getResolve">
+            <h1>getResolve</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getResolve()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Gets resolve by name</p></div>
+          <pre><code class="language-javascript">getResolve: function(resolveName) {
+    return _resolves[resolveName];
+},</code></pre>
+          <section id="on">
+            <h1>on</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>on()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Adds event listener</p></div>
+          <pre><code class="language-javascript">on: function(event, listener) {
+    if (!_events[event]) {
+        _events[event] = [];
+    }
+    _events[event].push(listener);
+},</code></pre>
+          <section id="off">
+            <h1>off</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>off()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Removes event listener</p></div>
+          <pre><code class="language-javascript">off: function(event, listener) {
+    if (_events[event]) {
+        var listenerIndex = -1;
+        _events[event].forEach(function(func, index) {
+            if(func === listener) {
+                listenerIndex = index;
+            }
+        });
+        _events[event].splice(listenerIndex, 1);
+    }
+},</code></pre>
+          <section id="trigger">
+            <h1>trigger</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>trigger()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Trigger event</p></div>
+          <pre><code class="language-javascript">trigger: function(event) {
+    _events[event] &amp;&amp; _events[event].forEach(function(listener) {
+        listener();
+    });
+}
+    };
+})(window, owl);</code></pre>
+          <div class="footer site-footer">
+            <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
+            <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/affix.js"></script>
+    <script src="js/dropdown.js"></script>
+    <script src="js/scrollspy.js"></script>
+    <script src="js/prism.js"></script>
+    <script src="js/prism-bash.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('body').scrollspy({
+          target: ".bs-docs-sidebar",
+          offset: 40
+        });
+        $('#sidebar').affix({
+          offset:{
+            bottom:60,
+            top: 60
+          }
+        }) 
+      });
+    </script>
+  </body>
+</html>

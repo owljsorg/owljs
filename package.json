@@ -1,13 +1,14 @@
 {
-  "name": "owl",
-  "version": "0.0.15",
+  "name": "owl.js",
+  "version": "0.1.0",
   "description": "Backbone-like frontend library",
   "main": "index.js",
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "test": "./node_modules/.bin/karma start --single-run  --browsers PhantomJS"
+    "test": "./node_modules/.bin/karma start --single-run  --browsers PhantomJS",
+    "docs": "./node_modules/.bin/mr-doc -s src/ -o docs/ -n 'owl.js' -t 'cayman'"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,8 @@
     "karma-sinon-chai": "^1.2.0",
     "lolex": "^1.4.0",
     "mocha": "^2.4.5",
+    "mr-doc": "^3.2.1",
+    "mr-doc-theme-cayman": "^1.4.0",
     "phantomjs-prebuilt": "^2.1.7",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0"

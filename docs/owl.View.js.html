@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>owl.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/cayman.css">
+    <link rel="stylesheet" href="css/prism.css">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">owl.js</h1>
+      <h2 class="project-tagline">Backbone-like frontend library</h2><a href="https://github.com/omegascorp/owl#readme" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/owl.js" target="_blank" class="btn">View on npm</a>
+    </section>
+    <section data-spy="scroll" data-target=".scrollspy" class="main-content">
+      <div class="row">
+        <div class="col-md-3 col-xs-3 bs-docs-sidebar">
+          <ul id="sidebar" class="nav nav-stacked fixed">
+            <li><a href="index.html">Main</a></li>
+            <li><a href="owl.Collection.js.html">owl.Collection.js</a></li>
+            <li><a href="owl.Model.js.html">owl.Model.js</a></li>
+            <li><a href="owl.Promise.js.html">owl.Promise.js</a></li>
+            <li><a href="owl.Router.js.html">owl.Router.js</a></li>
+            <li class="active"><a href="owl.View.js.html">owl.View.js
+                <ul class="nav nav-stacked">
+                  <li><a href="#getMatchingElement"><i class="alert alert-info"></i><span>getMatchingElement</span></a>
+                  </li>
+                  <li><a href="#update"><i class="alert alert-info"></i><span>update</span></a>
+                  </li>
+                  <li><a href="#updateEvents"><i class="alert alert-info"></i><span>updateEvents</span></a>
+                  </li>
+                  <li><a href="#updateElements"><i class="alert alert-info"></i><span>updateElements</span></a>
+                  </li>
+                  <li><a href="#callEventListener"><i class="alert alert-info"></i><span>callEventListener</span></a>
+                  </li>
+                  <li><a href="#render"><i class="alert alert-info"></i><span>render</span></a>
+                  </li>
+                  <li><a href="#remove"><i class="alert alert-info"></i><span>remove</span></a>
+                  </li>
+                  <li><a href="#find"><i class="alert alert-info"></i><span>find</span></a>
+                  </li>
+                  <li><a href="#findAll"><i class="alert alert-info"></i><span>findAll</span></a>
+                  </li>
+                  <li><a href="#getEl"><i class="alert alert-info"></i><span>getEl</span></a>
+                  </li>
+                </ul></a></li>
+            <li><a href="owl.ajax.js.html">owl.ajax.js</a></li>
+            <li><a href="owl.history.js.html">owl.history.js</a></li>
+            <li><a href="owl.js.html">owl.js</a></li>
+            <li><a href="owl.util.js.html">owl.util.js</a></li>
+          </ul>
+        </div>
+        <div class="col-md-9">
+          <section id="getMatchingElement">
+            <h1>getMatchingElement</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getMatchingElement()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>element</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>selector</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Gets element matching selector</p></div>
+          <pre><code class="language-javascript">getMatchingElement: function(element, selector) {
+    while (element &amp;&amp; element !== this.el) {
+        if (element.matches(selector)) {
+            return element;
+        }
+        element = element.parentNode;
+    }
+    return null;
+},</code></pre>
+          <section id="update">
+            <h1>update</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>update()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>el</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Update events and element</p></div>
+          <pre><code class="language-javascript">update: function(el) {
+    if (!el) {
+        el = this.el;
+    }
+    this.updateEvents(el);
+    this.updateElements(el);
+},</code></pre>
+          <section id="updateEvents">
+            <h1>updateEvents</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>updateEvents()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>el</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Update events</p></div>
+          <pre><code class="language-javascript">updateEvents: function(el) {
+    var that = this;
+    Object.keys(this.events).forEach(function(event) {
+        var index = event.indexOf(' '),
+            eventName = event.substr(0, index),
+            eventSelector = event.substr(index + 1),
+            method = that.events[event],
+            isElementSelector = eventSelector[0] === '$';
+        if (that.specialEvents.indexOf(eventName) === -1) {
+            return;
+        }
+        if (isElementSelector) {
+            eventSelector = eventSelector.substr(1);
+            eventSelector = '[data-element=' + eventSelector + '],[data-elements=' + eventSelector + ']';
+        }
+        Array.prototype.forEach.call(el.querySelectorAll(eventSelector), function(element) {
+            element.addEventListener(eventName, function(event) {
+                that.callEventListener(method, element, event);
+            });
+        });
+    });
+},</code></pre>
+          <section id="updateElements">
+            <h1>updateElements</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>updateElements()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>el</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Update element</p></div>
+          <pre><code class="language-javascript">updateElements: function(el) {
+    var that = this;
+    Array.prototype.forEach.call(el.querySelectorAll('[data-element]'), function(element) {
+        var name = element.getAttribute('data-element');
+        that.elements[name] = element;
+    });
+    Array.prototype.forEach.call(el.querySelectorAll('[data-elements]'), function(element) {
+        var name = element.getAttribute('data-elements');
+        if(!that.elements[name]) {
+            that.elements[name] = [];
+        }
+        that.elements[name].push(element);
+    });
+},</code></pre>
+          <section id="callEventListener">
+            <h1>callEventListener</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>callEventListener()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>method</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>element</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>event</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Calls event listener</p></div>
+          <pre><code class="language-javascript">callEventListener: function(method, element, event) {
+    if(this[method]) {
+        this[method](element, event);
+    } else {
+        console.error('Method ' + method + ' is not defined' +
+            (this.className ? 'in ' + this.className : ''));
+    }
+},</code></pre>
+          <section id="render">
+            <h1>render</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>render()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>data</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Calls template function and adds result to element</p></div>
+          <pre><code class="language-javascript">render: function(data) {
+    this.el.innerHTML = this.template ? this.template(data) : '';
+    this.update();
+},</code></pre>
+          <section id="remove">
+            <h1>remove</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>remove()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Removes element content</p></div>
+          <pre><code class="language-javascript">remove: function() {
+    this.el.innerHTML = '';
+    this.elements = {};
+},</code></pre>
+          <section id="find">
+            <h1>find</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>find()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>selector</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Finds element in current component by selector</p></div>
+          <pre><code class="language-javascript">find: function(selector) {
+    return this.el.querySelector(selector);
+},</code></pre>
+          <section id="findAll">
+            <h1>findAll</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>findAll()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>selector</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Finds all elements in current component by selector</p></div>
+          <pre><code class="language-javascript">findAll: function(selector) {
+    return this.el.querySelectorAll(selector);
+},</code></pre>
+          <section id="getEl">
+            <h1>getEl</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getEl()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Gets DOM element related to the view</p></div>
+          <pre><code class="language-javascript">getEl: function() {
+    return this.el;
+}
+    };
+
+    owl.View = View;
+})(window, owl);</code></pre>
+          <div class="footer site-footer">
+            <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
+            <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/affix.js"></script>
+    <script src="js/dropdown.js"></script>
+    <script src="js/scrollspy.js"></script>
+    <script src="js/prism.js"></script>
+    <script src="js/prism-bash.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('body').scrollspy({
+          target: ".bs-docs-sidebar",
+          offset: 40
+        });
+        $('#sidebar').affix({
+          offset:{
+            bottom:60,
+            top: 60
+          }
+        }) 
+      });
+    </script>
+  </body>
+</html>

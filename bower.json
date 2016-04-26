@@ -1,6 +1,6 @@
 {
   "name": "owl.js",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "homepage": "https://github.com/omegascorp/owl",
   "authors": [
     "omegascorp <omegascorp@gmail.com>"
@@ -13,7 +13,8 @@
     "bower_components",
     "node_modules",
     "test",
-    "coverage"
+    "coverage",
+    "docs"
   ],
   "license": "MIT",
   "dependencies": {

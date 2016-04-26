@@ -11,12 +11,24 @@
         _started = false;
 
     owl.history = {
+        /**
+         * Init the history
+         * @param options
+         */
         init: function(options) {
             _options = owl.util.extend(_defaultOptions, options, true);
         },
+        /**
+         * Gets an option
+         * @param name
+         * @return {any}
+         */
         getOption: function(name) {
             return _options[name];
         },
+        /**
+         * Starts watching popstate event
+         */
         start: function() {
             var that = this;
             this.open(this.getLocation());
@@ -25,29 +37,61 @@
             }, false);
             _started = true;
         },
+        /**
+         * Checks is history started
+         * @returns {boolean}
+         */
         isStarted: function() {
             return _started;
         },
+        /**
+         * Stop watching popstate event
+         * @returns {boolean}
+         */
         stop: function() {
             window.removeEventListener('popstate', _listener);
         },
+        /**
+         * Adds new item to the navigation history
+         * @param path
+         */
         navigate: function(path) {
             window.history.pushState(null, null, _options.baseUrl + path);
             this.open(path);
         },
+        /**
+         * Replaces current item in the navigation history
+         * @param path
+         */
         replace: function(path) {
             window.history.replaceState(null, null, _options.baseUrl + path);
             this.open(path);
         },
+        /**
+         * Gets current location
+         * @return {string}
+         */
         getLocation: function () {
             return window.location.pathname.replace(_options.baseUrl, '').replace(/\/$/, '');
         },
+        /**
+         * Gets current hash
+         * @return {string}
+         */
         getHash: function() {
             return window.location.hash.substr(1);
         },
+        /**
+         * Sets hash
+         * @props hash
+         */
         setHash: function(hash) {
             window.location.hash = hash;
         },
+        /**
+         * Opens the page by path
+         * @props path
+         */
         open: function(path) {
             var router;
             Object.keys(_routers).some(function(routerPath) {
@@ -69,36 +113,80 @@
             this.trigger('change');
             router.open(path);
         },
+        /**
+         * Sets router by name
+         * @props name
+         * @props router
+         */
         setRouter: function(path, router) {
             _routers[path] = router;
         },
+        /**
+         * Removes router by name
+         * @props name
+         */
         removeRouter: function(path) {
             delete _routers[path];
         },
+        /**
+         * Gets router by name
+         * @props name
+         * @return {owl.Router}
+         */
         getRouter: function(path) {
             return _routers[path];
         },
+        /**
+         * Sets default router
+         * @props router
+         */
         setDefaultRouter: function(router) {
             _defaultRouter = router;
         },
+        /**
+         * Gets default router
+         */
         getDefaultRouter: function() {
             return _defaultRouter;
         },
+        /**
+         * Sets resolve
+         * @props resolveName
+         * @props resolveCallback
+         */
         setResolve: function(resolveName, resolveCallback) {
             _resolves[resolveName] = resolveCallback;
         },
+        /**
+         * Removes resolve by name
+         * @props resolveName
+         */
         removeResolve: function(resolveName) {
             delete _resolves[resolveName];
         },
+        /**
+         * Gets resolve by name
+         * @props resolveName
+         */
         getResolve: function(resolveName) {
             return _resolves[resolveName];
         },
+        /**
+         * Adds event listener
+         * @props event
+         * @props listener
+         */
         on: function(event, listener) {
             if (!_events[event]) {
                 _events[event] = [];
             }
             _events[event].push(listener);
         },
+        /**
+         * Removes event listener
+         * @props event
+         * @props listener
+         */
         off: function(event, listener) {
             if (_events[event]) {
                 var listenerIndex = -1;
@@ -110,6 +198,10 @@
                 _events[event].splice(listenerIndex, 1);
             }
         },
+        /**
+         * Trigger event
+         * @props event
+         */
         trigger: function(event) {
             _events[event] && _events[event].forEach(function(listener) {
                 listener();

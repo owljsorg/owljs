@@ -140,7 +140,6 @@
                     reject('Can not destroy model without id');
                 });
             }
-            console.log( owl.ajax.request);
             return owl.ajax.request({
                 url: this.urlRoot + '/' + id + owl.ajax.toQueryString(query),
                 type: 'DELETE'

@@ -1,6 +1,6 @@
 (function(window, owl) {
     /**
-     * @class Collection
+     * owl.Collection
      * @param {Array} data Collection data
      * @param {Object} options Collection options
      * @constructor

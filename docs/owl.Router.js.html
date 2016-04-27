@@ -25,11 +25,11 @@
             <li><a href="owl.Promise.js.html">owl.Promise.js</a></li>
             <li class="active"><a href="owl.Router.js.html">owl.Router.js
                 <ul class="nav nav-stacked">
+                  <li><a href="#Router"><i class="alert alert-success"></i><span>Router</span></a>
+                  </li>
                   <li><a href="#open"><i class="alert alert-info"></i><span>open</span></a>
                   </li>
                   <li><a href="#resolve"><i class="alert alert-info"></i><span>resolve</span></a>
-                  </li>
-                  <li><a href="#run"><i class="alert alert-info"></i><span>run</span></a>
                   </li>
                   <li><a href="#addRoute"><i class="alert alert-info"></i><span>addRoute</span></a>
                   </li>
@@ -52,6 +52,40 @@
           </ul>
         </div>
         <div class="col-md-9">
+          <section id="Router">
+            <h1>Router</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">constructor</div><span>&nbsp;</span><span>Router()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>owl.Router</p></div>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>routes</td>
+                <td>Array</td>
+                <td><p>List of routers</p></td>
+              </tr>
+              <tr>
+                <td>defaultRoute</td>
+                <td>Object</td>
+                <td><p>Default route</p></td>
+              </tr>
+              <tr>
+                <td>controller</td>
+                <td>Object</td>
+                <td><p>Related controller</p></td>
+              </tr>
+            </tbody>
+          </table>
           <section id="open">
             <h1>open</h1>
             <h5 class="subheader"></h5>
@@ -71,8 +105,8 @@
             <tbody>
               <tr>
                 <td>path</td>
-                <td></td>
-                <td></td>
+                <td>String</td>
+                <td><p>Page path</p></td>
               </tr>
             </tbody>
           </table>
@@ -95,36 +129,12 @@
             <tbody>
               <tr>
                 <td>route</td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-          <section id="run">
-            <h1>run</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>run()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <div class="description"><p>Runs the route</p></div>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>path</td>
-                <td></td>
-                <td></td>
+                <td>Object</td>
+                <td><p>Route to resolve</p></td>
               </tr>
               <tr>
-                <td>route</td>
-                <td></td>
+                <td>return</td>
+                <td>Boolean</td>
                 <td></td>
               </tr>
             </tbody>
@@ -148,8 +158,8 @@
             <tbody>
               <tr>
                 <td>route</td>
-                <td></td>
-                <td></td>
+                <td>Object</td>
+                <td><p>Route to add</p></td>
               </tr>
             </tbody>
           </table>
@@ -172,8 +182,8 @@
             <tbody>
               <tr>
                 <td>path</td>
-                <td></td>
-                <td></td>
+                <td>String</td>
+                <td><p>Path</p></td>
               </tr>
             </tbody>
           </table>
@@ -196,8 +206,8 @@
             <tbody>
               <tr>
                 <td>route</td>
-                <td></td>
-                <td></td>
+                <td>Object</td>
+                <td><p>Route</p></td>
               </tr>
             </tbody>
           </table>
@@ -239,8 +249,8 @@
             <tbody>
               <tr>
                 <td>controller</td>
-                <td></td>
-                <td></td>
+                <td>Object</td>
+                <td><p>Related controller</p></td>
               </tr>
             </tbody>
           </table>
@@ -261,6 +271,11 @@
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td><p>Related controller</p></td>
+              </tr>
             </tbody>
           </table>
           <div class="footer site-footer">

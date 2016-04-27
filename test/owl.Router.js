@@ -23,6 +23,22 @@ describe('owl.Router.js', function() {
             expect(router.getController()).to.be.deep.equal(controller);
         });
     });
+    describe('init (no default router)', function() {
+        var router = new owl.Router();
+        before(function() {
+            sinon.stub(console, 'log');
+        });
+        it('should have default route', function() {
+            expect(router.getDefaultRoute().callback).to.be.a('function');
+        });
+        it('should log some stuff when default callback called', function() {
+            router.getDefaultRoute().callback();
+            assert(console.log.called);
+        });
+        after(function() {
+            console.log.restore();
+        });
+    });
     describe('open', function() {
         var router = new owl.Router();
         var route = {
@@ -93,6 +109,59 @@ describe('owl.Router.js', function() {
         });
         it('should run callback', function() {
             assert(route.callback.calledOnce);
+        });
+    });
+    describe('run (controller is not defined and path has regexp)', function() {
+        var router = new owl.Router();
+        var route = {
+            path: '/something/:id',
+            regexp: /^\/something\/([^/]*)$/,
+            params: ['id'],
+            callback: sinon.spy()
+        };
+        it('should run callback when url matches route', function() {
+            router.run('/something/123', route);
+            assert(route.callback.calledOnce);
+        });
+        it('should not callback even when url not matches route', function() {
+            router.run('/something', route);
+            assert(route.callback.calledTwice);
+        });
+    });
+    describe('run (controller defined but action is missing in controller)', function() {
+        var router = new owl.Router();
+        var route = {
+            path: '/something',
+            controller: 'someController',
+            action: 'something'
+        };
+        before(function() {
+            sinon.stub(console, 'info');
+            sinon.stub(owl, 'require').returns({});
+        });
+        it('should leave message in the log', function() {
+            router.run('/something', route);
+            assert(console.info.calledOnce);
+        });
+        after(function() {
+            console.info.restore();
+            owl.require.restore();
+        });
+    });
+    describe('run (callback is not defined)', function() {
+        var router = new owl.Router();
+        var route = {
+            path: '/something'
+        };
+        before(function() {
+            sinon.stub(console, 'error');
+        });
+        it('should leave message in the log', function() {
+            router.run('/something', route);
+            assert(console.error.calledOnce);
+        });
+        after(function() {
+            console.error.restore();
         });
     });
     describe('run (global controller and local action are defined)', function() {

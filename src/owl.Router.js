@@ -1,4 +1,11 @@
 (function(window, owl) {
+    /**
+     * owl.Router
+     * @param {Array} routes List of routers
+     * @param {Object} defaultRoute Default route
+     * @param {String} controller The name of the related controller
+     * @constructor
+     */
     function Router(routes, defaultRoute, controller){
         var that = this;
         this.routes = [];
@@ -7,7 +14,7 @@
                     console.log('Default route is not defined');
                 }
             });
-        this.controller = controller;
+        this.controller = controller || null;
 
         if (routes instanceof Array) {
             routes.forEach(function(route) {
@@ -18,7 +25,7 @@
     Router.prototype = {
         /**
          * Opens page by path
-         * @param path
+         * @param {String} path Page path
          */
         open: function(path) {
             var route = this.getRoute(path);
@@ -32,8 +39,9 @@
         },
         /**
          * Calls resolve callback
-         * @param route
-         * @returns {boolean}
+         * @private
+         * @param {Object} route Route to resolve
+         * @return {Boolean}
          */
         resolve: function(route) {
             var resolves = route.resolves;
@@ -48,12 +56,13 @@
                     }
                 });
             }
-            return true
+            return true;
         },
         /**
          * Runs the route
-         * @param path
-         * @param route
+         * @private
+         * @param {String} path Path to run
+         * @param {Object} route Route to run
          */
         run: function(path, route) {
             var match,
@@ -88,7 +97,7 @@
         },
         /**
          * Adds a route
-         * @param route
+         * @param {Object} route Route to add
          */
         addRoute: function(route) {
             var paramRegexp = /:[a-zA-Z0-9]*/g,
@@ -106,7 +115,7 @@
         },
         /**
          * Returns the route by path
-         * @param path
+         * @param {String} path Path
          * @returns {Object}
          */
         getRoute: function(path) {
@@ -128,7 +137,7 @@
         },
         /**
          * Sets default route
-         * @param route
+         * @param {Object} route Route
          */
         setDefaultRoute: function(route) {
             this.defaultRoute = route;
@@ -142,14 +151,14 @@
         },
         /**
          * Sets controller
-         * @param controller
+         * @param {String} controller The name of the related controller
          */
         setController: function(controller) {
             this.controller = controller;
         },
         /**
          * Gets default controller
-         * @returns {*}
+         * @return {String} The name of the related controller
          */
         getController: function() {
             return this.controller;

@@ -6,6 +6,7 @@
             template: function(data) {
                 return (
                     '<form>' +
+                        '<h1>Todo list</h1>' +
                         '<input type="text" data-element="title" placeholder="Add a task" />' +
                         '<div data-element="counter" class="v-todo--counter"></div>' +
                     '</form>' +

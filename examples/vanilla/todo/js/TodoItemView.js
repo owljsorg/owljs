@@ -5,9 +5,9 @@
             // you can use any templating engine here
             template: function(data) {
                 return (
-                    '<label>' +
+                    '<label class="checkbox">' +
                         '<input data-element="checkbox" type="checkbox" ' + (data.isDone ? 'checked="checked"' : '') + ' />' +
-                        data.title +
+                        '<span>' + data.title + '</span>' +
                     '</label>'
                 );
             },

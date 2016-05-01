@@ -1,4 +1,9 @@
 (function(window, owl) {
+    /**
+     * owl.View
+     * @param {object} options
+     * @constructor
+     */
     function View(options){
         var that = this;
 
@@ -47,9 +52,9 @@
     View.prototype = {
         /**
          * Gets element matching selector
-         * @param element
-         * @param selector
-         * @returns Object
+         * @param {Element} element
+         * @param {string} selector
+         * @return {object}
          */
         getMatchingElement: function(element, selector) {
             while (element && element !== this.el) {
@@ -62,7 +67,7 @@
         },
         /**
          * Update events and element
-         * @param el
+         * @param {Element} el
          */
         update: function(el) {
             if (!el) {
@@ -73,7 +78,7 @@
         },
         /**
          * Update events
-         * @param el
+         * @param {Element} el
          */
         updateEvents: function(el) {
             var that = this;
@@ -99,7 +104,7 @@
         },
         /**
          * Update element
-         * @param el
+         * @param {Element} el
          */
         updateElements: function(el) {
             var that = this;
@@ -117,9 +122,9 @@
         },
         /**
          * Calls event listener
-         * @param method
-         * @param element
-         * @param event
+         * @param {string} method
+         * @param {Element} element
+         * @param {Event} event
          */
         callEventListener: function(method, element, event) {
             if(this[method]) {
@@ -146,16 +151,16 @@
         },
         /**
          * Finds element in current component by selector
-         * @param selector
-         * @returns {Element}
+         * @param {string} selector
+         * @return {Element}
          */
         find: function(selector) {
             return this.el.querySelector(selector);
         },
         /**
          * Finds all elements in current component by selector
-         * @param selector
-         * @returns {NodeList}
+         * @param {string} selector
+         * @return {NodeList}
          */
         findAll: function(selector) {
             return this.el.querySelectorAll(selector);

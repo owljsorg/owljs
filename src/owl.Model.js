@@ -10,16 +10,16 @@
     Model.prototype = {
         /**
          * Gets attribute by name
-         * @param {String} name Attribute name
-         * @returns {Array}
+         * @param {string} name Attribute name
+         * @return {array}
          */
         get: function(name) {
             return this.data[name] || this.defaults[name];
         },
         /**
          * Sets attribute value by name
-         * @param {String} name Attribute name
-         * @param {any} value Attribure value
+         * @param {string} name Attribute name
+         * @param {any} value Attribute value
          */
         set: function(name, value) {
             this.data[name] = value;
@@ -27,7 +27,7 @@
         },
         /**
          * Gets data from the sever
-         * @param {Object} query Request query
+         * @param {object} query Request query
          * @return {Promise} Response promise
          */
         fetch: function(query) {
@@ -55,7 +55,7 @@
         },
         /**
          * Save a model to database
-         * @param {Object} query Request query
+         * @param {object} query Request query
          * @return {Promise} Response promise
          */
         save: function(query) {
@@ -80,8 +80,8 @@
         },
         /**
          * Updates local data and saves model
-         * @param {Object} data Data to update
-         * @param {Object} query Request query
+         * @param {object} data Data to update
+         * @param {object} query Request query
          * @return {Promise} Response promise
          */
         update: function(data, query) {
@@ -102,8 +102,8 @@
         },
         /**
          * Partially updates model
-         * @param {Object} data Data to patch
-         * @param {Object} query Request query
+         * @param {object} data Data to patch
+         * @param {object} query Request query
          * @return {Promise} Response promise
          */
         patch: function(data, query) {
@@ -129,7 +129,7 @@
         },
         /**
          * Remove a model
-         * @param {Object} query Request query
+         * @param {object} query Request query
          * @return {Promise} Response promise
          */
         destroy: function(query) {
@@ -151,7 +151,7 @@
         },
         /**
          * Gets models data
-         * @return {Object} Model data
+         * @return {object} Model data
          */
         getData: function() {
             return this.data;
@@ -165,8 +165,8 @@
         },
         /**
          * Adds event listener
-         * @param {String} event Event name
-         * @param {Function} listener Event listener
+         * @param {string} event Event name
+         * @param {function} listener Event listener
          */
         on: function(event, listener) {
             if (!this.events[event]) {
@@ -176,8 +176,8 @@
         },
         /**
          * Removes event listener
-         * @param {String} event Event name
-         * @param {Function} listener Event listener
+         * @param {string} event Event name
+         * @param {function} listener Event listener
          */
         off: function(event, listener) {
             if (this.events[event]) {
@@ -188,7 +188,7 @@
         },
         /**
          * Trigger single event
-         * @param {String} event Event name
+         * @param {string} event Event name
          */
         triggerSingle: function(event) {
             var listeners = this.events[event];
@@ -203,8 +203,8 @@
         },
         /**
          * Triggers events
-         * @param {String} event Event name
-         * @param {Array} subEvents Sub events array
+         * @param {string} event Event name
+         * @param {array} subEvents Sub events array
          */
         trigger: function(event, subEvents) {
             var that = this;

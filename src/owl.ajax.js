@@ -6,8 +6,8 @@
     owl.ajax = {
         /**
          * Makes request to the server
-         * @param {Object} settings
-         * @return {owl.Promise}
+         * @param {object} settings
+         * @return {object}
          */
         request: function (settings) {
             var that = this;
@@ -52,33 +52,56 @@
                 xhr.send(body);
             });
         },
+        /**
+         * Sets a header for each request
+         * @param {string} key
+         * @param {string} value
+         */
         setHeader: function(key, value) {
             _headers[key] = value;
         },
+        /**
+         * Removes a header
+         * @param {string} key
+         */
         removeHeader: function(key) {
             delete _headers[key];
         },
+        /**
+         * Default event error listener
+         * @param xhr
+         */
         error: function(xhr) {
             console.log(xhr);
         },
-        toQueryString: function(json) {
+        /**
+         * Makes query string from data
+         * @param {object} data
+         * @return {string}
+         */
+        toQueryString: function(data) {
             var query = [],
                 key;
-            if (!(typeof json === 'object')) {
-                return json || '';
+            if (!(typeof data === 'object')) {
+                return data || '';
             }
-            for (key in json) {
-                if (json.hasOwnProperty(key)) {
-                    query.push(encodeURIComponent(key) + '=' + encodeURIComponent(json[key]));
+            for (key in data) {
+                if (data.hasOwnProperty(key)) {
+                    query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
                 }
             }
             return '?' + query.join('&');
         },
-        toJsonString: function(json) {
-            if (!(typeof json === 'object')) {
-                return json || '';
+        /**
+         * Stringify an object
+         * @param data
+         * @return {string}
+         */
+        toJsonString: function(data) {
+            if (!(typeof data === 'object')) {
+                return data || '';
             }
-            return JSON.stringify(json);
+            return JSON.stringify(data);
         }
     };
 })(window.owl);

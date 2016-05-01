@@ -39,14 +39,14 @@
         },
         /**
          * Checks is history started
-         * @returns {boolean}
+         * @return {boolean}
          */
         isStarted: function() {
             return _started;
         },
         /**
          * Stop watching popstate event
-         * @returns {boolean}
+         * @return {boolean}
          */
         stop: function() {
             window.removeEventListener('popstate', _listener);

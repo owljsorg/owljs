@@ -1,9 +1,9 @@
 (function(window, owl) {
     /**
      * owl.Router
-     * @param {Array} routes List of routers
-     * @param {Object} defaultRoute Default route
-     * @param {String} controller The name of the related controller
+     * @param {array} routes List of routers
+     * @param {object} defaultRoute Default route
+     * @param {string} controller The name of the related controller
      * @constructor
      */
     function Router(routes, defaultRoute, controller){
@@ -25,7 +25,7 @@
     Router.prototype = {
         /**
          * Opens page by path
-         * @param {String} path Page path
+         * @param {string} path Page path
          */
         open: function(path) {
             var route = this.getRoute(path);
@@ -40,8 +40,8 @@
         /**
          * Calls resolve callback
          * @private
-         * @param {Object} route Route to resolve
-         * @return {Boolean}
+         * @param {object} route Route to resolve
+         * @return {boolean}
          */
         resolve: function(route) {
             var resolves = route.resolves;
@@ -61,8 +61,8 @@
         /**
          * Runs the route
          * @private
-         * @param {String} path Path to run
-         * @param {Object} route Route to run
+         * @param {string} path Path to run
+         * @param {object} route Route to run
          */
         run: function(path, route) {
             var match,
@@ -97,7 +97,7 @@
         },
         /**
          * Adds a route
-         * @param {Object} route Route to add
+         * @param {object} route Route to add
          */
         addRoute: function(route) {
             var paramRegexp = /:[a-zA-Z0-9]*/g,
@@ -115,8 +115,8 @@
         },
         /**
          * Returns the route by path
-         * @param {String} path Path
-         * @returns {Object}
+         * @param {string} path Path
+         * @return {object}
          */
         getRoute: function(path) {
             var that = this,
@@ -137,28 +137,28 @@
         },
         /**
          * Sets default route
-         * @param {Object} route Route
+         * @param {object} route Route
          */
         setDefaultRoute: function(route) {
             this.defaultRoute = route;
         },
         /**
          * Gets default route
-         * @returns {Function}
+         * @return {function}
          */
         getDefaultRoute: function() {
             return this.defaultRoute;
         },
         /**
          * Sets controller
-         * @param {String} controller The name of the related controller
+         * @param {string} controller The name of the related controller
          */
         setController: function(controller) {
             this.controller = controller;
         },
         /**
          * Gets default controller
-         * @return {String} The name of the related controller
+         * @return {string} The name of the related controller
          */
         getController: function() {
             return this.controller;

@@ -1,5 +1,14 @@
 (function(window, owl) {
+    /**
+     * owl.util
+     */
     owl.util = {
+        /**
+         * Clones an object
+         * @param {object} object
+         * @param {boolean} recursive
+         * @return {object}
+         */
         clone: function(object, recursive) {
             var that = this,
                 copy;
@@ -28,6 +37,13 @@
             });
             return copy;
         },
+        /**
+         * Extends and object
+         * @param {object} firstObject
+         * @param {object} secondObject
+         * @param {boolean} isRecursive
+         * @return {object}
+         */
         extend: function(firstObject, secondObject, isRecursive) {
             var that = this,
                 result = this.clone(firstObject, true);

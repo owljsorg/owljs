@@ -1,8 +1,8 @@
 (function(window, owl) {
     /**
      * owl.Collection
-     * @param {Array} data Collection data
-     * @param {Object} options Collection options
+     * @param {array} data Collection data
+     * @param {object} options Collection options
      * @constructor
      */
     function Collection(data, options){
@@ -15,7 +15,7 @@
     Collection.prototype = {
         /**
          * Gets data from server
-         * @param {Object} query Query that will be passed with request
+         * @param {object} query Query that will be passed with request
          */
         fetch: function(query) {
             var that = this;
@@ -39,7 +39,7 @@
         },
         /**
          * Sets collection data
-         * @param {Object} data Collection data
+         * @param {object} data Collection data
          */
         setData: function(data) {
             var that = this;
@@ -60,29 +60,29 @@
         },
         /**
          * Gets collection data
-         * @return {Array} Collection data
+         * @return {array} Collection data
          */
         getData: function() {
             return this.data;
         },
         /**
          * Gets collection models
-         * @return {Array} Collection models
+         * @return {array} Collection models
          */
         getModels: function() {
             return this.models;
         },
         /**
          * Gets collection length
-         * @return {Number}
+         * @return {number}
          */
         getLength: function() {
             return this.length;
         },
         /**
          * Adds event listener
-         * @param {String} event Event name
-         * @param {Function} listener Event listener
+         * @param {string} event Event name
+         * @param {function} listener Event listener
          */
         on: function(event, listener) {
             if (!this.events[event]) {
@@ -92,8 +92,8 @@
         },
         /**
          * Removes event listener
-         * @param {String} event Event name
-         * @param {Function} listener Event listener
+         * @param {string} event Event name
+         * @param {function} listener Event listener
          */
         off: function(event, listener) {
             if (this.events[event]) {
@@ -104,7 +104,7 @@
         },
         /**
          * Triggers event
-         * @param {String} event Event name
+         * @param {string} event Event name
          */
         trigger: function(event) {
             var listeners = this.events[event];

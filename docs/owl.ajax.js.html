@@ -29,6 +29,16 @@
                 <ul class="nav nav-stacked">
                   <li><a href="#request"><i class="alert alert-info"></i><span>request</span></a>
                   </li>
+                  <li><a href="#setHeader"><i class="alert alert-info"></i><span>setHeader</span></a>
+                  </li>
+                  <li><a href="#removeHeader"><i class="alert alert-info"></i><span>removeHeader</span></a>
+                  </li>
+                  <li><a href="#error"><i class="alert alert-info"></i><span>error</span></a>
+                  </li>
+                  <li><a href="#toQueryString"><i class="alert alert-info"></i><span>toQueryString</span></a>
+                  </li>
+                  <li><a href="#toJsonString"><i class="alert alert-info"></i><span>toJsonString</span></a>
+                  </li>
                 </ul></a></li>
             <li><a href="owl.history.js.html">owl.history.js</a></li>
             <li><a href="owl.js.html">owl.js</a></li>
@@ -55,12 +65,147 @@
             <tbody>
               <tr>
                 <td>settings</td>
-                <td>Object</td>
+                <td>object</td>
                 <td></td>
               </tr>
               <tr>
                 <td>return</td>
-                <td>owl.Promise</td>
+                <td>object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <section id="setHeader">
+            <h1>setHeader</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>setHeader()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Sets a header for each request</p></div>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>key</td>
+                <td>string</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>value</td>
+                <td>string</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <section id="removeHeader">
+            <h1>removeHeader</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>removeHeader()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Removes a header</p></div>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>key</td>
+                <td>string</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <section id="error">
+            <h1>error</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>error()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Default event error listener</p></div>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>xhr</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <section id="toQueryString">
+            <h1>toQueryString</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>toQueryString()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Makes query string from data</p></div>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>data</td>
+                <td>object</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>string</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <section id="toJsonString">
+            <h1>toJsonString</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>toJsonString()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Stringify an object</p></div>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>data</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>string</td>
                 <td></td>
               </tr>
             </tbody>

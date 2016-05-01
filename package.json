@@ -8,8 +8,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS",
-    "docs": "./node_modules/.bin/mr-doc -s src/ -o docs/ -n 'owl.js' -t 'cayman'",
-    "jsdoc": "./node_modules/.bin/jsdoc "
+    "docs": "./node_modules/.bin/mr-doc -s src/ -o docs/ -n 'owl.js' -t 'cayman'"
   },
   "repository": {
     "type": "git",

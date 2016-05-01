@@ -26,6 +26,8 @@
             <li><a href="owl.Router.js.html">owl.Router.js</a></li>
             <li class="active"><a href="owl.View.js.html">owl.View.js
                 <ul class="nav nav-stacked">
+                  <li><a href="#View"><i class="alert alert-success"></i><span>View</span></a>
+                  </li>
                   <li><a href="#getMatchingElement"><i class="alert alert-info"></i><span>getMatchingElement</span></a>
                   </li>
                   <li><a href="#update"><i class="alert alert-info"></i><span>update</span></a>
@@ -54,6 +56,30 @@
           </ul>
         </div>
         <div class="col-md-9">
+          <section id="View">
+            <h1>View</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">constructor</div><span>&nbsp;</span><span>View()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>owl.View</p></div>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>options</td>
+                <td>object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
           <section id="getMatchingElement">
             <h1>getMatchingElement</h1>
             <h5 class="subheader"></h5>
@@ -73,12 +99,17 @@
             <tbody>
               <tr>
                 <td>element</td>
-                <td></td>
+                <td>Element</td>
                 <td></td>
               </tr>
               <tr>
                 <td>selector</td>
+                <td>string</td>
                 <td></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>object</td>
                 <td></td>
               </tr>
             </tbody>
@@ -102,7 +133,7 @@
             <tbody>
               <tr>
                 <td>el</td>
-                <td></td>
+                <td>Element</td>
                 <td></td>
               </tr>
             </tbody>
@@ -126,7 +157,7 @@
             <tbody>
               <tr>
                 <td>el</td>
-                <td></td>
+                <td>Element</td>
                 <td></td>
               </tr>
             </tbody>
@@ -150,7 +181,7 @@
             <tbody>
               <tr>
                 <td>el</td>
-                <td></td>
+                <td>Element</td>
                 <td></td>
               </tr>
             </tbody>
@@ -174,17 +205,17 @@
             <tbody>
               <tr>
                 <td>method</td>
-                <td></td>
+                <td>string</td>
                 <td></td>
               </tr>
               <tr>
                 <td>element</td>
-                <td></td>
+                <td>Element</td>
                 <td></td>
               </tr>
               <tr>
                 <td>event</td>
-                <td></td>
+                <td>Event</td>
                 <td></td>
               </tr>
             </tbody>
@@ -240,7 +271,12 @@
             <tbody>
               <tr>
                 <td>selector</td>
+                <td>string</td>
                 <td></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Element</td>
                 <td></td>
               </tr>
             </tbody>
@@ -264,7 +300,12 @@
             <tbody>
               <tr>
                 <td>selector</td>
+                <td>string</td>
                 <td></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>NodeList</td>
                 <td></td>
               </tr>
             </tbody>

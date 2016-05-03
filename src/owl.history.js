@@ -46,7 +46,6 @@
         },
         /**
          * Stop watching popstate event
-         * @return {boolean}
          */
         stop: function() {
             window.removeEventListener('popstate', _listener);

@@ -6,10 +6,10 @@
         /**
          * Clones an object
          * @param {object} object
-         * @param {boolean} recursive
+         * @param {boolean} isRecursive
          * @return {object}
          */
-        clone: function(object, recursive) {
+        clone: function(object, isRecursive) {
             var that = this,
                 copy;
 
@@ -33,7 +33,7 @@
 
             copy = {};
             Object.keys(object).forEach(function(key) {
-                copy[key] = recursive ? that.clone(object[key], recursive) : object[key];
+                copy[key] = isRecursive ? that.clone(object[key], isRecursive) : object[key];
             });
             return copy;
         },

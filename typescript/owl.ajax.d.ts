@@ -1,9 +1,4 @@
 declare module owl.ajax {
-    interface RequestSettings {
-        type: string;
-        url: string;
-        data: Object;
-    }
     /**
      * Makes request to the server
      */

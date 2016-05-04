@@ -92,7 +92,7 @@
             } else if(route.callback) {
                 route.callback(params);
             } else {
-                console.error('Either controller.action and collback are missing');
+                console.error('Either controller.action and callback are missing');
             }
         },
         /**
@@ -144,20 +144,20 @@
         },
         /**
          * Gets default route
-         * @return {function}
+         * @return {object}
          */
         getDefaultRoute: function() {
             return this.defaultRoute;
         },
         /**
-         * Sets controller
+         * Sets controller name
          * @param {string} controller The name of the related controller
          */
         setController: function(controller) {
             this.controller = controller;
         },
         /**
-         * Gets default controller
+         * Gets controller name
          * @return {string} The name of the related controller
          */
         getController: function() {

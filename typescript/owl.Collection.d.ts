@@ -3,7 +3,7 @@ declare module owl {
      * owl.Collection
      */
     export class Collection {
-        constructor(data: Object, options: Object);
+        constructor(data: Array<Object>, options: Object);
         /**
          * Gets data from the server
          */
@@ -27,7 +27,7 @@ declare module owl {
         /**
          * Gets collection models
          */
-        getModels(): Array<Object>;
+        getModels(): Array<Model>;
 
         /**
          * Gets collection length

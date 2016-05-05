@@ -9,14 +9,14 @@
     }
     AppView.prototype = Object.create(owl.View.prototype);
     AppView.prototype.showMain = function(view) {
-        this.elements.main.display = 'block';
-        this.elements.error.display = 'none';
+        this.elements.main.style.display = 'block';
+        this.elements.error.style.display = 'none';
         this.elements.main.innerHTML = '';
         this.elements.main.appendChild(view.el);
     };
     AppView.prototype.showError = function() {
-        this.elements.main.display = 'none';
-        this.elements.error.display = 'block';
+        this.elements.main.style.display = 'none';
+        this.elements.error.style.display = 'block';
     };
     app.AppView = AppView;
 })(app);

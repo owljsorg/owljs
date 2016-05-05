@@ -3,32 +3,34 @@ declare module owl {
      * owl.View
      */
     export class View {
+        protected elements: {[key: string]: Element};
+
         constructor(options: ViewOptions);
 
         /**
          * Gets element matching selector
          */
-        getMatchingElement(element: HTMLElement, selector: string): HTMLElement;
+        getMatchingElement(element: Element, selector: string): Element;
 
         /**
          * Update events and element
          */
-        update(el: HTMLElement): void;
+        update(el?: Element): void;
 
         /**
          * Update events
          */
-        updateEvents(el: HTMLElement): void;
+        updateEvents(el: Element): void;
 
         /**
          * Update element
          */
-        updateElements(el: HTMLElement): void;
+        updateElements(el: Element): void;
 
         /**
          * Calls event listener
          */
-        callEventListener(method: string, element: HTMLElement, event: Event): void;
+        callEventListener(method: string, element: Element, event: Event): void;
 
         /**
          * Calls template function and adds result to element
@@ -43,7 +45,7 @@ declare module owl {
         /**
          * Finds element in current component by selector
          */
-        find(selector: string): HTMLElement;
+        find(selector: string): Element;
 
         /**
          * Finds all elements in current component by selector
@@ -53,6 +55,6 @@ declare module owl {
         /**
          * Gets DOM element related to the view
          */
-        getEl(): HTMLElement;
+        getEl(): Element;
     }
 }

@@ -19,8 +19,8 @@ declare module owl {
      * Router
      */
     interface Route {
-        path: string;
-        resolves: Array<Function>;
+        path?: string;
+        resolves?: Array<Function>;
         callback?: Function;
         controller?: Object;
         action?: string;
@@ -32,13 +32,13 @@ declare module owl {
      * View options
      */
     interface ViewOptions {
-        el: HTMLElement;
-        className: string;
-        events: {[key: string]: Function};
-        template: Function;
-        model: Model;
-        collection: Collection;
-        controller: Object;
+        el?: Element;
+        className?: string;
+        events?: {[key: string]: Function};
+        template?: Function;
+        model?: Model;
+        collection?: Collection;
+        controller?: Object;
         
     }
     /**

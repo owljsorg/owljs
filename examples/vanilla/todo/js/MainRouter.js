@@ -17,5 +17,5 @@
         owl.Router.call(this, routes, defaultRoute, 'todoController');
     }
     MainRouter.prototype = Object.create(owl.Router.prototype);
-    owl.MainRouter = MainRouter;
+    app.MainRouter = MainRouter;
 })(app, owl);

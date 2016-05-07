@@ -3,7 +3,11 @@ declare module owl {
      * owl.View
      */
     export class View {
-        protected elements: {[key: string]: Element};
+        protected el: Element;
+        protected elements: {[key: string]: any};
+        protected model: Model;
+        protected collection: Collection;
+        protected template: Function;
 
         constructor(options: ViewOptions);
 
@@ -35,7 +39,7 @@ declare module owl {
         /**
          * Calls template function and adds result to element
          */
-        render(data: Object): void;
+        render(data?: Object): void;
 
         /**
          * Removes element content

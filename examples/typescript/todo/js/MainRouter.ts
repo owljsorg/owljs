@@ -1,6 +1,5 @@
 module app {
-    import Router = owl.Router;
-    export class MainRouter extends Router{
+    export class MainRouter extends owl.Router{
         constructor() {
             var routes: Array<owl.Route> = [{
                     path: '',

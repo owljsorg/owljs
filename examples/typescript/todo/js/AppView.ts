@@ -12,7 +12,7 @@ module app {
             // and update special events (submit, focus, blur)
             this.update();
         }
-        showMain(view) {
+        showMain(view: owl.View) {
             this.elements.main.style.display = 'block';
             this.elements.error.style.display = 'none';
             this.elements.main.innerHTML = '';

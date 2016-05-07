@@ -2,6 +2,10 @@
 ///<reference path="AppView.ts"/>
 ///<reference path="MainRouter.ts"/>
 ///<reference path="TodoController.ts"/>
+///<reference path="TodoItemModel.ts"/>
+///<reference path="TodoItemCollection.ts"/>
+///<reference path="TodoView.ts"/>
+///<reference path="TodoItemView.ts"/>
 
 document.addEventListener('DOMContentLoaded', function() {
     owl.define('appView', function() {

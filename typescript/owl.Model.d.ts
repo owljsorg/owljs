@@ -17,7 +17,7 @@ declare module owl {
         /**
          * Gets data from the server
          */
-        fetch(query: Object): Promise;
+        fetch(query?: Object): Promise;
 
         /**
          * Removes all attributes from the model
@@ -27,22 +27,22 @@ declare module owl {
         /**
          * Saves a model to database
          */
-        save(query: Object): Promise;
+        save(query?: Object): Promise;
 
         /**
          * Updates local data and saves model
          */
-        update(data: Object, query: Object): Promise;
+        update(data: Object, query?: Object): Promise;
 
         /**
          * Partially updates model
          */
-        patch(data: Object, query: Object): Promise;
+        patch(data: Object, query?: Object): Promise;
 
         /**
          * Removes a model
          */
-        destroy(query: Object): Promise;
+        destroy(query?: Object): Promise;
 
         /**
          * Gets models data

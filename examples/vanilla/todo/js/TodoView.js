@@ -47,7 +47,7 @@
             var todoItemView = new app.TodoItemView({
                 model: model
             });
-            that.elements.items.appendChild(todoItemView.el);
+            that.elements.items.appendChild(todoItemView.getEl);
         });
     };
     TodoView.prototype.renderCount = function() {

@@ -1,26 +1,23 @@
 module app {
     export class TodoController {
-        private appView: owl.View;
+        private appView: app.AppView;
 
         constructor() {
-            this.appView = <owl.View>owl.require('appView');
+            this.appView = <app.AppView>owl.require('appView');
         }
         readAll() {
-            /*
-            var that = this,
-                todoItemCollection,
-                todoView;
+            let todoItemCollection: TodoItemCollection,
+                todoView: TodoView;
 
             todoItemCollection = new app.TodoItemCollection();
-            todoItemCollection.fetch().then(function() {
+            todoItemCollection.fetch().then(() => {
                 todoView = new app.TodoView({
                     controller: this,
                     collection: todoItemCollection
                 });
 
-                that.appView.showMain(todoView);
+                this.appView.showMain(todoView);
             });
-            */
         }
     }
 }

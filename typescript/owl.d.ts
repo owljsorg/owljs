@@ -2,6 +2,7 @@
 ///<reference path="owl.ajax.d.ts"/>
 ///<reference path="owl.history.d.ts"/>
 ///<reference path="owl.util.d.ts"/>
+///<reference path="owl.Router.d.ts"/>
 ///<reference path="owl.Collection.d.ts"/>
 ///<reference path="owl.Model.d.ts"/>
 ///<reference path="owl.View.d.ts"/>
@@ -14,6 +15,12 @@ declare module owl {
         type: string;
         url: string;
         data: Object;
+    }
+    /**
+     * Model options
+     */
+    interface ModelOptions {
+        collection: Collection;
     }
     /**
      * Router

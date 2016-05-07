@@ -7,7 +7,7 @@ declare module owl {
         /**
          * Gets data from the server
          */
-        fetch(query: Object): Promise;
+        fetch(query?: Object): Promise;
 
         /**
          * Removes models from collection

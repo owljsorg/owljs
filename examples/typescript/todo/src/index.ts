@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     owl.history.init({
-        baseUrl: '/vanilla/todo/'
+        baseUrl: '/typescript/todo/'
     });
     owl.history.setDefaultRouter(new app.MainRouter());
     owl.history.start();

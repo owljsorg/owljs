@@ -4,7 +4,7 @@ module app {
             super({
                 className: 'v-todo',
                 // you can use any template engine here
-                template: function (data) {
+                template: function (data: TodoItem) {
                     return (
                         '<label class="checkbox">' +
                         '<input data-element="checkbox" type="checkbox" ' + (data.isDone ? 'checked="checked"' : '') + ' />' +
@@ -22,17 +22,17 @@ module app {
             this.render();
             this.initListeners();
         }
-        render() {
+        render(): void {
             this.el.innerHTML = this.template(this.model.getData());
             this.update();
         };
-        change(element, event) {
+        change(element: HTMLInputElement, event: Event): void {
             event.preventDefault();
             this.model.patch({
                 isDone: element.checked
             });
         };
-        initListeners() {
+        initListeners(): void {
             this.model.on('change', () => {
                 this.render();
             });

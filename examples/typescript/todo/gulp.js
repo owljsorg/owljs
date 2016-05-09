@@ -4,12 +4,12 @@ var path = require('path'),
 function init(gulp) {
     gulp.task('typescript-todo', ['typescript-todo-js']);
     gulp.task('typescript-todo-js', function () {
-        return gulp.src(path.join(__dirname, 'js/index.ts'))
+        return gulp.src(path.join(__dirname, 'src/index.ts'))
             .pipe(ts({
                 noImplicitAny: true,
                 out: 'index.js'
             }))
-            .pipe(gulp.dest('js-dist'));
+            .pipe(gulp.dest('typescript/todo/dist'));
     });
 }
 

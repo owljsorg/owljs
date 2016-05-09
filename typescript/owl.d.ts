@@ -41,7 +41,7 @@ declare module owl {
     interface ViewOptions {
         el?: Element;
         className?: string;
-        events?: {[key: string]: Function};
+        events?: {[key: string]: string};
         template?: Function;
         model?: Model;
         collection?: Collection;

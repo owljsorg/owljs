@@ -44,13 +44,13 @@ module app {
             this.render();
             this.initListeners();
         }
-        render() {
+        render(): void {
             this.el.innerHTML = this.template();
             this.update();
             this.renderItems();
             this.renderCount();
         }
-        renderItems() {
+        renderItems(): void {
             var items = this.collection.getModels();
             this.elements.items.innerHTML = '';
             items.forEach((model) => {
@@ -60,7 +60,7 @@ module app {
                 this.elements.items.appendChild(todoItemView.getEl());
             });
         }
-        renderCount() {
+        renderCount(): void {
             var countLeft = 0;
             this.collection.getModels().forEach(function(model) {
                 if(!model.get('isDone')) {
@@ -71,14 +71,14 @@ module app {
                 countLeft: countLeft
             });
         }
-        initListeners() {
+        initListeners(): void {
             this.collection.on('change', () => {
                 this.renderItems();
                 this.renderCount();
             });
         }
-        submit(element, event) {
-            var todoItem;
+        submit(element: HTMLElement, event: Event): void {
+            var todoItem: TodoItemModel;
             event.preventDefault();
             todoItem = new app.TodoItemModel({
                 title: this.elements.title.value,
@@ -89,8 +89,8 @@ module app {
             });
             this.elements.title.value = '';
         }
-        keyup(element) {
-            this.elements.counter.innerHTML = element.value.length || '';
+        keyup(element: HTMLInputElement): void {
+            this.elements.counter.innerHTML = element.value.length.toString() || '';
         };
     }
 }

@@ -72,6 +72,6 @@ declare module owl {
         /**
          * Triggers events
          */
-        trigger(event: string, subEvents: Array<string>);
+        trigger(event: string, subEvents: Array<string>): void;
     }
 }

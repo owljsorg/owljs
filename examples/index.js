@@ -8,13 +8,14 @@ var app = express();
 
 app.use(bodyParser.json());
 
+app.use('/', serveStatic('static/'));
 app.use('/owl', serveStatic('../src/'));
 
 app.use('/vanilla', serveStatic('vanilla', {
     'index': ['index.html']
 }));
 
-app.use('/vanilla/sample/*', serveStatic('vanilla/sample', {
+app.use('/typescript', serveStatic('typescript', {
     'index': ['index.html']
 }));
 

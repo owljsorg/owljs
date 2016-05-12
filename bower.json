@@ -13,8 +13,7 @@
     "bower_components",
     "node_modules",
     "test",
-    "coverage",
-    "docs"
+    "coverage"
   ],
   "license": "MIT",
   "dependencies": {

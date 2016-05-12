@@ -14,7 +14,8 @@
     "node_modules",
     "test",
     "coverage",
-    "docs"
+    "docs",
+    "tsdocs"
   ],
   "license": "MIT",
   "dependencies": {

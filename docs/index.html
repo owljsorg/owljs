@@ -41,6 +41,20 @@
 <h2>Install</h2>
 <pre><code>bower install owl.js
 </code></pre>
+<h2>Concept</h2>
+<p>owl.js is very simple library is very similar to of backbone.js, without dependency on underscore.js and jQuery.
+If you know backbone.js you mostly know owl.js.</p>
+<p>The library uses [MVC|https://en.wikipedia.org/wiki/Model-view-controller] as main pattern.
+owl.Model is responsible for representing data from server based on [REST|https://en.wikipedia.org/wiki/Representational_state_transfer] architecture.
+owl.View is responsible for rendering view it can use any template engine to do it or generate DOM manually.
+But there is no special class for controller. You can create any object and use it as controller.
+Main goal of the controller to prepare data for the view, call the view and pass the data.</p>
+<p>Also there is few classes out of the main pattern.
+owl.Router is created to manage pages based on URL.
+It contains records named routes.
+Each route contains path and name of controller and action (action is just a method in the controller) that will be called for specified path.</p>
+<h2>Features</h2>
+<p>ES5 and TypeScript support. Also it supports ES6 for now without modules.</p>
 <h2>Development</h2>
 <p><strong>Run unit tests</strong></p>
 <pre><code>karma start

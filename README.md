@@ -14,8 +14,8 @@
 owl.js is very simple library is very similar to of backbone.js, without dependency on underscore.js and jQuery.
 If you know backbone.js you mostly know owl.js.
 
-The library uses [MVC|https://en.wikipedia.org/wiki/Model-view-controller] as main pattern.
-owl.Model is responsible for representing data from server based on [REST|https://en.wikipedia.org/wiki/Representational_state_transfer] architecture.
+The library uses [MVC](https://en.wikipedia.org/wiki/Model-view-controller) as main pattern.
+owl.Model is responsible for representing data from server based on [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) architecture.
 owl.View is responsible for rendering view it can use any template engine to do it or generate DOM manually.
 But there is no special class for controller. You can create any object and use it as controller.
 Main goal of the controller to prepare data for the view, call the view and pass the data.

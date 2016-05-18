@@ -9,7 +9,7 @@ var app = express();
 app.use(bodyParser.json());
 
 app.use('/', serveStatic('static/'));
-app.use('/owl', serveStatic('../src/'));
+app.use('/owl', serveStatic('../dist/'));
 
 app.use('/vanilla', serveStatic('vanilla', {
     'index': ['index.html']

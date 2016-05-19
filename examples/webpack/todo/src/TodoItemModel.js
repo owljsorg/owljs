@@ -1,11 +1,10 @@
 (function(app, owl) {
-    class TodoItemModel extends owl.Model{
-        constructor(data, options) {
-            super(data, {
-                urlRoot: 'todo/items',
-                collection: options && options.collection
-            });
-        }
+    function TodoItemModel(data, options) {
+        owl.Model.call(this, data, {
+            urlRoot: 'todo/items',
+            collection: options && options.collection
+        });
     }
+    TodoItemModel.prototype = Object.create(owl.Model.prototype);
     app.TodoItemModel = TodoItemModel;
 })(app, owl);

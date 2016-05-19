@@ -1,22 +1,23 @@
-(function(app, owl) {
-    class TodoController {
-        constructor() {
-            this.appView = owl.require('appView');
-        }
-        readAll() {
-            let todoItemCollection,
+(function (app, owl) {
+    function TodoController() {
+        this.appView = owl.require('appView');
+    }
+    TodoController.prototype = {
+        readAll: function() {
+            var that = this,
+                todoItemCollection,
                 todoView;
-    
+
             todoItemCollection = new app.TodoItemCollection();
-            todoItemCollection.fetch().then(() => {
+            todoItemCollection.fetch().then(function() {
                 todoView = new app.TodoView({
                     controller: this,
                     collection: todoItemCollection
                 });
-    
-                this.appView.showMain(todoView);
+
+                that.appView.showMain(todoView);
             });
         }
-    }
+    };
     app.TodoController = TodoController;
 })(app, owl);

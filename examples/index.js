@@ -9,7 +9,7 @@ var app = express();
 app.use(bodyParser.json());
 
 app.use('/', serveStatic('static/'));
-app.use('/owl', serveStatic('../dist/'));
+app.use('/owl', serveStatic('../src/'));
 
 app.use('/vanilla', serveStatic('vanilla', {
     'index': ['index.html']
@@ -20,6 +20,10 @@ app.use('/typescript', serveStatic('typescript', {
 }));
 
 app.use('/babel', serveStatic('babel', {
+    'index': ['index.html']
+}));
+
+app.use('/webpack', serveStatic('webpack', {
     'index': ['index.html']
 }));
 

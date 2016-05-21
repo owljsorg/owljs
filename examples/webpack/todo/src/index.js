@@ -1,15 +1,19 @@
-console.log('ok');
+var owl = require('../../../../dist/owl-commonjs'),
+    AppView = require('./AppView'),
+    TodoController = require('./TodoController'),
+    MainRouter = require('./MainRouter');
+
 document.addEventListener('DOMContentLoaded', function() {
     owl.define('appView', function() {
-        return new app.AppView();
+        return new AppView();
     });
     owl.define('todoController', function() {
-        return new app.TodoController()
+        return new TodoController()
     });
 
     owl.history.init({
-        baseUrl: '/vanilla/todo/'
+        baseUrl: '/webpack/todo/'
     });
-    owl.history.setDefaultRouter(new app.MainRouter());
+    owl.history.setDefaultRouter(new MainRouter());
     owl.history.start();
 });

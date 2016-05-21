@@ -6,18 +6,13 @@ var path = require('path'),
 function init(gulp) {
     gulp.task('webpack-todo', ['webpack-todo-js']);
     gulp.task('webpack-todo-js', function () {
-        return gulp.src([
-            path.join(__dirname, 'src/**/*')
-        ])
+        return gulp.src(path.join(__dirname, 'src/index.js'))
         .pipe(webpack({
-            entry: {
-                owl: path.join(__dirname, '../../../dist/owl-commonjs.js')
-            },
             output: {
                 filename: 'index.js',
             }
         }))
-        .pipe(gulp.dest('webpack/todo/dist'));
+        .pipe(gulp.dest(path.join(__dirname, 'dist/')));
     });
 }
 

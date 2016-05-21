@@ -1,4 +1,4 @@
-var owl = require('owl');
+var owl = require('../../../../dist/owl-commonjs');
 
 function AppView() {
     owl.View.call(this, {

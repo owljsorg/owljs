@@ -42,6 +42,30 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var owl = __webpack_require__(1),
+	    AppView = __webpack_require__(2),
+	    TodoController = __webpack_require__(3),
+	    MainRouter = __webpack_require__(8);
+
+	document.addEventListener('DOMContentLoaded', function() {
+	    owl.define('appView', function() {
+	        return new AppView();
+	    });
+	    owl.define('todoController', function() {
+	        return new TodoController()
+	    });
+
+	    owl.history.init({
+	        baseUrl: '/webpack/todo/'
+	    });
+	    owl.history.setDefaultRouter(new MainRouter());
+	    owl.history.start();
+	});
+
+/***/ },
+/* 1 */
 /***/ function(module, exports) {
 
 	
@@ -1152,6 +1176,272 @@
 	    owl.Promise = Promise;
 	})(owl);
 	module.exports = owl;
+
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var owl = __webpack_require__(1);
+
+	function AppView() {
+	    owl.View.call(this, {
+	        el: document.querySelector('html')
+	    });
+	    // update links to data-element
+	    // and update special events (submit, focus, blur)
+	    this.update();
+	}
+	AppView.prototype = Object.create(owl.View.prototype);
+	AppView.prototype.showMain = function(view) {
+	    this.elements.main.style.display = 'block';
+	    this.elements.error.style.display = 'none';
+	    this.elements.main.innerHTML = '';
+	    this.elements.main.appendChild(view.el);
+	};
+	AppView.prototype.showError = function() {
+	    this.elements.main.style.display = 'none';
+	    this.elements.error.style.display = 'block';
+	};
+	module.exports = AppView;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var owl = __webpack_require__(1),
+	    TodoItemCollection = __webpack_require__(4),
+	    TodoView = __webpack_require__(6);
+
+	function TodoController() {
+	    this.appView = owl.require('appView');
+	}
+	TodoController.prototype = {
+	    readAll: function() {
+	        var that = this,
+	            todoItemCollection,
+	            todoView;
+
+	        todoItemCollection = new TodoItemCollection();
+	        todoItemCollection.fetch().then(function() {
+	            todoView = new TodoView({
+	                controller: this,
+	                collection: todoItemCollection
+	            });
+
+	            that.appView.showMain(todoView);
+	        });
+	    }
+	};
+	module.exports = TodoController;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var owl = __webpack_require__(1),
+	    TodoItemModel = __webpack_require__(5);
+
+	function TodoItemCollection(data) {
+	    owl.Collection.call(this, data, {
+	        url: 'todo/items',
+	        model: TodoItemModel
+	    });
+	}
+	TodoItemCollection.prototype = Object.create(owl.Collection.prototype);
+
+	module.exports = TodoItemCollection;
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var owl = __webpack_require__(1);
+
+	function TodoItemModel(data, options) {
+	    owl.Model.call(this, data, {
+	        urlRoot: 'todo/items',
+	        collection: options && options.collection
+	    });
+	}
+	TodoItemModel.prototype = Object.create(owl.Model.prototype);
+
+	module.exports = TodoItemModel;
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var owl = __webpack_require__(1),
+	    TodoItemView = __webpack_require__(7),
+	    TodoItemModel = __webpack_require__(5);
+
+	function TodoView(options) {
+	    owl.View.call(this, {
+	        className: 'v-todo',
+	        // you can use any templating engine here
+	        template: function(data) {
+	            return (
+	                '<form>' +
+	                    '<h1>Todo list</h1>' +
+	                    '<input type="text" data-element="title" placeholder="Add a task" />' +
+	                    '<div data-element="counter" class="v-todo--counter"></div>' +
+	                '</form>' +
+	                '<div data-element="items"></div>' +
+	                '<div data-element="count"></div>'
+	            );
+	        },
+	        events: {
+	            'keyup $title': 'keyup',
+	            'submit form': 'submit'
+	        },
+	        collection: options.collection
+	    });
+	    this.templateCount = function(data) {
+	        return (
+	            '<div class="v-todo--count">' +
+	                data.countLeft + ' items left' +
+	            '</div>'
+	        );
+	    };
+	    // update links to data-element
+	    // and update special events (submit, focus, blur)
+	    this.render();
+	    this.initListeners();
+	}
+	TodoView.prototype = Object.create(owl.View.prototype);
+	TodoView.prototype.render = function() {
+	    this.el.innerHTML = this.template();
+	    this.update();
+	    this.renderItems();
+	    this.renderCount();
+	};
+	TodoView.prototype.renderItems = function() {
+	    var that = this,
+	        items = this.collection.getModels();
+	    this.elements.items.innerHTML = '';
+	    items.forEach(function(model) {
+	        var todoItemView = new TodoItemView({
+	            model: model
+	        });
+	        that.elements.items.appendChild(todoItemView.getEl());
+	    });
+	};
+	TodoView.prototype.renderCount = function() {
+	    var countLeft = 0;
+	    this.collection.getModels().forEach(function(model) {
+	        if(!model.get('isDone')) {
+	            countLeft++;
+	        }
+	    });
+	    this.elements.count.innerHTML = this.templateCount({
+	        countLeft: countLeft
+	    });
+	};
+	TodoView.prototype.initListeners = function() {
+	    var that = this;
+	    this.collection.on('change', function() {
+	        that.renderItems();
+	        that.renderCount();
+	    });
+	};
+	TodoView.prototype.submit = function(element, event) {
+	    var that = this,
+	        todoItem;
+	    event.preventDefault();
+	    todoItem = new TodoItemModel({
+	        title: this.elements.title.value,
+	        isDone: false
+	    });
+	    todoItem.save().then(function() {
+	        that.collection.fetch();
+	    });
+	    this.elements.title.value = '';
+	};
+	TodoView.prototype.keyup = function(element, event) {
+	    this.elements.counter.innerHTML = element.value.length || '';
+	};
+
+	module.exports = TodoView;
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var owl = __webpack_require__(1);
+
+	function TodoItemView(options) {
+	    owl.View.call(this, {
+	        className: 'v-todo',
+	        // you can use any templating engine here
+	        template: function(data) {
+	            return (
+	                '<label class="checkbox">' +
+	                    '<input data-element="checkbox" type="checkbox" ' + (data.isDone ? 'checked="checked"' : '') + ' />' +
+	                    '<span>' + data.title + '</span>' +
+	                '</label>'
+	            );
+	        },
+	        events: {
+	            'change $checkbox': 'change'
+	        },
+	        model: options.model
+	    });
+	    // update links to data-element
+	    // and update special events (submit, focus, blur)
+	    this.render();
+	    this.initListeners();
+	}
+	TodoItemView.prototype = Object.create(owl.View.prototype);
+	TodoItemView.prototype.render = function() {
+	    this.el.innerHTML = this.template(this.model.getData());
+	    this.update();
+	};
+	TodoItemView.prototype.change = function(element, event) {
+	    event.preventDefault();
+	    this.model.patch({
+	        isDone: element.checked
+	    });
+	};
+	TodoItemView.prototype.initListeners = function() {
+	    var that = this;
+	    this.model.on('change', function() {
+	        that.render();
+	    });
+	};
+
+	module.exports = TodoItemView;
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var owl = __webpack_require__(1);
+
+	function MainRouter() {
+	    var routes = [{
+	            path: '',
+	            action: 'readAll'
+	        }, {
+	            path: 'item/:id',
+	            callback: function() {
+	                console.log('user');
+	            }
+	        }],
+	        defaultRoute = {
+	            callback: function() {
+	                console.log('404 page');
+	            }
+	        };
+	    owl.Router.call(this, routes, defaultRoute, 'todoController');
+	}
+	MainRouter.prototype = Object.create(owl.Router.prototype);
+
+	module.exports = MainRouter;
 
 
 /***/ }

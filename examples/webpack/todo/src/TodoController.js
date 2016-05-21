@@ -1,23 +1,25 @@
-(function (app, owl) {
-    function TodoController() {
-        this.appView = owl.require('appView');
-    }
-    TodoController.prototype = {
-        readAll: function() {
-            var that = this,
-                todoItemCollection,
-                todoView;
+var owl = require('../../../../dist/owl-commonjs'),
+    TodoItemCollection = require('./TodoItemCollection'),
+    TodoView = require('./TodoView');
 
-            todoItemCollection = new app.TodoItemCollection();
-            todoItemCollection.fetch().then(function() {
-                todoView = new app.TodoView({
-                    controller: this,
-                    collection: todoItemCollection
-                });
+function TodoController() {
+    this.appView = owl.require('appView');
+}
+TodoController.prototype = {
+    readAll: function() {
+        var that = this,
+            todoItemCollection,
+            todoView;
 
-                that.appView.showMain(todoView);
+        todoItemCollection = new TodoItemCollection();
+        todoItemCollection.fetch().then(function() {
+            todoView = new TodoView({
+                controller: this,
+                collection: todoItemCollection
             });
-        }
-    };
-    app.TodoController = TodoController;
-})(app, owl);
+
+            that.appView.showMain(todoView);
+        });
+    }
+};
+module.exports = TodoController;

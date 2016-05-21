@@ -45,9 +45,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var owl = __webpack_require__(1),
-	    AppView = __webpack_require__(2),
-	    TodoController = __webpack_require__(3),
-	    MainRouter = __webpack_require__(8);
+	    AppView = __webpack_require__(3),
+	    TodoController = __webpack_require__(4),
+	    MainRouter = __webpack_require__(9);
 
 	document.addEventListener('DOMContentLoaded', function() {
 	    owl.define('appView', function() {
@@ -66,6 +66,12 @@
 
 /***/ },
 /* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(2);
+
+/***/ },
+/* 2 */
 /***/ function(module, exports) {
 
 	
@@ -1179,7 +1185,7 @@
 
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var owl = __webpack_require__(1);
@@ -1206,12 +1212,12 @@
 	module.exports = AppView;
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var owl = __webpack_require__(1),
-	    TodoItemCollection = __webpack_require__(4),
-	    TodoView = __webpack_require__(6);
+	    TodoItemCollection = __webpack_require__(5),
+	    TodoView = __webpack_require__(7);
 
 	function TodoController() {
 	    this.appView = owl.require('appView');
@@ -1236,11 +1242,11 @@
 	module.exports = TodoController;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var owl = __webpack_require__(1),
-	    TodoItemModel = __webpack_require__(5);
+	    TodoItemModel = __webpack_require__(6);
 
 	function TodoItemCollection(data) {
 	    owl.Collection.call(this, data, {
@@ -1254,7 +1260,7 @@
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var owl = __webpack_require__(1);
@@ -1271,12 +1277,12 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var owl = __webpack_require__(1),
-	    TodoItemView = __webpack_require__(7),
-	    TodoItemModel = __webpack_require__(5);
+	    TodoItemView = __webpack_require__(8),
+	    TodoItemModel = __webpack_require__(6);
 
 	function TodoView(options) {
 	    owl.View.call(this, {
@@ -1368,7 +1374,7 @@
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var owl = __webpack_require__(1);
@@ -1417,7 +1423,7 @@
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var owl = __webpack_require__(1);

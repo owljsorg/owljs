@@ -1,4 +1,4 @@
-var owl = require('../../../../dist/owl-commonjs'),
+var owl = require('owl.js'),
     TodoItemView = require('./TodoItemView'),
     TodoItemModel = require('./TodoItemModel');
 

@@ -1,4 +1,4 @@
-var owl = require('../../../../dist/owl-commonjs'),
+var owl = require('owl.js'),
     AppView = require('./AppView'),
     TodoController = require('./TodoController'),
     MainRouter = require('./MainRouter');

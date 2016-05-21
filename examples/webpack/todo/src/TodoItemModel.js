@@ -1,4 +1,4 @@
-var owl = require('../../../../dist/owl-commonjs');
+var owl = require('owl.js');
 
 function TodoItemModel(data, options) {
     owl.Model.call(this, data, {

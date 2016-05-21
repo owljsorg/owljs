@@ -23,6 +23,10 @@ app.use('/babel', serveStatic('babel', {
     'index': ['index.html']
 }));
 
+app.use('/webpack', serveStatic('webpack', {
+    'index': ['index.html']
+}));
+
 todo(app);
 
 http.createServer(app).listen(8080);

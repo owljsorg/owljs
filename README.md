@@ -7,7 +7,13 @@
 
 ## Install
 
+**Bower**
+
     bower install owl.js
+
+**npm**
+
+    npm install owl.js
 
 ## Concept
 

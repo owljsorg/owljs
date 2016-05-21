@@ -104,4 +104,4 @@
             return JSON.stringify(data);
         }
     };
-})(window.owl);
+})(owl);

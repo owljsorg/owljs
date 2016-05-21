@@ -15,6 +15,19 @@ var gulp = require('gulp'),
 
         'src/owl.ajax.js',
         'src/owl.Promise.js'
+    ],
+
+    filesCommonjs = [
+        'src/owl-commonjs.js',
+        'src/owl.history.js',
+        'src/owl.util.js',
+        'src/owl.Router.js',
+        'src/owl.View.js',
+        'src/owl.Model.js',
+        'src/owl.Collection.js',
+
+        'src/owl.ajax.js',
+        'src/owl.Promise.js'
     ];
 
 gulp.task('default', ['build', 'build-commonjs']);
@@ -27,7 +40,7 @@ gulp.task('build', function() {
 });
 
 gulp.task('build-commonjs', function() {
-    gulp.src(files)
+    gulp.src(filesCommonjs)
         .pipe(concat('owl-commonjs.js'))
         .pipe(wrapper({
             type: 'commonjs',

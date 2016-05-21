@@ -34,7 +34,7 @@ var app;
     var MainRouter = (function (_super) {
         __extends(MainRouter, _super);
         function MainRouter() {
-            var routes = [{
+            var todoController = owl.require('todoController'), routes = [{
                     path: '',
                     action: 'readAll'
                 }, {
@@ -47,7 +47,7 @@ var app;
                     console.log('404 page');
                 }
             };
-            _super.call(this, routes, defaultRoute, 'todoController');
+            _super.call(this, routes, defaultRoute, todoController);
         }
         return MainRouter;
     }(owl.Router));

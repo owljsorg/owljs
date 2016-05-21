@@ -44,23 +44,14 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var owl = __webpack_require__(1),
-	    AppView = __webpack_require__(3),
-	    TodoController = __webpack_require__(4),
-	    MainRouter = __webpack_require__(9);
-
 	document.addEventListener('DOMContentLoaded', function() {
-	    owl.define('appView', function() {
-	        return new AppView();
-	    });
-	    owl.define('todoController', function() {
-	        return new TodoController()
-	    });
+	    var owl = __webpack_require__(1),
+	        mainRouter = __webpack_require__(3);
 
 	    owl.history.init({
 	        baseUrl: '/webpack/todo/'
 	    });
-	    owl.history.setDefaultRouter(new MainRouter());
+	    owl.history.setDefaultRouter(mainRouter);
 	    owl.history.start();
 	});
 
@@ -70,7 +61,6 @@
 
 	module.exports = __webpack_require__(2);
 
-
 /***/ },
 /* 2 */
 /***/ function(module, exports) {
@@ -78,39 +68,14 @@
 	
 
 
-	(function(window) {
-	    var callbacks = {},
-	        modules = {};
-
-	    /**
-	     * owl
-	     */
-	    window.owl = {
-	        /**
-	         * Requires a module
-	         * @param {string} name
-	         * @return {object}
-	         */
-	        require: function(name) {
-	            if (!modules[name] && callbacks[name]) {
-	                modules[name] = callbacks[name]();
-	            }
-	            if (modules[name]) {
-	                return modules[name];
-	            } else {
-	                throw new Error('Module ' + name + ' is not found');
-	            }
-	        },
-	        /**
-	         * Defines a module
-	         * @param {string} name
-	         * @param {function} callback
-	         */
-	        define: function(name, callback) {
-	            callbacks[name] = callback;
-	        }
-	    };
-	})(window);
+	var owl = {
+	    require: function() {
+	        console.info('Please use require instead of owl.require');
+	    },
+	    define: function() {
+	        console.info('Please use module.exports instead of owl.define');
+	    }
+	};
 	(function(window, owl) {
 	    var _options,
 	        _defaultOptions = {
@@ -453,7 +418,6 @@
 	        run: function(path, route) {
 	            var match,
 	                controller,
-	                controllerName,
 	                i,
 
 	                params = {};
@@ -468,8 +432,7 @@
 	            }
 
 	            if (route.action && (route.controller || this.controller)) {
-	                controllerName = route.controller || this.controller;
-	                controller = owl.require(controllerName);
+	                controller = route.controller || this.controller;
 	                if(controller[route.action]) {
 	                    controller[route.action](params);
 	                } else {
@@ -1178,7 +1141,7 @@
 	            return JSON.stringify(data);
 	        }
 	    };
-	})(window.owl);
+	})(owl);
 	(function(owl) {
 	    owl.Promise = Promise;
 	})(owl);
@@ -1189,28 +1152,30 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var owl = __webpack_require__(1);
+	var owl = __webpack_require__(1),
+	    todoController = __webpack_require__(4);
 
-	function AppView() {
-	    owl.View.call(this, {
-	        el: document.querySelector('html')
-	    });
-	    // update links to data-element
-	    // and update special events (submit, focus, blur)
-	    this.update();
+	function MainRouter() {
+	    var routes = [{
+	            path: '',
+	            action: 'readAll'
+	        }, {
+	            path: 'item/:id',
+	            callback: function() {
+	                console.log('user');
+	            }
+	        }],
+	        defaultRoute = {
+	            callback: function() {
+	                console.log('404 page');
+	            }
+	        };
+	    owl.Router.call(this, routes, defaultRoute, todoController);
 	}
-	AppView.prototype = Object.create(owl.View.prototype);
-	AppView.prototype.showMain = function(view) {
-	    this.elements.main.style.display = 'block';
-	    this.elements.error.style.display = 'none';
-	    this.elements.main.innerHTML = '';
-	    this.elements.main.appendChild(view.el);
-	};
-	AppView.prototype.showError = function() {
-	    this.elements.main.style.display = 'none';
-	    this.elements.error.style.display = 'block';
-	};
-	module.exports = AppView;
+	MainRouter.prototype = Object.create(owl.Router.prototype);
+
+	module.exports = new MainRouter();
+
 
 /***/ },
 /* 4 */
@@ -1221,7 +1186,7 @@
 	    TodoView = __webpack_require__(7);
 
 	function TodoController() {
-	    this.appView = owl.require('appView');
+	    this.appView = __webpack_require__(9);
 	}
 	TodoController.prototype = {
 	    readAll: function() {
@@ -1240,7 +1205,7 @@
 	        });
 	    }
 	};
-	module.exports = TodoController;
+	module.exports = new TodoController();
 
 /***/ },
 /* 5 */
@@ -1429,27 +1394,26 @@
 
 	var owl = __webpack_require__(1);
 
-	function MainRouter() {
-	    var routes = [{
-	            path: '',
-	            action: 'readAll'
-	        }, {
-	            path: 'item/:id',
-	            callback: function() {
-	                console.log('user');
-	            }
-	        }],
-	        defaultRoute = {
-	            callback: function() {
-	                console.log('404 page');
-	            }
-	        };
-	    owl.Router.call(this, routes, defaultRoute, 'todoController');
+	function AppView() {
+	    owl.View.call(this, {
+	        el: document.querySelector('html')
+	    });
+	    // update links to data-element
+	    // and update special events (submit, focus, blur)
+	    this.update();
 	}
-	MainRouter.prototype = Object.create(owl.Router.prototype);
-
-	module.exports = MainRouter;
-
+	AppView.prototype = Object.create(owl.View.prototype);
+	AppView.prototype.showMain = function(view) {
+	    this.elements.main.style.display = 'block';
+	    this.elements.error.style.display = 'none';
+	    this.elements.main.innerHTML = '';
+	    this.elements.main.appendChild(view.el);
+	};
+	AppView.prototype.showError = function() {
+	    this.elements.main.style.display = 'none';
+	    this.elements.error.style.display = 'block';
+	};
+	module.exports = new AppView();
 
 /***/ }
 /******/ ]);

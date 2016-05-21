@@ -13,7 +13,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         function MainRouter() {
             _classCallCheck(this, MainRouter);
 
-            var routes = [{
+            var todoController = owl.require('todoController'),
+                routes = [{
                 path: '',
                 action: 'readAll'
             }, {
@@ -27,7 +28,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     console.log('404 page');
                 }
             };
-            return _possibleConstructorReturn(this, Object.getPrototypeOf(MainRouter).call(this, routes, defaultRoute, 'todoController'));
+            return _possibleConstructorReturn(this, Object.getPrototypeOf(MainRouter).call(this, routes, defaultRoute, todoController));
         }
 
         return MainRouter;

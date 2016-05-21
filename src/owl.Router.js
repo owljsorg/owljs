@@ -67,7 +67,6 @@
         run: function(path, route) {
             var match,
                 controller,
-                controllerName,
                 i,
 
                 params = {};
@@ -82,8 +81,7 @@
             }
 
             if (route.action && (route.controller || this.controller)) {
-                controllerName = route.controller || this.controller;
-                controller = owl.require(controllerName);
+                controller = route.controller || this.controller;
                 if(controller[route.action]) {
                     controller[route.action](params);
                 } else {
@@ -150,15 +148,15 @@
             return this.defaultRoute;
         },
         /**
-         * Sets controller name
-         * @param {string} controller The name of the related controller
+         * Sets controller
+         * @param {Object} controller Related controller
          */
         setController: function(controller) {
             this.controller = controller;
         },
         /**
-         * Gets controller name
-         * @return {string} The name of the related controller
+         * Gets controller
+         * @return {string} Related controller
          */
         getController: function() {
             return this.controller;

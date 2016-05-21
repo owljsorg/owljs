@@ -1,39 +1,14 @@
 
 
 
-(function(window) {
-    var callbacks = {},
-        modules = {};
-
-    /**
-     * owl
-     */
-    window.owl = {
-        /**
-         * Requires a module
-         * @param {string} name
-         * @return {object}
-         */
-        require: function(name) {
-            if (!modules[name] && callbacks[name]) {
-                modules[name] = callbacks[name]();
-            }
-            if (modules[name]) {
-                return modules[name];
-            } else {
-                throw new Error('Module ' + name + ' is not found');
-            }
-        },
-        /**
-         * Defines a module
-         * @param {string} name
-         * @param {function} callback
-         */
-        define: function(name, callback) {
-            callbacks[name] = callback;
-        }
-    };
-})(window);
+var owl = {
+    require: function() {
+        console.info('Please use require instead of owl.require');
+    },
+    define: function() {
+        console.info('Please use module.exports instead of owl.define');
+    }
+};
 (function(window, owl) {
     var _options,
         _defaultOptions = {
@@ -376,7 +351,6 @@
         run: function(path, route) {
             var match,
                 controller,
-                controllerName,
                 i,
 
                 params = {};
@@ -391,8 +365,7 @@
             }
 
             if (route.action && (route.controller || this.controller)) {
-                controllerName = route.controller || this.controller;
-                controller = owl.require(controllerName);
+                controller = route.controller || this.controller;
                 if(controller[route.action]) {
                     controller[route.action](params);
                 } else {
@@ -1101,7 +1074,7 @@
             return JSON.stringify(data);
         }
     };
-})(window.owl);
+})(owl);
 (function(owl) {
     owl.Promise = Promise;
 })(owl);

@@ -1,6 +1,7 @@
 (function(app, owl) {
     function MainRouter() {
-        var routes = [{
+        var todoController = owl.require('todoController'),
+            routes = [{
                 path: '',
                 action: 'readAll'
             }, {
@@ -14,7 +15,7 @@
                     console.log('404 page');
                 }
             };
-        owl.Router.call(this, routes, defaultRoute, 'todoController');
+        owl.Router.call(this, routes, defaultRoute, todoController);
     }
     MainRouter.prototype = Object.create(owl.Router.prototype);
     app.MainRouter = MainRouter;

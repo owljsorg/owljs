@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/owljsorg/owl.js.png?label=ready&title=Ready)](https://waffle.io/owljsorg/owl.js)
 # owl.js
 
 **Backbone-like frontend library**

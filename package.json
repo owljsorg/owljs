@@ -1,6 +1,6 @@
 {
   "name": "owl.js",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Backbone-like frontend library",
   "main": "index.js",
   "directories": {
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/omegascorp/owl.git"
+    "url": "git+https://github.com/owljsorg/owl.js.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/omegascorp/owl/issues"
+    "url": "https://github.com/owljsorg/owl.js/issues"
   },
-  "homepage": "https://github.com/omegascorp/owl#readme",
+  "homepage": "https://github.com/owljsorg/owl.js#readme",
   "devDependencies": {
     "chai": "^3.5.0",
     "gulp": "^3.9.1",

@@ -1,5 +1,10 @@
-test
-examples
-docs
-bower_components
-node_modules
+/test
+/examples
+/docs
+/tsdocs
+/bower_components
+/node_modules
+/src
+/bower.json
+/gulpfile.js
+/karma.conf.js

@@ -130,9 +130,12 @@ describe('owl.Router.js', function() {
     });
     describe('run (controller defined but action is missing in controller)', function() {
         var router = new owl.Router();
+        var controller = {
+            action: sinon.spy()
+        };
         var route = {
             path: '/something',
-            controller: 'someController',
+            controller: controller,
             action: 'something'
         };
         before(function() {
@@ -166,13 +169,13 @@ describe('owl.Router.js', function() {
     });
     describe('run (global controller and local action are defined)', function() {
         var router = new owl.Router();
-        router.setController('controller');
+        var controller = {
+            action: sinon.spy()
+        };
+        router.setController(controller);
         var route = {
             path: '/something',
             action: 'action'
-        };
-        var controller = {
-            action: sinon.spy()
         };
         before(function() {
             sinon.stub(owl, 'require').returns(controller);
@@ -187,13 +190,13 @@ describe('owl.Router.js', function() {
     });
     describe('run (local controller and action are defined)', function() {
         var router = new owl.Router();
-        var route = {
-            path: '/something',
-            controller: 'controller',
-            action: 'action'
-        };
         var controller = {
             action: sinon.spy()
+        };
+        var route = {
+            path: '/something',
+            controller: controller,
+            action: 'action'
         };
         before(function() {
             sinon.stub(owl, 'require').returns(controller);

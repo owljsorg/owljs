@@ -15,7 +15,11 @@
     "test",
     "coverage",
     "docs",
-    "tsdocs"
+    "tsdocs",
+    "package.json",
+    "gulpfile.js",
+    "karma.conf.js",
+    ".travis.yml"
   ],
   "license": "MIT",
   "dependencies": {

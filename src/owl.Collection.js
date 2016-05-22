@@ -8,6 +8,8 @@
     function Collection(data, options){
         this.url = options.url;
         this.model = options.model;
+        this.data = [];
+        this.models = [];
         this.events = {};
 
         this.setData(data);
@@ -46,9 +48,10 @@
             if (data instanceof Array) {
                 this.data = data;
                 this.length = data.length;
-                this.models = data.map(function(item) {
+                this.models = data.map(function(item, index) {
                     return new that.model(item, {
-                        collection: that
+                        collection: that,
+                        collectionIndex: index
                     });
                 });
             } else {
@@ -78,6 +81,24 @@
          */
         getLength: function() {
             return this.length;
+        },
+        /**
+         * Gets a model by index
+         */
+        get: function(index) {
+           return this.models[index];
+        },
+        /**
+         * Updates collection data
+         */
+        update: function(index) {
+            if (typeof index === 'number') {
+                this.data[index] = this.models[index].getData();
+            } else {
+                this.data = this.models.map(function(model) {
+                    return model.getData();
+                });
+            }
         },
         /**
          * Adds event listener

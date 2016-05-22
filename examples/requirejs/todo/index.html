@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Todo app</title>
+  <base href="/" />
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="http://requirejs.org/docs/release/2.2.0/minified/require.js"></script>
+  <script src="owl/dist/owl-amd.min.js"></script>
+
+  <script src="requirejs/todo/src/MainRouter.js"></script>
+  <script src="requirejs/todo/src/appView.js"></script>
+  <script src="requirejs/todo/src/TodoView.js"></script>
+  <script src="requirejs/todo/src/TodoItemView.js"></script>
+  <script src="requirejs/todo/src/TodoItemModel.js"></script>
+  <script src="requirejs/todo/src/TodoItemCollection.js"></script>
+  <script src="requirejs/todo/src/todoController.js"></script>
+  <script src="requirejs/todo/src/index.js"></script>
+</head>
+<body>
+  <div data-element="main"></div>
+  <div data-element="error" style="display: none;">
+    Page not found
+  </div>
+</body>
+</html>

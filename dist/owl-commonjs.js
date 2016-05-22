@@ -432,15 +432,15 @@ var owl = {
             return this.defaultRoute;
         },
         /**
-         * Sets controller name
-         * @param {string} controller The name of the related controller
+         * Sets controller
+         * @param {Object} controller Related controller
          */
         setController: function(controller) {
             this.controller = controller;
         },
         /**
-         * Gets controller name
-         * @return {string} The name of the related controller
+         * Gets controller
+         * @return {string} Related controller
          */
         getController: function() {
             return this.controller;

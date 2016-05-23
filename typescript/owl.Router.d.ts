@@ -41,12 +41,12 @@ declare module owl {
         getDefaultRoute(): Route;
 
         /**
-         * Sets controller name
+         * Sets controller
          */
-        setController(controller: string): void;
+        setController(controller: Object): void;
         /**
-         * Gets controller name
+         * Gets controller
          */
-        getController(): string;
+        getController(): Object;
     }
 }

@@ -1,39 +1,14 @@
 
 
 
-(function(window) {
-    var callbacks = {},
-        modules = {};
-
-    /**
-     * owl
-     */
-    window.owl = {
-        /**
-         * Requires a module
-         * @param {string} name
-         * @return {object}
-         */
-        require: function(name) {
-            if (!modules[name] && callbacks[name]) {
-                modules[name] = callbacks[name]();
-            }
-            if (modules[name]) {
-                return modules[name];
-            } else {
-                throw new Error('Module ' + name + ' is not found');
-            }
-        },
-        /**
-         * Defines a module
-         * @param {string} name
-         * @param {function} callback
-         */
-        define: function(name, callback) {
-            callbacks[name] = callback;
-        }
-    };
-})(window);
+var owl = {
+    require: function() {
+        console.info('Please use require instead of owl.require');
+    },
+    define: function() {
+        console.info('Please use module.exports instead of owl.define');
+    }
+};
 (function(window, owl) {
     var _options,
         _defaultOptions = {
@@ -376,7 +351,6 @@
         run: function(path, route) {
             var match,
                 controller,
-                controllerName,
                 i,
 
                 params = {};
@@ -391,8 +365,7 @@
             }
 
             if (route.action && (route.controller || this.controller)) {
-                controllerName = route.controller || this.controller;
-                controller = owl.require(controllerName);
+                controller = route.controller || this.controller;
                 if(controller[route.action]) {
                     controller[route.action](params);
                 } else {
@@ -459,15 +432,15 @@
             return this.defaultRoute;
         },
         /**
-         * Sets controller name
-         * @param {string} controller The name of the related controller
+         * Sets controller
+         * @param {Object} controller Related controller
          */
         setController: function(controller) {
             this.controller = controller;
         },
         /**
-         * Gets controller name
-         * @return {string} The name of the related controller
+         * Gets controller
+         * @return {string} Related controller
          */
         getController: function() {
             return this.controller;
@@ -661,6 +634,7 @@
         this.idAttribute = options && options.idAttribute || 'id';
         this.defaults = options && options.defaults || {};
         this.collection = options && options.collection || null;
+        this.collectionIndex = options && typeof options.collectionIndex === 'number' ? options.collectionIndex : null;
         this.events = {};
     }
     Model.prototype = {
@@ -679,6 +653,7 @@
          */
         set: function(name, value) {
             this.data[name] = value;
+            this.updateCollection();
             this.trigger('change', name);
         },
         /**
@@ -699,6 +674,7 @@
             })
             .then(function(result) {
                 that.data = result;
+                that.updateCollection();
                 that.trigger('change', Object.keys(that.data));
                 return result;
             });
@@ -708,6 +684,7 @@
          */
         clear: function() {
             this.data = {};
+            this.updateCollection();
         },
         /**
          * Save a model to database
@@ -730,6 +707,7 @@
                 if(result[that.idAttribute]) {
                     that.data[that.idAttribute] = result[that.idAttribute];
                 }
+                that.updateCollection();
                 that.trigger('change', [that.idAttribute]);
                 return result;
             });
@@ -752,6 +730,7 @@
             return this
             .save(query)
             .then(function(result) {
+                that.updateCollection();
                 that.trigger('change', Object.keys(data));
                 return result;
             });
@@ -779,9 +758,18 @@
                 data: data
             })
             .then(function(result) {
+                that.updateCollection();
                 that.trigger('change', Object.keys(data));
                 return result;
             });
+        },
+        /**
+         * Updates collection data
+         */
+        updateCollection: function() {
+            if(this.collection) {
+                this.collection.update(this.collectionIndex);
+            }
         },
         /**
          * Remove a model
@@ -818,6 +806,13 @@
          */
         getCollection: function() {
             return this.collection;
+        },
+        /**
+         * Gets model collection index
+         * @return {number} Model collection index
+         */
+        getCollectionIndex: function() {
+            return this.collectionIndex;
         },
         /**
          * Adds event listener
@@ -886,6 +881,8 @@
     function Collection(data, options){
         this.url = options.url;
         this.model = options.model;
+        this.data = [];
+        this.models = [];
         this.events = {};
 
         this.setData(data);
@@ -924,9 +921,10 @@
             if (data instanceof Array) {
                 this.data = data;
                 this.length = data.length;
-                this.models = data.map(function(item) {
+                this.models = data.map(function(item, index) {
                     return new that.model(item, {
-                        collection: that
+                        collection: that,
+                        collectionIndex: index
                     });
                 });
             } else {
@@ -956,6 +954,24 @@
          */
         getLength: function() {
             return this.length;
+        },
+        /**
+         * Gets a model by index
+         */
+        get: function(index) {
+           return this.models[index];
+        },
+        /**
+         * Updates collection data
+         */
+        update: function(index) {
+            if (typeof index === 'number') {
+                this.data[index] = this.models[index].getData();
+            } else {
+                this.data = this.models.map(function(model) {
+                    return model.getData();
+                });
+            }
         },
         /**
          * Adds event listener
@@ -1101,7 +1117,7 @@
             return JSON.stringify(data);
         }
     };
-})(window.owl);
+})(owl);
 (function(owl) {
     owl.Promise = Promise;
 })(owl);

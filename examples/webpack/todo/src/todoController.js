@@ -3,7 +3,7 @@ var owl = require('owl.js'),
     TodoView = require('./TodoView');
 
 function TodoController() {
-    this.appView = owl.require('appView');
+    this.appView = require('./appView');
 }
 TodoController.prototype = {
     readAll: function() {
@@ -22,4 +22,4 @@ TodoController.prototype = {
         });
     }
 };
-module.exports = TodoController;
+module.exports = new TodoController();

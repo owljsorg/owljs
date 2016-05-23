@@ -52,8 +52,13 @@ declare module owl {
         /**
          * Gets model collection
          */
-
         getCollection(): Collection;
+
+        /**
+         * Gets model collection index
+         */
+        getCollectionIndex(): number;
+
         /**
          * Adds event listener
          */

@@ -19,4 +19,4 @@ AppView.prototype.showError = function() {
     this.elements.main.style.display = 'none';
     this.elements.error.style.display = 'block';
 };
-module.exports = AppView;
+module.exports = new AppView();

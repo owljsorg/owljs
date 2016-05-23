@@ -9,7 +9,8 @@ var app = express();
 app.use(bodyParser.json());
 
 app.use('/', serveStatic('static/'));
-app.use('/owl', serveStatic('../src/'));
+app.use('/owl/src/', serveStatic('../src/'));
+app.use('/owl/dist/', serveStatic('../dist/'));
 
 app.use('/vanilla', serveStatic('vanilla', {
     'index': ['index.html']
@@ -24,6 +25,14 @@ app.use('/babel', serveStatic('babel', {
 }));
 
 app.use('/webpack', serveStatic('webpack', {
+    'index': ['index.html']
+}));
+
+app.use('/requirejs', serveStatic('requirejs', {
+    'index': ['index.html']
+}));
+
+app.use('/react', serveStatic('react', {
     'index': ['index.html']
 }));
 

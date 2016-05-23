@@ -1,4 +1,5 @@
-var owl = require('owl.js');
+var owl = require('owl.js'),
+    todoController = require('./todoController');
 
 function MainRouter() {
     var routes = [{
@@ -15,8 +16,8 @@ function MainRouter() {
                 console.log('404 page');
             }
         };
-    owl.Router.call(this, routes, defaultRoute, 'todoController');
+    owl.Router.call(this, routes, defaultRoute, todoController);
 }
 MainRouter.prototype = Object.create(owl.Router.prototype);
 
-module.exports = MainRouter;
+module.exports = new MainRouter();

@@ -32,6 +32,10 @@ app.use('/requirejs', serveStatic('requirejs', {
     'index': ['index.html']
 }));
 
+app.use('/react', serveStatic('react', {
+    'index': ['index.html']
+}));
+
 todo(app);
 
 http.createServer(app).listen(8080);

@@ -17,7 +17,7 @@ declare module owl {
         /**
          * Sets collection data
          */
-        setData(data: Array<Object>): void;
+        setData(data?: Array<Object>): void;
 
         /**
          * Gets collection data
@@ -33,6 +33,11 @@ declare module owl {
          * Gets collection length
          */
         getLength(): number;
+
+        /**
+         * Gets model by index
+         */
+        get(index: number): owl.Model;
 
         /**
          * Adds event listener

@@ -1,6 +1,6 @@
 {
   "name": "owl.js",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Backbone-like frontend library",
   "main": "index.js",
   "directories": {

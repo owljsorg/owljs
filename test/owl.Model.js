@@ -276,6 +276,42 @@ describe('owl.Model.js', function() {
         });
     });
 
+    describe('setData', function() {
+        var data = {
+            id: 3,
+            something: 'else'
+        };
+        var model = new owl.Model({
+            id: 2
+        }, {
+            urlRoot: '/things'
+        });
+        sinon.spy(model, 'updateCollection');
+        sinon.spy(model, 'trigger');
+        it('should set data to the model', function() {
+            model.setData(data);
+            expect(model.getData()).to.be.equal(data)
+        });
+        it('should update collection', function() {
+            assert(model.updateCollection.called);
+        });
+        it('should update collection', function() {
+            assert(model.trigger.calledWith('change'));
+        });
+    });
+
+    describe('getCollectionIndex', function() {
+        var model = new owl.Model({
+            id: 2,
+        }, {
+            urlRoot: '/things',
+            collectionIndex: 1
+        });
+        it('should get collection index', function() {
+            expect(model.getCollectionIndex()).to.be.equal(1)
+        });
+    });
+
     describe('triggerSingle', function() {
         var model = new owl.Model({}, {
             urlRoot: '/things'

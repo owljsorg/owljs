@@ -95,11 +95,76 @@ describe('owl.Collection', function() {
                 url: '/things',
                 model: owl.Model
             });
+            var data = [{
+                something: 'else'
+            }];
 
             collection.setData();
             expect(collection.getData()).to.eql([]);
             expect(collection.getModels()).to.eql([]);
             expect(collection.getLength()).to.eql(0);
+        });
+    });
+
+    describe('get', function() {
+        it('should get a model by index', function () {
+            var modelData = {
+                something: 'else'
+            };
+            var collection = new owl.Collection([modelData], {
+                url: '/things',
+                model: owl.Model
+            });
+            expect(collection.get(0).getData()).to.eql(modelData);
+        });
+    });
+
+    describe('update (with index)', function() {
+        it('should update model by index', function () {
+            var firstModelData = {
+                something: 'one'
+            };
+            var secondModelData = {
+                something: 'tow'
+            };
+            var thirdModelData = {
+                something: 'three'
+            };
+            var collection = new owl.Collection([firstModelData, secondModelData], {
+                url: '/things',
+                model: owl.Model
+            });
+
+            collection.get(0).setData(thirdModelData);
+            collection.update(0);
+            expect(collection.getData()[0]).to.eql(thirdModelData);
+        });
+    });
+
+    describe('update (without index)', function() {
+        it('should update all collection models', function () {
+            var firstModelData = {
+                something: 'one'
+            };
+            var secondModelData = {
+                something: 'tow'
+            };
+            var thirdModelData = {
+                something: 'three'
+            };
+            var fourthModelData = {
+                something: 'fourth'
+            };
+            var collection = new owl.Collection([firstModelData, secondModelData], {
+                url: '/things',
+                model: owl.Model
+            });
+
+            collection.get(0).setData(thirdModelData);
+            collection.get(1).setData(fourthModelData);
+            collection.update();
+            expect(collection.getData()[0]).to.eql(thirdModelData);
+            expect(collection.getData()[1]).to.eql(fourthModelData);
         });
     });
 

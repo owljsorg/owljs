@@ -55,7 +55,6 @@
                     });
                 });
             } else {
-                this.data = [];
                 this.models = [];
                 this.length = 0;
             }

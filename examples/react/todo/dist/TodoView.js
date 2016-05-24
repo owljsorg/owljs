@@ -63,7 +63,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 return React.createElement(
                     'div',
                     { className: 'v-todo--count' },
-                    countLeft
+                    countLeft,
+                    ' items left'
                 );
             }
         }, {

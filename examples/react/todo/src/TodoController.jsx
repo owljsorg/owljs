@@ -1,14 +1,16 @@
 (function(app, owl) {
-    class TodoController {
+    class TodoController extends owl.Controller{
         constructor() {
+            super();
             this.appView = owl.require('appView');
             this.todoItemCollection = new app.TodoItemCollection();
             this.todoItemCollection.on('change', () => {
                 this.showTodoView();
             });
-        }
-        readAll() {
             this.todoItemCollection.fetch();
+        }
+        destroy() {
+            this.todoItemCollection.off();
         }
         showTodoView() {
             this.appView.show(

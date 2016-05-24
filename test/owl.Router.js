@@ -7,12 +7,12 @@ describe('owl.Router.js', function() {
         var defaultRoute = {
             callback: sinon.spy()
         };
-        var controller = {
-            action: sinon.spy()
-        };
+        function Controller() {}
+        Controller.prototype = owl.Controller.prototype;
+        Controller.prototype.action = sinon.spy();
         var router = new owl.Router([
             route
-        ], defaultRoute, controller);
+        ], defaultRoute, Controller);
         it('should set route', function() {
             expect(router.getRoute('/something').path).to.be.deep.equal(route.path);
         });
@@ -20,7 +20,7 @@ describe('owl.Router.js', function() {
             expect(router.getDefaultRoute()).to.be.deep.equal(defaultRoute);
         });
         it('should set controller', function() {
-            expect(router.getController()).to.be.deep.equal(controller);
+            expect(router.getController()).to.be.deep.equal(Controller);
         });
     });
     describe('init (no default router)', function() {
@@ -128,29 +128,6 @@ describe('owl.Router.js', function() {
             assert(route.callback.calledTwice);
         });
     });
-    describe('run (controller defined but action is missing in controller)', function() {
-        var router = new owl.Router();
-        var controller = {
-            action: sinon.spy()
-        };
-        var route = {
-            path: '/something',
-            controller: controller,
-            action: 'something'
-        };
-        before(function() {
-            sinon.stub(console, 'info');
-            sinon.stub(owl, 'require').returns({});
-        });
-        it('should leave message in the log', function() {
-            router.run('/something', route);
-            assert(console.info.calledOnce);
-        });
-        after(function() {
-            console.info.restore();
-            owl.require.restore();
-        });
-    });
     describe('run (callback is not defined)', function() {
         var router = new owl.Router();
         var route = {
@@ -169,44 +146,36 @@ describe('owl.Router.js', function() {
     });
     describe('run (global controller and local action are defined)', function() {
         var router = new owl.Router();
-        var controller = {
-            action: sinon.spy()
-        };
-        router.setController(controller);
+        function Controller() {}
+        Controller.prototype = owl.Controller.prototype;
+        Controller.prototype.action = sinon.spy();
+        router.setController(Controller);
         var route = {
             path: '/something',
             action: 'action'
         };
         before(function() {
-            sinon.stub(owl, 'require').returns(controller);
             router.run('/something', route);
         });
         it('should run controller action', function() {
-            assert(controller.action.calledOnce);
-        });
-        after(function() {
-            owl.require.restore();
+            assert(Controller.prototype.action.calledOnce);
         });
     });
     describe('run (local controller and action are defined)', function() {
         var router = new owl.Router();
-        var controller = {
-            action: sinon.spy()
-        };
+        function Controller() {}
+        Controller.prototype = owl.Controller.prototype;
+        Controller.prototype.action = sinon.spy();
         var route = {
             path: '/something',
-            controller: controller,
+            controller: Controller,
             action: 'action'
         };
         before(function() {
-            sinon.stub(owl, 'require').returns(controller);
             router.run('/something', route);
         });
         it('should run controller action', function() {
-            assert(controller.action.calledOnce);
-        });
-        after(function() {
-            owl.require.restore();
+            assert(Controller.prototype.action.called);
         });
     });
     describe('resolve', function() {

@@ -701,6 +701,7 @@
 	        this.idAttribute = options && options.idAttribute || 'id';
 	        this.defaults = options && options.defaults || {};
 	        this.collection = options && options.collection || null;
+	        this.collectionIndex = options && typeof options.collectionIndex === 'number' ? options.collectionIndex : null;
 	        this.events = {};
 	    }
 	    Model.prototype = {
@@ -719,6 +720,7 @@
 	         */
 	        set: function(name, value) {
 	            this.data[name] = value;
+	            this.updateCollection();
 	            this.trigger('change', name);
 	        },
 	        /**
@@ -739,6 +741,7 @@
 	            })
 	            .then(function(result) {
 	                that.data = result;
+	                that.updateCollection();
 	                that.trigger('change', Object.keys(that.data));
 	                return result;
 	            });
@@ -748,6 +751,7 @@
 	         */
 	        clear: function() {
 	            this.data = {};
+	            this.updateCollection();
 	        },
 	        /**
 	         * Save a model to database
@@ -770,6 +774,7 @@
 	                if(result[that.idAttribute]) {
 	                    that.data[that.idAttribute] = result[that.idAttribute];
 	                }
+	                that.updateCollection();
 	                that.trigger('change', [that.idAttribute]);
 	                return result;
 	            });
@@ -792,6 +797,7 @@
 	            return this
 	            .save(query)
 	            .then(function(result) {
+	                that.updateCollection();
 	                that.trigger('change', Object.keys(data));
 	                return result;
 	            });
@@ -819,9 +825,18 @@
 	                data: data
 	            })
 	            .then(function(result) {
+	                that.updateCollection();
 	                that.trigger('change', Object.keys(data));
 	                return result;
 	            });
+	        },
+	        /**
+	         * Updates collection data
+	         */
+	        updateCollection: function() {
+	            if(this.collection) {
+	                this.collection.update(this.collectionIndex);
+	            }
 	        },
 	        /**
 	         * Remove a model
@@ -853,11 +868,26 @@
 	            return this.data;
 	        },
 	        /**
+	         * Set model data
+	         */
+	        setData: function(data) {
+	            this.data = data;
+	            this.updateCollection();
+	            this.trigger('change');
+	        },
+	        /**
 	         * Gets model collection
 	         * @return {owl.Collection} Model collection
 	         */
 	        getCollection: function() {
 	            return this.collection;
+	        },
+	        /**
+	         * Gets model collection index
+	         * @return {number} Model collection index
+	         */
+	        getCollectionIndex: function() {
+	            return this.collectionIndex;
 	        },
 	        /**
 	         * Adds event listener
@@ -926,6 +956,8 @@
 	    function Collection(data, options){
 	        this.url = options.url;
 	        this.model = options.model;
+	        this.data = [];
+	        this.models = [];
 	        this.events = {};
 
 	        this.setData(data);
@@ -964,13 +996,13 @@
 	            if (data instanceof Array) {
 	                this.data = data;
 	                this.length = data.length;
-	                this.models = data.map(function(item) {
+	                this.models = data.map(function(item, index) {
 	                    return new that.model(item, {
-	                        collection: that
+	                        collection: that,
+	                        collectionIndex: index
 	                    });
 	                });
 	            } else {
-	                this.data = [];
 	                this.models = [];
 	                this.length = 0;
 	            }
@@ -996,6 +1028,24 @@
 	         */
 	        getLength: function() {
 	            return this.length;
+	        },
+	        /**
+	         * Gets a model by index
+	         */
+	        get: function(index) {
+	           return this.models[index];
+	        },
+	        /**
+	         * Updates collection data
+	         */
+	        update: function(index) {
+	            if (typeof index === 'number') {
+	                this.data[index] = this.models[index].getData();
+	            } else {
+	                this.data = this.models.map(function(model) {
+	                    return model.getData();
+	                });
+	            }
 	        },
 	        /**
 	         * Adds event listener

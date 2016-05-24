@@ -34,9 +34,9 @@ var app;
     var MainRouter = (function (_super) {
         __extends(MainRouter, _super);
         function MainRouter() {
-            var todoController = owl.require('todoController'), routes = [{
+            var routes = [{
                     path: '',
-                    action: 'readAll'
+                    controller: app.TodoController
                 }, {
                     path: 'item/:id',
                     callback: function () {
@@ -47,7 +47,7 @@ var app;
                     console.log('404 page');
                 }
             };
-            _super.call(this, routes, defaultRoute, todoController);
+            _super.call(this, routes, defaultRoute);
         }
         return MainRouter;
     }(owl.Router));
@@ -55,24 +55,45 @@ var app;
 })(app || (app = {}));
 var app;
 (function (app) {
-    var TodoController = (function () {
+    var TodoController = (function (_super) {
+        __extends(TodoController, _super);
         function TodoController() {
-            this.appView = owl.require('appView');
-        }
-        TodoController.prototype.readAll = function () {
             var _this = this;
-            var todoItemCollection, todoView;
-            todoItemCollection = new app.TodoItemCollection();
-            todoItemCollection.fetch().then(function () {
-                todoView = new app.TodoView({
-                    controller: _this,
-                    collection: todoItemCollection
-                });
-                _this.appView.showMain(todoView);
+            _super.call(this);
+            this.appView = owl.require('appView');
+            this.todoItemCollection = new app.TodoItemCollection();
+            this.todoItemCollection.fetch()
+                .then(function () {
+                _this.showTodoView();
+            });
+        }
+        TodoController.prototype.destroy = function () {
+            this.todoItemCollection.off();
+        };
+        TodoController.prototype.showTodoView = function () {
+            var todoView = new app.TodoView({
+                controller: this,
+                collection: this.todoItemCollection
+            });
+            this.appView.showMain(todoView);
+        };
+        TodoController.prototype.addItem = function (title) {
+            var _this = this;
+            var todoItem = new app.TodoItemModel({
+                title: title,
+                isDone: false
+            });
+            todoItem.save().then(function () {
+                _this.todoItemCollection.fetch();
+            });
+        };
+        TodoController.prototype.setDone = function (index, isDone) {
+            this.todoItemCollection.get(index).patch({
+                isDone: isDone
             });
         };
         return TodoController;
-    }());
+    }(owl.Controller));
     app.TodoController = TodoController;
 })(app || (app = {}));
 var app;
@@ -82,7 +103,8 @@ var app;
         function TodoItemModel(data, options) {
             _super.call(this, data, {
                 urlRoot: 'todo/items',
-                collection: options && options.collection
+                collection: options && options.collection,
+                collectionIndex: options && options.collectionIndex
             });
         }
         return TodoItemModel;
@@ -124,7 +146,8 @@ var app;
                     'keyup $title': 'keyup',
                     'submit form': 'submit'
                 },
-                collection: options.collection
+                collection: options.collection,
+                controller: options.controller
             });
             this.templateCount = function (data) {
                 return ('<div class="v-todo--count">' +
@@ -148,7 +171,8 @@ var app;
             this.elements.items.innerHTML = '';
             items.forEach(function (model) {
                 var todoItemView = new app.TodoItemView({
-                    model: model
+                    model: model,
+                    controller: _this.controller
                 });
                 _this.elements.items.appendChild(todoItemView.getEl());
             });
@@ -172,16 +196,10 @@ var app;
             });
         };
         TodoView.prototype.submit = function (element, event) {
-            var _this = this;
-            var todoItem;
+            var title;
             event.preventDefault();
-            todoItem = new app.TodoItemModel({
-                title: this.elements.title.value,
-                isDone: false
-            });
-            todoItem.save().then(function () {
-                _this.collection.fetch();
-            });
+            title = this.elements.title.value;
+            this.controller.addItem(title);
             this.elements.title.value = '';
         };
         TodoView.prototype.keyup = function (element) {
@@ -209,7 +227,8 @@ var app;
                 events: {
                     'change $checkbox': 'change'
                 },
-                model: options.model
+                model: options.model,
+                controller: options.controller
             });
             // update links to data-element
             // and update special events (submit, focus, blur)
@@ -223,9 +242,7 @@ var app;
         ;
         TodoItemView.prototype.change = function (element, event) {
             event.preventDefault();
-            this.model.patch({
-                isDone: element.checked
-            });
+            this.controller.setDone(this.model.getCollectionIndex(), element.checked);
         };
         ;
         TodoItemView.prototype.initListeners = function () {

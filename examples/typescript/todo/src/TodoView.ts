@@ -10,6 +10,7 @@ module app {
             title: HTMLInputElement;
             counter: Element;
         };
+        protected controller: TodoController;
 
         constructor(options: owl.ViewOptions) {
             super({
@@ -30,7 +31,8 @@ module app {
                     'keyup $title': 'keyup',
                     'submit form': 'submit'
                 },
-                collection: options.collection
+                collection: options.collection,
+                controller: options.controller
             });
             this.templateCount = function (data: TodoCountData) {
                 return (
@@ -55,7 +57,8 @@ module app {
             this.elements.items.innerHTML = '';
             items.forEach((model) => {
                 var todoItemView = new app.TodoItemView({
-                    model: model
+                    model: model,
+                    controller: this.controller
                 });
                 this.elements.items.appendChild(todoItemView.getEl());
             });
@@ -78,15 +81,10 @@ module app {
             });
         }
         submit(element: HTMLElement, event: Event): void {
-            var todoItem: TodoItemModel;
+            var title: string;
             event.preventDefault();
-            todoItem = new app.TodoItemModel({
-                title: this.elements.title.value,
-                isDone: false
-            });
-            todoItem.save().then(() => {
-                this.collection.fetch();
-            });
+            title = this.elements.title.value;
+            this.controller.addItem(title);
             this.elements.title.value = '';
         }
         keyup(element: HTMLInputElement): void {

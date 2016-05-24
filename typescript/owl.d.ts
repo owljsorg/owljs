@@ -4,6 +4,7 @@
 ///<reference path="owl.util.d.ts"/>
 ///<reference path="owl.Router.d.ts"/>
 ///<reference path="owl.Collection.d.ts"/>
+///<reference path="owl.Controller.d.ts"/>
 ///<reference path="owl.Model.d.ts"/>
 ///<reference path="owl.View.d.ts"/>
 
@@ -21,6 +22,7 @@ declare module owl {
      */
     interface ModelOptions {
         collection: Collection;
+        collectionIndex: number;
     }
     /**
      * Router
@@ -29,7 +31,7 @@ declare module owl {
         path?: string;
         resolves?: Array<Function>;
         callback?: Function;
-        controller?: Object;
+        controller?: new () => Controller;
         action?: string;
 
         params?: Array<Object>;
@@ -45,7 +47,7 @@ declare module owl {
         template?: Function;
         model?: Model;
         collection?: Collection;
-        controller?: Object;
+        controller?: Controller;
         
     }
     /**

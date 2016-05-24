@@ -13,7 +13,7 @@
   <body>
     <section class="page-header">
       <h1 class="project-name">owl.js</h1>
-      <h2 class="project-tagline">Backbone-like frontend library</h2><a href="https://github.com/omegascorp/owl#readme" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/owl.js" target="_blank" class="btn">View on npm</a>
+      <h2 class="project-tagline">Backbone-like frontend library</h2><a href="https://github.com/owljsorg/owl.js#readme" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/owl.js" target="_blank" class="btn">View on npm</a>
     </section>
     <section data-spy="scroll" data-target=".scrollspy" class="main-content">
       <div class="row">
@@ -37,11 +37,17 @@
                   </li>
                   <li><a href="#patch"><i class="alert alert-info"></i><span>patch</span></a>
                   </li>
+                  <li><a href="#updateCollection"><i class="alert alert-info"></i><span>updateCollection</span></a>
+                  </li>
                   <li><a href="#destroy"><i class="alert alert-info"></i><span>destroy</span></a>
                   </li>
                   <li><a href="#getData"><i class="alert alert-info"></i><span>getData</span></a>
                   </li>
+                  <li><a href="#setData"><i class="alert alert-info"></i><span>setData</span></a>
+                  </li>
                   <li><a href="#getCollection"><i class="alert alert-info"></i><span>getCollection</span></a>
+                  </li>
+                  <li><a href="#getCollectionIndex"><i class="alert alert-info"></i><span>getCollectionIndex</span></a>
                   </li>
                   <li><a href="#on"><i class="alert alert-info"></i><span>on</span></a>
                   </li>
@@ -254,6 +260,14 @@
               </tr>
             </tbody>
           </table>
+          <section id="updateCollection">
+            <h1>updateCollection</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>updateCollection()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Updates collection data</p></div>
           <section id="destroy">
             <h1>destroy</h1>
             <h5 class="subheader"></h5>
@@ -307,6 +321,14 @@
               </tr>
             </tbody>
           </table>
+          <section id="setData">
+            <h1>setData</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>setData()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Set model data</p></div>
           <section id="getCollection">
             <h1>getCollection</h1>
             <h5 class="subheader"></h5>
@@ -328,6 +350,30 @@
                 <td>return</td>
                 <td>owl.Collection</td>
                 <td><p>Model collection</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <section id="getCollectionIndex">
+            <h1>getCollectionIndex</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getCollectionIndex()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Gets model collection index</p></div>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>return</td>
+                <td>number</td>
+                <td><p>Model collection index</p></td>
               </tr>
             </tbody>
           </table>

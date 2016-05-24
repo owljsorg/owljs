@@ -40,6 +40,12 @@ declare module owl {
         get(index: number): owl.Model;
 
         /**
+         * Updates collection internal data value based on index
+         * In case when index is not defined updates whole collection
+         */
+        update(index?: number): void;
+
+        /**
          * Adds event listener
          */
         on(event: string, listener: Function): void;

@@ -1036,6 +1036,9 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 							<a href="index.html#owl.collection.fetch" class="tsd-kind-icon">fetch</a>
 						</li>
 						<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
+							<a href="index.html#owl.collection.get" class="tsd-kind-icon">get</a>
+						</li>
+						<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
 							<a href="index.html#owl.collection.getdata" class="tsd-kind-icon">get<wbr>Data</a>
 						</li>
 						<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
@@ -1056,6 +1059,9 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 						<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
 							<a href="index.html#owl.collection.trigger-1" class="tsd-kind-icon">trigger</a>
 						</li>
+						<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
+							<a href="index.html#owl.collection.update" class="tsd-kind-icon">update</a>
+						</li>
 					</ul>
 				</li>
 				<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-external">
@@ -1074,10 +1080,13 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 							<a href="index.html#owl.model.fetch-1" class="tsd-kind-icon">fetch</a>
 						</li>
 						<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-							<a href="index.html#owl.model.get" class="tsd-kind-icon">get</a>
+							<a href="index.html#owl.model.get-1" class="tsd-kind-icon">get</a>
 						</li>
 						<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
 							<a href="index.html#owl.model.getcollection" class="tsd-kind-icon">get<wbr>Collection</a>
+						</li>
+						<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
+							<a href="index.html#owl.model.getcollectionindex" class="tsd-kind-icon">get<wbr>Collection<wbr>Index</a>
 						</li>
 						<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
 							<a href="index.html#owl.model.getdata-1" class="tsd-kind-icon">get<wbr>Data</a>
@@ -1104,7 +1113,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 							<a href="index.html#owl.model.triggersingle" class="tsd-kind-icon">trigger<wbr>Single</a>
 						</li>
 						<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-							<a href="index.html#owl.model.update" class="tsd-kind-icon">update</a>
+							<a href="index.html#owl.model.update-1" class="tsd-kind-icon">update</a>
 						</li>
 					</ul>
 				</li>
@@ -1200,7 +1209,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 							<a href="index.html#owl.view.render" class="tsd-kind-icon">render</a>
 						</li>
 						<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-							<a href="index.html#owl.view.update-1" class="tsd-kind-icon">update</a>
+							<a href="index.html#owl.view.update-2" class="tsd-kind-icon">update</a>
 						</li>
 						<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
 							<a href="index.html#owl.view.updateelements" class="tsd-kind-icon">update<wbr>Elements</a>
@@ -1302,7 +1311,10 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 			<p><a href="https://travis-ci.org/omegascorp/owl"><img src="https://travis-ci.org/omegascorp/owl.svg?branch=master" alt="Build Status"></a>
 			<a href="https://coveralls.io/github/omegascorp/owl?branch=master"><img src="https://coveralls.io/repos/github/omegascorp/owl/badge.svg?branch=master" alt="Coverage Status"></a></p>
 			<h2 id="install">Install</h2>
+			<p><strong>Bower</strong></p>
 			<pre><code><span class="hljs-keyword">bower </span>install owl.js
+</code></pre><p><strong>npm</strong></p>
+			<pre><code>npm <span class="hljs-keyword">install</span> owl.js
 </code></pre><h2 id="concept">Concept</h2>
 			<p>owl.js is very simple library is very similar to of backbone.js, without dependency on underscore.js and jQuery.
 			If you know backbone.js you mostly know owl.js.</p>
@@ -2306,6 +2318,34 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 						</ul>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+						<a name="owl.collection.get" class="tsd-anchor"></a>
+						<h3>get</h3>
+						<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+							<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="index.html#owl.model" class="tsd-signature-type">Model</a></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description">
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Collection.d.ts#L40">owl.Collection.d.ts:40</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Gets model by index</p>
+									</div>
+								</div>
+								<h4 class="tsd-parameters-title">Parameters</h4>
+								<ul class="tsd-parameters">
+									<li>
+										<h5>index: <span class="tsd-signature-type">number</span></h5>
+									</li>
+								</ul>
+								<h4 class="tsd-returns-title">Returns <a href="index.html#owl.model" class="tsd-signature-type">Model</a></h4>
+							</li>
+						</ul>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
 						<a name="owl.collection.getdata" class="tsd-anchor"></a>
 						<h3>get<wbr>Data</h3>
 						<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
@@ -2381,7 +2421,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Collection.d.ts#L45">owl.Collection.d.ts:45</a></li>
+										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Collection.d.ts#L56">owl.Collection.d.ts:56</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -2412,7 +2452,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Collection.d.ts#L40">owl.Collection.d.ts:40</a></li>
+										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Collection.d.ts#L51">owl.Collection.d.ts:51</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -2437,7 +2477,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 						<a name="owl.collection.setdata" class="tsd-anchor"></a>
 						<h3>set<wbr>Data</h3>
 						<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-							<li class="tsd-signature tsd-kind-icon">set<wbr>Data<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+							<li class="tsd-signature tsd-kind-icon">set<wbr>Data<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						</ul>
 						<ul class="tsd-descriptions">
 							<li class="tsd-description">
@@ -2454,7 +2494,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 								<h4 class="tsd-parameters-title">Parameters</h4>
 								<ul class="tsd-parameters">
 									<li>
-										<h5>data: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h5>
+										<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									</li>
 								</ul>
 								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2471,7 +2511,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Collection.d.ts#L50">owl.Collection.d.ts:50</a></li>
+										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Collection.d.ts#L61">owl.Collection.d.ts:61</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -2483,6 +2523,35 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 								<ul class="tsd-parameters">
 									<li>
 										<h5>event: <span class="tsd-signature-type">string</span></h5>
+									</li>
+								</ul>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							</li>
+						</ul>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+						<a name="owl.collection.update" class="tsd-anchor"></a>
+						<h3>update</h3>
+						<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+							<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description">
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Collection.d.ts#L46">owl.Collection.d.ts:46</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Updates collection internal data value based on index
+										In case when index is not defined updates whole collection</p>
+									</div>
+								</div>
+								<h4 class="tsd-parameters-title">Parameters</h4>
+								<ul class="tsd-parameters">
+									<li>
+										<h5><span class="tsd-flag ts-flagOptional">Optional</span> index: <span class="tsd-signature-type">number</span></h5>
 									</li>
 								</ul>
 								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2609,7 +2678,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 						</ul>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<a name="owl.model.get" class="tsd-anchor"></a>
+						<a name="owl.model.get-1" class="tsd-anchor"></a>
 						<h3>get</h3>
 						<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
 							<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
@@ -2646,7 +2715,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Model.d.ts#L56">owl.Model.d.ts:56</a></li>
+										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Model.d.ts#L55">owl.Model.d.ts:55</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -2655,6 +2724,28 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 									</div>
 								</div>
 								<h4 class="tsd-returns-title">Returns <a href="index.html#owl.collection" class="tsd-signature-type">Collection</a></h4>
+							</li>
+						</ul>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+						<a name="owl.model.getcollectionindex" class="tsd-anchor"></a>
+						<h3>get<wbr>Collection<wbr>Index</h3>
+						<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+							<li class="tsd-signature tsd-kind-icon">get<wbr>Collection<wbr>Index<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description">
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Model.d.ts#L60">owl.Model.d.ts:60</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Gets model collection index</p>
+									</div>
+								</div>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 							</li>
 						</ul>
 					</section>
@@ -2690,7 +2781,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Model.d.ts#L65">owl.Model.d.ts:65</a></li>
+										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Model.d.ts#L70">owl.Model.d.ts:70</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -2721,7 +2812,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Model.d.ts#L60">owl.Model.d.ts:60</a></li>
+										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Model.d.ts#L65">owl.Model.d.ts:65</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -2842,7 +2933,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Model.d.ts#L75">owl.Model.d.ts:75</a></li>
+										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Model.d.ts#L80">owl.Model.d.ts:80</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -2873,7 +2964,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Model.d.ts#L70">owl.Model.d.ts:70</a></li>
+										<li>Defined in <a href="https://github.com/omegascorp/owl/blob/master/typescript/owl.Model.d.ts#L75">owl.Model.d.ts:75</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -2892,7 +2983,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 						</ul>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<a name="owl.model.update" class="tsd-anchor"></a>
+						<a name="owl.model.update-1" class="tsd-anchor"></a>
 						<h3>update</h3>
 						<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
 							<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span>, query<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="index.html#owl.promise" class="tsd-signature-type">Promise</a></li>
@@ -3085,7 +3176,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 						<a name="owl.router.getcontroller" class="tsd-anchor"></a>
 						<h3>get<wbr>Controller</h3>
 						<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-							<li class="tsd-signature tsd-kind-icon">get<wbr>Controller<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+							<li class="tsd-signature tsd-kind-icon">get<wbr>Controller<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span></li>
 						</ul>
 						<ul class="tsd-descriptions">
 							<li class="tsd-description">
@@ -3096,10 +3187,10 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Gets controller name</p>
+										<p>Gets controller</p>
 									</div>
 								</div>
-								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span></h4>
 							</li>
 						</ul>
 					</section>
@@ -3244,7 +3335,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 						<a name="owl.router.setcontroller" class="tsd-anchor"></a>
 						<h3>set<wbr>Controller</h3>
 						<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-							<li class="tsd-signature tsd-kind-icon">set<wbr>Controller<span class="tsd-signature-symbol">(</span>controller<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+							<li class="tsd-signature tsd-kind-icon">set<wbr>Controller<span class="tsd-signature-symbol">(</span>controller<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						</ul>
 						<ul class="tsd-descriptions">
 							<li class="tsd-description">
@@ -3255,13 +3346,13 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Sets controller name</p>
+										<p>Sets controller</p>
 									</div>
 								</div>
 								<h4 class="tsd-parameters-title">Parameters</h4>
 								<ul class="tsd-parameters">
 									<li>
-										<h5>controller: <span class="tsd-signature-type">string</span></h5>
+										<h5>controller: <span class="tsd-signature-type">Object</span></h5>
 									</li>
 								</ul>
 								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3586,7 +3677,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 						</ul>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<a name="owl.view.update-1" class="tsd-anchor"></a>
+						<a name="owl.view.update-2" class="tsd-anchor"></a>
 						<h3>update</h3>
 						<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
 							<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>

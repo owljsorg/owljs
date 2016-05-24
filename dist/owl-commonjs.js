@@ -801,6 +801,14 @@ var owl = {
             return this.data;
         },
         /**
+         * Set model data
+         */
+        setData: function(data) {
+            this.data = data;
+            this.updateCollection();
+            this.trigger('change');
+        },
+        /**
          * Gets model collection
          * @return {owl.Collection} Model collection
          */
@@ -928,7 +936,6 @@ var owl = {
                     });
                 });
             } else {
-                this.data = [];
                 this.models = [];
                 this.length = 0;
             }

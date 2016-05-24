@@ -15,6 +15,21 @@
 
     npm install owl.js
 
+## Features
+
+**Languages:** ES5, ES6, TypeScript.
+
+**Modules:** CommonJS, amd.
+
+**Libraries:** React.
+
+## Examples
+
+To start examples server
+
+    cd examples
+    npm start
+
 ## Concept
 
 owl.js is very simple library is very similar to of backbone.js, without dependency on underscore.js and jQuery.
@@ -31,10 +46,6 @@ owl.Router is created to manage pages based on URL.
 It contains records named routes.
 Each route contains path and name of controller and action (action is just a method in the controller) that will be called for specified path.
 
-## Features
-
-ES5 and TypeScript support. Also it supports ES6 for now without modules.
-
 ## Development
 
 **Run unit tests**
@@ -43,4 +54,4 @@ ES5 and TypeScript support. Also it supports ES6 for now without modules.
 
 or
 
-    npm run test
+    npm test

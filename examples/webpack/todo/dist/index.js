@@ -86,7 +86,8 @@
 	        _routers = {},
 	        _resolves = {},
 	        _events = {},
-	        _started = false;
+	        _started = false,
+	        _destroyFunction = null;
 
 	    owl.history = {
 	        /**
@@ -171,6 +172,9 @@
 	         */
 	        open: function(path) {
 	            var router;
+	            if (_destroyFunction) {
+	                _destroyFunction();
+	            }
 	            Object.keys(_routers).some(function(routerPath) {
 	                if(path === routerPath ||
 	                    (path.indexOf(routerPath) === 0 && path.length > routerPath.length && path[routerPath.length] === '/')) {
@@ -188,7 +192,7 @@
 	                return;
 	            }
 	            this.trigger('change');
-	            router.open(path);
+	            _destroyFunction = router.open(path);
 	        },
 	        /**
 	         * Sets router by name
@@ -377,6 +381,7 @@
 	        /**
 	         * Opens page by path
 	         * @param {string} path Page path
+	         * @return {function} Function to destroy controller
 	         */
 	        open: function(path) {
 	            var route = this.getRoute(path);
@@ -385,8 +390,9 @@
 	            }
 
 	            if (this.resolve(route)) {
-	                this.run(path, route);
+	                return this.run(path, route);
 	            }
+	            return null;
 	        },
 	        /**
 	         * Calls resolve callback
@@ -414,10 +420,12 @@
 	         * @private
 	         * @param {string} path Path to run
 	         * @param {object} route Route to run
+	         * @return {function} Function to destroy controller
 	         */
 	        run: function(path, route) {
 	            var match,
 	                controller,
+	                action,
 	                i,
 
 	                params = {};
@@ -431,18 +439,21 @@
 	                }
 	            }
 
-	            if (route.action && (route.controller || this.controller)) {
-	                controller = route.controller || this.controller;
-	                if(controller[route.action]) {
-	                    controller[route.action](params);
-	                } else {
-	                    console.info('Action ' + route.action + ' is missing');
+	            if (route.controller || this.controller) {
+	                controller = new (route.controller || this.controller)(params);
+	                action = route.action || 'init';
+	                if (action && controller[action]) {
+	                    controller[action](params);
 	                }
-	            } else if(route.callback) {
+	                if (controller.destroy) {
+	                    return controller.destroy.bind(controller);
+	                }
+	            } else if (route.callback) {
 	                route.callback(params);
 	            } else {
-	                console.error('Either controller.action and callback are missing');
+	                console.error('Either controller and callback are missing');
 	            }
+	            return null;
 	        },
 	        /**
 	         * Adds a route
@@ -534,7 +545,7 @@
 	        this.template = options.template || null;
 	        this.model = options.model;
 	        this.collection = options.collection;
-	        this.contorller = options.contorller;
+	        this.controller = options.controller;
 	        this.specialEvents = ['submit', 'focus', 'blur'];
 
 	        if (this.className) {
@@ -906,7 +917,11 @@
 	         * @param {function} listener Event listener
 	         */
 	        off: function(event, listener) {
-	            if (this.events[event]) {
+	            if (!event) {
+	                this.events = [];
+	            } else if (!listener) {
+	                delete this.events[event];
+	            } else if (this.events[event]) {
 	                this.events[event] = this.events[event].filter(function(currentListener) {
 	                    return currentListener !== listener;
 	                });
@@ -1064,8 +1079,12 @@
 	         * @param {function} listener Event listener
 	         */
 	        off: function(event, listener) {
-	            if (this.events[event]) {
-	                this.events[event] = this.events[event].filter(function(currentListener) {
+	            if (!event) {
+	                this.events = [];
+	            } else if (!listener) {
+	                delete this.events[event];
+	            } else if (this.events[event]) {
+	                this.events[event] = this.events[event].filter(function (currentListener) {
 	                    return currentListener !== listener;
 	                });
 	            }
@@ -1084,6 +1103,34 @@
 	        }
 	    };
 	    owl.Collection = Collection;
+	})(window, owl);
+	(function(window, owl) {
+	    /**
+	     * owl.Controller
+	     * @constructor
+	     */
+	    function Controller() {
+
+	    }
+
+	    /**
+	     * Init a controller
+	     * Will be called after navigate to new page
+	     * If action is defined in route it will be called instead of init
+	     */
+	    Controller.prototype.init = function() {
+
+	    };
+
+	    /**
+	     * Removes all data created by controller
+	     * Will be called before navigate to new page
+	     */
+	    Controller.prototype.destroy = function() {
+
+	    };
+
+	    owl.Controller = Controller;
 	})(window, owl);
 	(function(owl) {
 	    var _headers = {
@@ -1203,12 +1250,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var owl = __webpack_require__(1),
-	    todoController = __webpack_require__(4);
+	    TodoController = __webpack_require__(4);
 
 	function MainRouter() {
 	    var routes = [{
 	            path: '',
-	            action: 'readAll'
+	            controller: TodoController
 	        }, {
 	            path: 'item/:id',
 	            callback: function() {
@@ -1220,7 +1267,7 @@
 	                console.log('404 page');
 	            }
 	        };
-	    owl.Router.call(this, routes, defaultRoute, todoController);
+	    owl.Router.call(this, routes, defaultRoute);
 	}
 	MainRouter.prototype = Object.create(owl.Router.prototype);
 
@@ -1239,7 +1286,7 @@
 	    this.appView = __webpack_require__(9);
 	}
 	TodoController.prototype = {
-	    readAll: function() {
+	    init: function() {
 	        var that = this,
 	            todoItemCollection,
 	            todoView;
@@ -1255,7 +1302,7 @@
 	        });
 	    }
 	};
-	module.exports = new TodoController();
+	module.exports = TodoController;
 
 /***/ },
 /* 5 */

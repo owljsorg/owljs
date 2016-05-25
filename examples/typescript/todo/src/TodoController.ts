@@ -6,17 +6,18 @@ module app {
         constructor() {
             super();
             this.appView = <app.AppView>owl.require('appView');
-
+        }
+        init(): void {
             this.todoItemCollection = new app.TodoItemCollection();
             this.todoItemCollection.fetch()
                 .then(() => {
                     this.showTodoView();
-                })
+                });
         }
-        destroy() {
+        destroy(): void {
             this.todoItemCollection.off();
         }
-        showTodoView() {
+        showTodoView(): void {
             let todoView: TodoView = new TodoView({
                 controller: this,
                 collection: this.todoItemCollection

@@ -13,8 +13,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
 
         _createClass(TodoController, [{
-            key: 'readAll',
-            value: function readAll() {
+            key: 'init',
+            value: function init() {
                 var _this = this;
 
                 var todoItemCollection = void 0,

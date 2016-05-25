@@ -3,7 +3,7 @@
         this.appView = owl.require('appView');
     }
     TodoController.prototype = {
-        readAll: function() {
+        init: function() {
             var that = this,
                 todoItemCollection,
                 todoView;
@@ -17,6 +17,9 @@
 
                 that.appView.showMain(todoView);
             });
+        },
+        destroy: function() {
+
         }
     };
     app.TodoController = TodoController;

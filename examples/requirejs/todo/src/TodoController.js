@@ -1,9 +1,8 @@
-define('todoController', ['owl', 'appView', 'TodoItemCollection', 'TodoView'],
+define('TodoController', ['owl', 'appView', 'TodoItemCollection', 'TodoView'],
     function(owl, appView, TodoItemCollection, TodoView) {
-TodoView
     function TodoController() {}
     TodoController.prototype = {
-        readAll: function() {
+        init: function() {
             var that = this,
                 todoItemCollection,
                 todoView;
@@ -19,5 +18,5 @@ TodoView
             });
         }
     };
-    return new TodoController();
+    return TodoController;
 });

@@ -67,7 +67,7 @@ declare module owl {
         /**
          * Removes event listener
          */
-        off(event: string, listener: Function): void;
+        off(event?: string, listener?: Function): void;
 
         /**
          * Trigger single event

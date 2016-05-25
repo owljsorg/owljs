@@ -86,7 +86,7 @@
 
             if (route.controller || this.controller) {
                 controller = new (route.controller || this.controller)(params);
-                action = route.action;
+                action = route.action || 'init';
                 if (action && controller[action]) {
                     controller[action](params);
                 }

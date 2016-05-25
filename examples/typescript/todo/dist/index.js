@@ -58,15 +58,17 @@ var app;
     var TodoController = (function (_super) {
         __extends(TodoController, _super);
         function TodoController() {
-            var _this = this;
             _super.call(this);
             this.appView = owl.require('appView');
+        }
+        TodoController.prototype.init = function () {
+            var _this = this;
             this.todoItemCollection = new app.TodoItemCollection();
             this.todoItemCollection.fetch()
                 .then(function () {
                 _this.showTodoView();
             });
-        }
+        };
         TodoController.prototype.destroy = function () {
             this.todoItemCollection.off();
         };
@@ -267,9 +269,6 @@ var app;
 document.addEventListener('DOMContentLoaded', function () {
     owl.define('appView', function () {
         return new app.AppView();
-    });
-    owl.define('todoController', function () {
-        return new app.TodoController();
     });
     owl.history.init({
         baseUrl: '/typescript/todo/'

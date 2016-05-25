@@ -6,7 +6,7 @@ function TodoController() {
     this.appView = require('./appView');
 }
 TodoController.prototype = {
-    readAll: function() {
+    init: function() {
         var that = this,
             todoItemCollection,
             todoView;
@@ -22,4 +22,4 @@ TodoController.prototype = {
         });
     }
 };
-module.exports = new TodoController();
+module.exports = TodoController;

@@ -353,14 +353,52 @@ describe('owl.Model.js', function() {
         });
         var firstListener = sinon.spy();
         var secondListener = sinon.spy();
+        var thirdListener = sinon.spy();
         model.on('event', firstListener);
+        model.on('event', secondListener);
         model.off('event', firstListener);
-        model.off('otherEvent', secondListener);
-        it('should trigger event', function () {
+        model.off('otherEvent', thirdListener);
+        it('should trigger right event', function () {
             model.triggerSingle('event');
 
             assert(firstListener.notCalled);
+            assert(secondListener.called);
+            assert(thirdListener.notCalled);
+        });
+    });
+
+    describe('off (without listener)', function() {
+        var model = new owl.Model({}, {
+            urlRoot: '/things'
+        });
+        var firstListener = sinon.spy();
+        var secondListener = sinon.spy();
+        model.on('event', firstListener);
+        model.on('event', secondListener);
+        model.off('event');
+        it('should not trigger event', function () {
+            model.triggerSingle('event');
+
             assert(secondListener.notCalled);
+            assert(firstListener.notCalled);
+        });
+    });
+
+    describe('off (without event)', function() {
+        var model = new owl.Model({}, {
+            urlRoot: '/things'
+        });
+        var firstListener = sinon.spy();
+        var secondListener = sinon.spy();
+        model.on('event', firstListener);
+        model.on('otherEvent', secondListener);
+        model.off();
+        it('should not trigger event', function () {
+            model.triggerSingle('event');
+            model.triggerSingle('otherEvent');
+
+            assert(secondListener.notCalled);
+            assert(firstListener.notCalled);
         });
     });
 

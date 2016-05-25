@@ -6,8 +6,13 @@ describe('owl.ajax', function() {
         { 'Content-Type': 'application/json' },
         JSON.stringify(response)
     ]);
+    server.respondWith('GET', '/something', [
+        404,
+        { 'Content-Type': 'application/json' },
+        '{}'
+    ]);
 
-    describe('ajax', function() {
+    describe('request', function() {
         it('should make GET request to /things', function(done) {
             owl.ajax.request({
                 url: '/things',
@@ -18,6 +23,46 @@ describe('owl.ajax', function() {
             });
 
             server.respond();
+        });
+    });
+
+    describe('request (not found)', function() {
+        before(function () {
+            sinon.stub(owl.ajax, 'error');
+        });
+        it('should catch error', function(done) {
+            owl.ajax.request({
+                url: '/something',
+                type: 'GET'
+            }).catch(function(error) {
+                assert(owl.ajax.error.called);
+                expect(error.status).to.eql(404);
+                expect(error.responseText).to.eql('{}');
+                done();
+                owl.ajax.restore();
+            });
+
+            server.respond();
+        });
+    });
+
+    describe('toJsonString', function() {
+        it('stringify object', function() {
+            expect(owl.ajax.toJsonString({
+                aaa: 'bbb'
+            })).to.eql('{"aaa":"bbb"}');
+        });
+    });
+
+    describe('toJsonString (not object)', function() {
+        it('stringify object', function() {
+            expect(owl.ajax.toJsonString(123)).to.eql(123);
+        });
+    });
+
+    describe('toJsonString (undefined)', function() {
+        it('stringify object', function() {
+            expect(owl.ajax.toJsonString(undefined)).to.eql('');
         });
     });
 });

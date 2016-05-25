@@ -8,7 +8,8 @@
         _routers = {},
         _resolves = {},
         _events = {},
-        _started = false;
+        _started = false,
+        _destroyFunction = null;
 
     owl.history = {
         /**
@@ -93,6 +94,9 @@
          */
         open: function(path) {
             var router;
+            if (_destroyFunction) {
+                _destroyFunction();
+            }
             Object.keys(_routers).some(function(routerPath) {
                 if(path === routerPath ||
                     (path.indexOf(routerPath) === 0 && path.length > routerPath.length && path[routerPath.length] === '/')) {
@@ -110,7 +114,7 @@
                 return;
             }
             this.trigger('change');
-            router.open(path);
+            _destroyFunction = router.open(path);
         },
         /**
          * Sets router by name

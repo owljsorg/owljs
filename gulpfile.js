@@ -13,6 +13,7 @@ var gulp = require('gulp'),
         'src/owl.View.js',
         'src/owl.Model.js',
         'src/owl.Collection.js',
+        'src/owl.Controller.js',
 
         'src/owl.ajax.js',
         'src/owl.Promise.js'
@@ -26,6 +27,7 @@ var gulp = require('gulp'),
         'src/owl.View.js',
         'src/owl.Model.js',
         'src/owl.Collection.js',
+        'src/owl.Controller.js',
 
         'src/owl.ajax.js',
         'src/owl.Promise.js'
@@ -39,6 +41,7 @@ var gulp = require('gulp'),
         'src/owl.View.js',
         'src/owl.Model.js',
         'src/owl.Collection.js',
+        'src/owl.Controller.js',
 
         'src/owl.ajax.js',
         'src/owl.Promise.js'

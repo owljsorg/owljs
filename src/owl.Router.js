@@ -26,6 +26,7 @@
         /**
          * Opens page by path
          * @param {string} path Page path
+         * @return {function} Function to destroy controller
          */
         open: function(path) {
             var route = this.getRoute(path);
@@ -34,8 +35,9 @@
             }
 
             if (this.resolve(route)) {
-                this.run(path, route);
+                return this.run(path, route);
             }
+            return null;
         },
         /**
          * Calls resolve callback
@@ -63,10 +65,12 @@
          * @private
          * @param {string} path Path to run
          * @param {object} route Route to run
+         * @return {function} Function to destroy controller
          */
         run: function(path, route) {
             var match,
                 controller,
+                action,
                 i,
 
                 params = {};
@@ -80,18 +84,21 @@
                 }
             }
 
-            if (route.action && (route.controller || this.controller)) {
-                controller = route.controller || this.controller;
-                if(controller[route.action]) {
-                    controller[route.action](params);
-                } else {
-                    console.info('Action ' + route.action + ' is missing');
+            if (route.controller || this.controller) {
+                controller = new (route.controller || this.controller)(params);
+                action = route.action || 'init';
+                if (action && controller[action]) {
+                    controller[action](params);
                 }
-            } else if(route.callback) {
+                if (controller.destroy) {
+                    return controller.destroy.bind(controller);
+                }
+            } else if (route.callback) {
                 route.callback(params);
             } else {
-                console.error('Either controller.action and callback are missing');
+                console.error('Either controller and callback are missing');
             }
+            return null;
         },
         /**
          * Adds a route

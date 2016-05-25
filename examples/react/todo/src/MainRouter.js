@@ -1,10 +1,9 @@
 (function(app, owl) {
     class MainRouter extends owl.Router {
         constructor() {
-            var todoController = owl.require('todoController'),
-                routes = [{
+            var routes = [{
                     path: '',
-                    action: 'readAll'
+                    controller: app.TodoController
                 }, {
                     path: 'item/:id',
                     callback: function () {
@@ -16,7 +15,7 @@
                         console.log('404 page');
                     }
                 };
-            super(routes, defaultRoute, todoController);
+            super(routes, defaultRoute);
         }
     }
     app.MainRouter = MainRouter;

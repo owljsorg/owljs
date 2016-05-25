@@ -3,10 +3,11 @@ declare module owl {
      * owl.Router
      */
     export class Router {
-        constructor(routes: Array<Route>, defaultRoute: Route, controller: Object);
+        constructor(routes: Array<Route>, defaultRoute: Route, controller?: new () => Controller);
 
         /**
          * Opens page by path
+         * @return Function to destroy controller
          */
         open(path: string): void;
 
@@ -17,8 +18,9 @@ declare module owl {
 
         /**
          * Runs the route
+         * @return Function to destroy controller
          */
-        run(path: string, route: Route): void;
+        run(path: string, route: Route): Function;
 
         /**
          * Adds a route
@@ -43,10 +45,10 @@ declare module owl {
         /**
          * Sets controller
          */
-        setController(controller: Object): void;
+        setController(controller: new () => Controller): void;
         /**
          * Gets controller
          */
-        getController(): Object;
+        getController(): new () => Controller;
     }
 }

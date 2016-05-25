@@ -1,5 +1,7 @@
 module app {
     export class TodoItemView extends owl.View{
+        protected controller: TodoController;
+
         constructor(options: owl.ViewOptions) {
             super({
                 className: 'v-todo',
@@ -15,7 +17,8 @@ module app {
                 events: {
                     'change $checkbox': 'change'
                 },
-                model: options.model
+                model: options.model,
+                controller: options.controller
             });
             // update links to data-element
             // and update special events (submit, focus, blur)
@@ -28,9 +31,7 @@ module app {
         };
         change(element: HTMLInputElement, event: Event): void {
             event.preventDefault();
-            this.model.patch({
-                isDone: element.checked
-            });
+            this.controller.setDone(this.model.getCollectionIndex(), element.checked);
         };
         initListeners(): void {
             this.model.on('change', () => {

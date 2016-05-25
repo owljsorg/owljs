@@ -86,7 +86,8 @@
 	        _routers = {},
 	        _resolves = {},
 	        _events = {},
-	        _started = false;
+	        _started = false,
+	        _destroyFunction = null;
 
 	    owl.history = {
 	        /**
@@ -171,6 +172,9 @@
 	         */
 	        open: function(path) {
 	            var router;
+	            if (_destroyFunction) {
+	                _destroyFunction();
+	            }
 	            Object.keys(_routers).some(function(routerPath) {
 	                if(path === routerPath ||
 	                    (path.indexOf(routerPath) === 0 && path.length > routerPath.length && path[routerPath.length] === '/')) {
@@ -188,7 +192,7 @@
 	                return;
 	            }
 	            this.trigger('change');
-	            router.open(path);
+	            _destroyFunction = router.open(path);
 	        },
 	        /**
 	         * Sets router by name
@@ -377,6 +381,7 @@
 	        /**
 	         * Opens page by path
 	         * @param {string} path Page path
+	         * @return {function} Function to destroy controller
 	         */
 	        open: function(path) {
 	            var route = this.getRoute(path);
@@ -385,8 +390,9 @@
 	            }
 
 	            if (this.resolve(route)) {
-	                this.run(path, route);
+	                return this.run(path, route);
 	            }
+	            return null;
 	        },
 	        /**
 	         * Calls resolve callback
@@ -414,10 +420,12 @@
 	         * @private
 	         * @param {string} path Path to run
 	         * @param {object} route Route to run
+	         * @return {function} Function to destroy controller
 	         */
 	        run: function(path, route) {
 	            var match,
 	                controller,
+	                action,
 	                i,
 
 	                params = {};
@@ -431,18 +439,21 @@
 	                }
 	            }
 
-	            if (route.action && (route.controller || this.controller)) {
-	                controller = route.controller || this.controller;
-	                if(controller[route.action]) {
-	                    controller[route.action](params);
-	                } else {
-	                    console.info('Action ' + route.action + ' is missing');
+	            if (route.controller || this.controller) {
+	                controller = new (route.controller || this.controller)(params);
+	                action = route.action || 'init';
+	                if (action && controller[action]) {
+	                    controller[action](params);
 	                }
-	            } else if(route.callback) {
+	                if (controller.destroy) {
+	                    return controller.destroy.bind(controller);
+	                }
+	            } else if (route.callback) {
 	                route.callback(params);
 	            } else {
-	                console.error('Either controller.action and callback are missing');
+	                console.error('Either controller and callback are missing');
 	            }
+	            return null;
 	        },
 	        /**
 	         * Adds a route
@@ -534,7 +545,7 @@
 	        this.template = options.template || null;
 	        this.model = options.model;
 	        this.collection = options.collection;
-	        this.contorller = options.contorller;
+	        this.controller = options.controller;
 	        this.specialEvents = ['submit', 'focus', 'blur'];
 
 	        if (this.className) {
@@ -701,6 +712,7 @@
 	        this.idAttribute = options && options.idAttribute || 'id';
 	        this.defaults = options && options.defaults || {};
 	        this.collection = options && options.collection || null;
+	        this.collectionIndex = options && typeof options.collectionIndex === 'number' ? options.collectionIndex : null;
 	        this.events = {};
 	    }
 	    Model.prototype = {
@@ -719,6 +731,7 @@
 	         */
 	        set: function(name, value) {
 	            this.data[name] = value;
+	            this.updateCollection();
 	            this.trigger('change', name);
 	        },
 	        /**
@@ -739,6 +752,7 @@
 	            })
 	            .then(function(result) {
 	                that.data = result;
+	                that.updateCollection();
 	                that.trigger('change', Object.keys(that.data));
 	                return result;
 	            });
@@ -748,6 +762,7 @@
 	         */
 	        clear: function() {
 	            this.data = {};
+	            this.updateCollection();
 	        },
 	        /**
 	         * Save a model to database
@@ -770,6 +785,7 @@
 	                if(result[that.idAttribute]) {
 	                    that.data[that.idAttribute] = result[that.idAttribute];
 	                }
+	                that.updateCollection();
 	                that.trigger('change', [that.idAttribute]);
 	                return result;
 	            });
@@ -792,6 +808,7 @@
 	            return this
 	            .save(query)
 	            .then(function(result) {
+	                that.updateCollection();
 	                that.trigger('change', Object.keys(data));
 	                return result;
 	            });
@@ -819,9 +836,18 @@
 	                data: data
 	            })
 	            .then(function(result) {
+	                that.updateCollection();
 	                that.trigger('change', Object.keys(data));
 	                return result;
 	            });
+	        },
+	        /**
+	         * Updates collection data
+	         */
+	        updateCollection: function() {
+	            if(this.collection) {
+	                this.collection.update(this.collectionIndex);
+	            }
 	        },
 	        /**
 	         * Remove a model
@@ -853,11 +879,26 @@
 	            return this.data;
 	        },
 	        /**
+	         * Set model data
+	         */
+	        setData: function(data) {
+	            this.data = data;
+	            this.updateCollection();
+	            this.trigger('change');
+	        },
+	        /**
 	         * Gets model collection
 	         * @return {owl.Collection} Model collection
 	         */
 	        getCollection: function() {
 	            return this.collection;
+	        },
+	        /**
+	         * Gets model collection index
+	         * @return {number} Model collection index
+	         */
+	        getCollectionIndex: function() {
+	            return this.collectionIndex;
 	        },
 	        /**
 	         * Adds event listener
@@ -876,7 +917,11 @@
 	         * @param {function} listener Event listener
 	         */
 	        off: function(event, listener) {
-	            if (this.events[event]) {
+	            if (!event) {
+	                this.events = [];
+	            } else if (!listener) {
+	                delete this.events[event];
+	            } else if (this.events[event]) {
 	                this.events[event] = this.events[event].filter(function(currentListener) {
 	                    return currentListener !== listener;
 	                });
@@ -926,6 +971,8 @@
 	    function Collection(data, options){
 	        this.url = options.url;
 	        this.model = options.model;
+	        this.data = [];
+	        this.models = [];
 	        this.events = {};
 
 	        this.setData(data);
@@ -964,13 +1011,13 @@
 	            if (data instanceof Array) {
 	                this.data = data;
 	                this.length = data.length;
-	                this.models = data.map(function(item) {
+	                this.models = data.map(function(item, index) {
 	                    return new that.model(item, {
-	                        collection: that
+	                        collection: that,
+	                        collectionIndex: index
 	                    });
 	                });
 	            } else {
-	                this.data = [];
 	                this.models = [];
 	                this.length = 0;
 	            }
@@ -998,6 +1045,24 @@
 	            return this.length;
 	        },
 	        /**
+	         * Gets a model by index
+	         */
+	        get: function(index) {
+	           return this.models[index];
+	        },
+	        /**
+	         * Updates collection data
+	         */
+	        update: function(index) {
+	            if (typeof index === 'number') {
+	                this.data[index] = this.models[index].getData();
+	            } else {
+	                this.data = this.models.map(function(model) {
+	                    return model.getData();
+	                });
+	            }
+	        },
+	        /**
 	         * Adds event listener
 	         * @param {string} event Event name
 	         * @param {function} listener Event listener
@@ -1014,8 +1079,12 @@
 	         * @param {function} listener Event listener
 	         */
 	        off: function(event, listener) {
-	            if (this.events[event]) {
-	                this.events[event] = this.events[event].filter(function(currentListener) {
+	            if (!event) {
+	                this.events = [];
+	            } else if (!listener) {
+	                delete this.events[event];
+	            } else if (this.events[event]) {
+	                this.events[event] = this.events[event].filter(function (currentListener) {
 	                    return currentListener !== listener;
 	                });
 	            }
@@ -1034,6 +1103,34 @@
 	        }
 	    };
 	    owl.Collection = Collection;
+	})(window, owl);
+	(function(window, owl) {
+	    /**
+	     * owl.Controller
+	     * @constructor
+	     */
+	    function Controller() {
+
+	    }
+
+	    /**
+	     * Init a controller
+	     * Will be called after navigate to new page
+	     * If action is defined in route it will be called instead of init
+	     */
+	    Controller.prototype.init = function() {
+
+	    };
+
+	    /**
+	     * Removes all data created by controller
+	     * Will be called before navigate to new page
+	     */
+	    Controller.prototype.destroy = function() {
+
+	    };
+
+	    owl.Controller = Controller;
 	})(window, owl);
 	(function(owl) {
 	    var _headers = {
@@ -1153,12 +1250,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var owl = __webpack_require__(1),
-	    todoController = __webpack_require__(4);
+	    TodoController = __webpack_require__(4);
 
 	function MainRouter() {
 	    var routes = [{
 	            path: '',
-	            action: 'readAll'
+	            controller: TodoController
 	        }, {
 	            path: 'item/:id',
 	            callback: function() {
@@ -1170,7 +1267,7 @@
 	                console.log('404 page');
 	            }
 	        };
-	    owl.Router.call(this, routes, defaultRoute, todoController);
+	    owl.Router.call(this, routes, defaultRoute);
 	}
 	MainRouter.prototype = Object.create(owl.Router.prototype);
 
@@ -1189,7 +1286,7 @@
 	    this.appView = __webpack_require__(9);
 	}
 	TodoController.prototype = {
-	    readAll: function() {
+	    init: function() {
 	        var that = this,
 	            todoItemCollection,
 	            todoView;
@@ -1205,7 +1302,7 @@
 	        });
 	    }
 	};
-	module.exports = new TodoController();
+	module.exports = TodoController;
 
 /***/ },
 /* 5 */

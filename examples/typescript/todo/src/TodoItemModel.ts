@@ -7,7 +7,8 @@ module app {
         constructor(data: TodoItem, options?: owl.ModelOptions) {
             super(data, {
                 urlRoot: 'todo/items',
-                collection: options && options.collection
+                collection: options && options.collection,
+                collectionIndex: options && options.collectionIndex
             });
         }
     }

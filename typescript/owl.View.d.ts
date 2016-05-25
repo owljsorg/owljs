@@ -8,6 +8,7 @@ declare module owl {
         protected model: Model;
         protected collection: Collection;
         protected template: Function;
+        protected controller: Controller;
 
         constructor(options: ViewOptions);
 

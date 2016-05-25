@@ -201,6 +201,44 @@ describe('owl.Collection', function() {
             assert(secondListener.notCalled);
         });
     });
+
+    describe('off (without listener)', function() {
+        var collection = new owl.Collection([], {
+            url: '/things',
+            model: owl.Model
+        });
+        var firstListener = sinon.spy();
+        var secondListener = sinon.spy();
+        collection.on('event', firstListener);
+        collection.on('event', secondListener);
+        collection.off('event');
+        it('should not trigger event', function () {
+            collection.trigger('event');
+
+            assert(secondListener.notCalled);
+            assert(firstListener.notCalled);
+        });
+    });
+
+    describe('off (without event)', function() {
+        var collection = new owl.Collection([], {
+            url: '/things',
+            model: owl.Model
+        });
+        var firstListener = sinon.spy();
+        var secondListener = sinon.spy();
+        collection.on('event', firstListener);
+        collection.on('otherEvent', secondListener);
+        collection.off();
+        it('should not trigger event', function () {
+            collection.trigger('event');
+            collection.trigger('otherEvent');
+
+            assert(secondListener.notCalled);
+            assert(firstListener.notCalled);
+        });
+    });
+
     after(function() {
         owl.ajax.request.restore();
     });

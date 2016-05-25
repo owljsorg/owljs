@@ -132,18 +132,23 @@ describe('owl.history', function() {
     });
     describe('open (custom router)', function() {
         var router = new owl.Router();
+        var close = sinon.spy();
         before(function() {
-            sinon.stub(router, 'open');
+            sinon.stub(router, 'open').returns(close);
             sinon.stub(owl.history, 'trigger');
 
             owl.history.setRouter('/something', router);
             owl.history.open('/something/else');
+            owl.history.open('/something/other');
         });
         it('should trigger change event', function() {
             assert(owl.history.trigger.calledWith('change'));
         });
         it('should open router page', function() {
             assert(router.open.calledWith('/else'));
+        });
+        it('should close previous page', function() {
+            assert(close.called);
         });
         after(function() {
             owl.history.trigger.restore();

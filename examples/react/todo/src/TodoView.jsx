@@ -33,7 +33,7 @@
                     countLeft++;
                 }
             });
-            return (<div className="v-todo--count">{countLeft}</div>);
+            return (<div className="v-todo--count">{countLeft} items left</div>);
         }
         render() {
             return (

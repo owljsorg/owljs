@@ -9,6 +9,7 @@ module.exports = function(config) {
             'src/owl.history.js',
             'src/owl.ajax.js',
             'src/owl.Collection.js',
+            'src/owl.Controller.js',
             'src/owl.Model.js',
             'src/owl.Router.js',
             'src/owl.View.js',

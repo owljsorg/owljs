@@ -3,7 +3,7 @@
         constructor() {
             this.appView = owl.require('appView');
         }
-        readAll() {
+        init() {
             let todoItemCollection,
                 todoView;
     

@@ -116,8 +116,12 @@
          * @param {function} listener Event listener
          */
         off: function(event, listener) {
-            if (this.events[event]) {
-                this.events[event] = this.events[event].filter(function(currentListener) {
+            if (!event) {
+                this.events = [];
+            } else if (!listener) {
+                delete this.events[event];
+            } else if (this.events[event]) {
+                this.events[event] = this.events[event].filter(function (currentListener) {
                     return currentListener !== listener;
                 });
             }

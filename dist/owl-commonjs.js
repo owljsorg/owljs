@@ -372,7 +372,7 @@ var owl = {
                 }
             }
 
-            if (route.controller || this.controller) {
+            if (route.controller || this.controller && !route.callback) {
                 controller = new (route.controller || this.controller)(params);
                 action = route.action || 'init';
                 if (action && controller[action]) {

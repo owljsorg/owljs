@@ -18,7 +18,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TodoView).call(this, props));
 
             _this.state = {
-                title: ''
+                title: '',
+                active: false
             };
             return _this;
         }
@@ -70,17 +71,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: 'render',
             value: function render() {
+                var _this3 = this;
+
                 return React.createElement(
                     'div',
                     null,
                     React.createElement(
+                        'div',
+                        { className: "header" + (this.state.active ? ' -active' : ''), onClick: function onClick() {
+                                return _this3.setState({ active: true });
+                            } },
+                        'Todo list ',
+                        React.createElement(
+                            'a',
+                            { onClick: function onClick() {
+                                    return owl.history.navigate('about');
+                                } },
+                            'about'
+                        )
+                    ),
+                    React.createElement(
                         'form',
                         { onSubmit: this.onSubmit.bind(this) },
-                        React.createElement(
-                            'h1',
-                            null,
-                            'Todo list'
-                        ),
                         React.createElement('input', {
                             ref: 'title',
                             type: 'text',

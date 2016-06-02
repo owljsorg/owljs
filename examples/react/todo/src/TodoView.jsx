@@ -3,7 +3,8 @@
         constructor(props) {
             super(props);
             this.state = {
-                title: ''
+                title: '',
+                active: false
             }
         }
         onTitleChange() {
@@ -38,8 +39,8 @@
         render() {
             return (
                 <div>
+                    <div className={"header"+ (this.state.active ? ' -active': '')} onClick={() => this.setState({active:true})}>Todo list <a onClick={() => owl.history.navigate('about')}>about</a></div>
                     <form onSubmit={this.onSubmit.bind(this)}>
-                        <h1>Todo list</h1>
                         <input
                             ref="title"
                             type="text"

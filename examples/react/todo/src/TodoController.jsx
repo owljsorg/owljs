@@ -3,6 +3,8 @@
         constructor() {
             super();
             this.appView = owl.require('appView');
+        }
+        init() {
             this.todoItemCollection = new app.TodoItemCollection();
             this.todoItemCollection.on('change', () => {
                 this.showTodoView();

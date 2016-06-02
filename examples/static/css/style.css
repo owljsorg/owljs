@@ -3,11 +3,19 @@ body {
     padding: 0;
     font-family: sans-serif;
 }
-h1 {
+h1, .header {
     padding: 10px;
     margin: 0;
+    font-size: 30px;
     background: #22bb88;
     color: white;
+    transition: background 1s;
+}
+.header.-active {
+    background: #440044;
+}
+.header.-about {
+    background: #0086b3;
 }
 input[type=text] {
     background: transparent;

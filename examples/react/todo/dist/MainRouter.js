@@ -17,10 +17,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 path: '',
                 controller: app.TodoController
             }, {
-                path: 'item/:id',
-                callback: function callback() {
-                    console.log('user');
-                }
+                path: 'about',
+                controller: app.AboutController
             }],
                 defaultRoute = {
                 callback: function callback() {

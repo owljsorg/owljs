@@ -5,10 +5,8 @@
                     path: '',
                     controller: app.TodoController
                 }, {
-                    path: 'item/:id',
-                    callback: function () {
-                        console.log('user');
-                    }
+                    path: 'about',
+                    controller: app.AboutController
                 }],
                 defaultRoute = {
                     callback: function () {

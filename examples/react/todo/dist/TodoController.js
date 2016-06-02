@@ -18,15 +18,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TodoController).call(this));
 
             _this.appView = owl.require('appView');
-            _this.todoItemCollection = new app.TodoItemCollection();
-            _this.todoItemCollection.on('change', function () {
-                _this.showTodoView();
-            });
-            _this.todoItemCollection.fetch();
             return _this;
         }
 
         _createClass(TodoController, [{
+            key: 'init',
+            value: function init() {
+                var _this2 = this;
+
+                this.todoItemCollection = new app.TodoItemCollection();
+                this.todoItemCollection.on('change', function () {
+                    _this2.showTodoView();
+                });
+                this.todoItemCollection.fetch();
+            }
+        }, {
             key: 'destroy',
             value: function destroy() {
                 this.todoItemCollection.off();
@@ -42,14 +48,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: 'addItem',
             value: function addItem(title) {
-                var _this2 = this;
+                var _this3 = this;
 
                 var todoItem = new app.TodoItemModel({
                     title: title,
                     isDone: false
                 });
                 todoItem.save().then(function () {
-                    _this2.todoItemCollection.fetch();
+                    _this3.todoItemCollection.fetch();
                 });
             }
         }, {

@@ -47,9 +47,9 @@ describe('owl.Router.js', function() {
         };
         before(function() {
             sinon.stub(router, 'getRoute').returns(route);
-            sinon.stub(router, 'resolve').returns(true);
+            sinon.stub(router, 'resolve').returns(owl.Promise.resolve(true));
             sinon.stub(router, 'run');
-            router.open('/something');
+            return router.open('/something');
         });
         it('should get the route', function() {
             assert(router.getRoute.calledWith('/something'));
@@ -69,7 +69,7 @@ describe('owl.Router.js', function() {
         };
         before(function() {
             sinon.stub(router, 'getRoute').returns(route);
-            sinon.stub(router, 'resolve').returns(false);
+            sinon.stub(router, 'resolve').returns(owl.Promise.resolve(false));
             sinon.stub(router, 'run');
             router.open('/something');
         });

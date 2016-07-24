@@ -96,7 +96,7 @@ describe('owl.history', function() {
         var customRouter = new owl.Router();
         var router = new owl.Router();
         before(function() {
-            sinon.stub(router, 'open');
+            sinon.stub(router, 'open').returns(owl.Promise.resolve());
             sinon.stub(owl.history, 'trigger');
 
             owl.history.setRouter('/something', customRouter);
@@ -134,7 +134,7 @@ describe('owl.history', function() {
         var router = new owl.Router();
         var close = sinon.spy();
         before(function() {
-            sinon.stub(router, 'open').returns(close);
+            sinon.stub(router, 'open').returns(Promise.resolve(close()));
             sinon.stub(owl.history, 'trigger');
 
             owl.history.setRouter('/something', router);

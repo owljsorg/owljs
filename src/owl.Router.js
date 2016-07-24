@@ -26,39 +26,39 @@
         /**
          * Opens page by path
          * @param {string} path Page path
-         * @return {function} Function to destroy controller
+         * @return {Promise<?function>} Function to destroy controller
          */
         open: function(path) {
-            var route = this.getRoute(path);
+            var route = this.getRoute(path), that = this;
             if (!route) {
-                return;
+                return owl.Promise.resolve(null);
             }
 
-            if (this.resolve(route)) {
-                return this.run(path, route);
-            }
-            return null;
+            return this.resolve(route).then(function (ret) {
+              return ret ? that.run(path, route) : null;
+            })
         },
         /**
          * Calls resolve callback
          * @private
          * @param {object} route Route to resolve
-         * @return {boolean}
+         * @return {Promise<boolean>}
          */
         resolve: function(route) {
-            var resolves = route.resolves;
-            if (resolves && resolves.length) {
-                return resolves.every(function(resolve) {
-                    var callback = owl.history.getResolve(resolve);
-                    if(callback) {
-                        return callback();
-                    } else {
-                        console.info('Resolve' + resolve + 'is not found');
-                        return true;
-                    }
-                });
-            }
-            return true;
+            var resolves = route.resolves || [];
+            return owl.Promise.all(resolves.map(function (resolve) {
+                const callback = owl.history.getResolve(resolve);
+                if (callback) {
+                    return owl.Promise.method(callback)();
+                } else {
+                    console.info('Resolve' + resolve + 'is not found');
+                    return owl.Promise.resolve(true);
+                }
+            })).then(function (resultArray) {
+              return resultArray.every(function (ret) {
+                return ret;
+              });
+            });
         },
         /**
          * Runs the route

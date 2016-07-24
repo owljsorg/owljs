@@ -96,6 +96,7 @@
             var router;
             if (_destroyFunction) {
                 _destroyFunction();
+                _destroyFunction = null;
             }
             Object.keys(_routers).some(function(routerPath) {
                 if(path === routerPath ||
@@ -114,7 +115,10 @@
                 return;
             }
             this.trigger('change');
-            _destroyFunction = router.open(path);
+
+            router.open(path).then(function (destroyer) {
+              _destroyFunction = destroyer;
+            });
         },
         /**
          * Sets router by name

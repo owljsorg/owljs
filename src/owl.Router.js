@@ -34,40 +34,40 @@
                 return owl.Promise.resolve(null);
             }
 
-            return this.resolve(route).then(function (ret) {
-              return ret ? that.run(path, route) : null;
-            })
+            return this.resolve(route).then(function (resolveResult) {
+                const calledAllResolves = resolveResult.every(function (a) {return a;});
+                return calledAllResolves ? that.run(path, route, resolveResult) : null;
+            }).catch(function (e) {
+                console.error('Error in Router.open', e.message, e.stack);
+            });
         },
         /**
          * Calls resolve callback
          * @private
          * @param {object} route Route to resolve
-         * @return {Promise<boolean>}
+         * @return {Promise<array>}
          */
         resolve: function(route) {
             var resolves = route.resolves || [];
             return owl.Promise.all(resolves.map(function (resolve) {
                 const callback = owl.history.getResolve(resolve);
                 if (callback) {
-                    return owl.Promise.method(callback)();
+                    return owl.Promise.resolve(callback());
                 } else {
                     console.info('Resolve' + resolve + 'is not found');
-                    return owl.Promise.resolve(true);
+                    return owl.Promise.resolve(null);
                 }
-            })).then(function (resultArray) {
-              return resultArray.every(function (ret) {
-                return ret;
-              });
-            });
+            }));
         },
         /**
          * Runs the route
          * @private
          * @param {string} path Path to run
          * @param {object} route Route to run
+         * @param {array} resolveResult Result of resolvers in router
          * @return {function} Function to destroy controller
          */
-        run: function(path, route) {
+        run: function(path, route, resolveResult) {
             var match,
                 controller,
                 action,
@@ -88,13 +88,13 @@
                 controller = new (route.controller || this.controller)(params);
                 action = route.action || 'init';
                 if (action && controller[action]) {
-                    controller[action](params);
+                    controller[action](params, resolveResult);
                 }
                 if (controller.destroy) {
                     return controller.destroy.bind(controller);
                 }
             } else if (route.callback) {
-                route.callback(params);
+                route.callback(params, resolveResult);
             } else {
                 console.error('Either controller and callback are missing');
             }

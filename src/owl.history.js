@@ -91,6 +91,7 @@
         /**
          * Opens the page by path
          * @param path
+         * @return {Promise} A promise that resolves to set destroyer function if any given
          */
         open: function(path) {
             var router;
@@ -116,7 +117,7 @@
             }
             this.trigger('change');
 
-            router.open(path).then(function (destroyer) {
+            return router.open(path).then(function (destroyer) {
               _destroyFunction = destroyer;
             });
         },
@@ -213,6 +214,6 @@
             _events[event] && _events[event].forEach(function(listener) {
                 listener();
             });
-        }
+        },
     };
 })(window, owl);

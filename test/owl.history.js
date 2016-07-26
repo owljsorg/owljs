@@ -95,19 +95,25 @@ describe('owl.history', function() {
     describe('open (default router)', function() {
         var customRouter = new owl.Router();
         var router = new owl.Router();
+        var destroyer = sinon.spy();
         before(function() {
-            sinon.stub(router, 'open').returns(owl.Promise.resolve());
+            sinon.stub(router, 'open').returns(owl.Promise.resolve(destroyer));
             sinon.stub(owl.history, 'trigger');
 
             owl.history.setRouter('/something', customRouter);
             owl.history.setDefaultRouter(router);
-            owl.history.open('/somethingOther');
+            return owl.history.open('/somethingOther');
         });
         it('should trigger change event', function() {
             assert(owl.history.trigger.calledWith('change'));
         });
         it('should open router page', function() {
             assert(router.open.calledWith('/somethingOther'));
+        });
+        it('should call destroyer on opening again', function () {
+            return owl.history.open('/somethingOther').then(function () {
+                assert(destroyer.calledOnce)
+            })
         });
         after(function() {
             owl.history.trigger.restore();

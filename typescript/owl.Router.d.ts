@@ -7,20 +7,20 @@ declare module owl {
 
         /**
          * Opens page by path
-         * @return Function to destroy controller
+         * @return {Promise<function>} Function to destroy controller
          */
-        open(path: string): void;
+        open(path: string): Promise;
 
         /**
          * Calls resolve callback
          */
-        resolve(route: Route): boolean;
+        resolve(route: Route): Promise;
 
         /**
          * Runs the route
          * @return Function to destroy controller
          */
-        run(path: string, route: Route): Function;
+        run(path: string, route: Route, resolveResult: Array<any>): Function;
 
         /**
          * Adds a route

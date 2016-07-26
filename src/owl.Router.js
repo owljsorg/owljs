@@ -35,10 +35,10 @@
             }
 
             return this.resolve(route).then(function (resolveResult) {
-                const calledAllResolves = resolveResult.every(function (a) {return a;});
-                return calledAllResolves ? that.run(path, route, resolveResult) : null;
+                return that.run(path, route, resolveResult);
             }).catch(function (e) {
                 console.error('Error in Router.open', e.message, e.stack);
+                return that.run(path, that.defaultRoute, e);
             });
         },
         /**

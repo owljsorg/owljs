@@ -214,6 +214,6 @@
             _events[event] && _events[event].forEach(function(listener) {
                 listener();
             });
-        },
+        }
     };
 })(window, owl);

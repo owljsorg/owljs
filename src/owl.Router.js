@@ -26,48 +26,48 @@
         /**
          * Opens page by path
          * @param {string} path Page path
-         * @return {function} Function to destroy controller
+         * @return {Promise<?function>} Function to destroy controller
          */
         open: function(path) {
-            var route = this.getRoute(path);
+            var route = this.getRoute(path), that = this;
             if (!route) {
-                return;
+                return owl.Promise.resolve(null);
             }
 
-            if (this.resolve(route)) {
-                return this.run(path, route);
-            }
-            return null;
+            return this.resolve(route).then(function (resolveResult) {
+                return that.run(path, route, resolveResult);
+            }).catch(function (e) {
+                console.error('Error in Router.open', e.message, e.stack);
+                return that.run(path, that.defaultRoute, e);
+            });
         },
         /**
          * Calls resolve callback
          * @private
          * @param {object} route Route to resolve
-         * @return {boolean}
+         * @return {Promise<array>}
          */
         resolve: function(route) {
-            var resolves = route.resolves;
-            if (resolves && resolves.length) {
-                return resolves.every(function(resolve) {
-                    var callback = owl.history.getResolve(resolve);
-                    if(callback) {
-                        return callback();
-                    } else {
-                        console.info('Resolve' + resolve + 'is not found');
-                        return true;
-                    }
-                });
-            }
-            return true;
+            var resolves = route.resolves || [];
+            return owl.Promise.all(resolves.map(function (resolve) {
+                const callback = owl.history.getResolve(resolve);
+                if (callback) {
+                    return owl.Promise.resolve(callback());
+                } else {
+                    console.info('Resolve' + resolve + 'is not found');
+                    return owl.Promise.resolve(null);
+                }
+            }));
         },
         /**
          * Runs the route
          * @private
          * @param {string} path Path to run
          * @param {object} route Route to run
+         * @param {array} resolveResult Result of resolvers in router
          * @return {function} Function to destroy controller
          */
-        run: function(path, route) {
+        run: function(path, route, resolveResult) {
             var match,
                 controller,
                 action,
@@ -88,13 +88,13 @@
                 controller = new (route.controller || this.controller)(params);
                 action = route.action || 'init';
                 if (action && controller[action]) {
-                    controller[action](params);
+                    controller[action](params, resolveResult);
                 }
                 if (controller.destroy) {
                     return controller.destroy.bind(controller);
                 }
             } else if (route.callback) {
-                route.callback(params);
+                route.callback(params, resolveResult);
             } else {
                 console.error('Either controller and callback are missing');
             }

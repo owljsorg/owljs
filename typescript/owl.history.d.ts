@@ -52,7 +52,7 @@ declare module owl.history {
     /**
      * Opens the page by path
      */
-    export function open(path: string): void;
+    export function open(path: string): Promise;
 
     /**
      * Sets router by name

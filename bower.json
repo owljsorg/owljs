@@ -6,7 +6,7 @@
     "omegascorp <omegascorp@gmail.com>"
   ],
   "description": "Simple Backbone-like library",
-  "main": "",
+  "main": "./dist/owl.min.js",
   "moduleType": [],
   "ignore": [
     "examples",

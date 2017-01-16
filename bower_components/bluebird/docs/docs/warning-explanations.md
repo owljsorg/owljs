@@ -7,8 +7,9 @@ title: Warning Explanations
 
  - [Warning: .then() only accepts functions](#warning-.then)
  - [Warning: a promise was rejected with a non-error](#warning-a-promise-was-rejected-with-a-non-error)
- - [Warning: a promise was created in a handler but none were returned from it](#warning-a-promise-was-created-in-a-handler-but-none-were-returned-from-it)
+ - [Warning: a promise was created in a handler but was not returned from it](#warning-a-promise-was-created-in-a-handler-but-was-not-returned-from-it)
 
+Note - in order to get full stack traces with warnings in Node 6.x+ you need to enable to `--trace-warnings` flag which will give you a full stack trace of where the warning is coming from.
 
 ##Warning: .then() only accepts functions
 
@@ -43,7 +44,7 @@ Since all objects support having properties you might still wonder why exactly d
 You should heed this warning because rejecting a promise with a non-error makes debugging extremely hard and costly. Additionally, if you reject with simple primitives such as `undefined` (commonly caused by simple calling `reject()`) you cannot handle errors at all because it's impossible to tell from `undefined` what exactly went wrong. All you can tell the user is that "something went wrong" and lose them forever.
 
 
-##Warning: a promise was created in a handler but none were returned from it
+##Warning: a promise was created in a handler but was not returned from it
 
 This usually means that you simply forgot a `return` statement somewhere which will cause a runaway promise that is not connected to any promise chain.
 
@@ -75,7 +76,7 @@ If you know what you're doing and don't want to silence all warnings, you can cr
 
 ```js
 getUser().then(function(user) {
-    // Perform this in the "background" and don't care about it's result at all
+    // Perform this in the "background" and don't care about its result at all
     saveAnalytics(user);
     // return a non-undefined value to signal that we didn't forget to return
     return null;

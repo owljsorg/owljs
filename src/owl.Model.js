@@ -1,14 +1,31 @@
 (function(window, owl) {
     function Model(data, options){
         this.data = data || {};
-        this.urlRoot = options && options.urlRoot || '';
-        this.idAttribute = options && options.idAttribute || 'id';
+        this.url = options && options.url || '';
+        this.idAttribute = options && options.idAttribute || this.parseIdAttribute(this.url) || 'id';
         this.defaults = options && options.defaults || {};
         this.collection = options && options.collection || null;
         this.collectionIndex = options && typeof options.collectionIndex === 'number' ? options.collectionIndex : null;
         this.events = {};
+
+        // Deprecated
+        this.urlRoot = options && options.urlRoot || '';
+        if (options.urlRoot) {
+            console.log('urlRoot in Model is deprecated, use url instead.');
+        }
     }
     Model.prototype = {
+        /**
+         * Parses Id attribute from url
+         * @param url
+         */
+        parseIdAttribute: function(url) {
+            var found = url.match(/:([a-zA-z0-9]+)/);
+            if (found instanceof Array && found.length > 1) {
+                return found[1];
+            }
+            return null;
+        },
         /**
          * Gets attribute by name
          * @param {string} name Attribute name
@@ -28,16 +45,31 @@
             this.trigger('change', name);
         },
         /**
+         * Gets item url
+         * @return {string} item url
+         */
+        getEndpointUrl: function() {
+            var id = this.data[this.idAttribute];
+            if (this.url) {
+                if (id) {
+                    return this.url.replace(':' + this.idAttribute, id);
+                }
+                return this.url;
+            } else {
+                if (id) {
+                    return this.urlRoot + '/' + id;
+                }
+                return this.urlRoot;
+            }
+        },
+        /**
          * Gets data from the sever
          * @param {object} query Request query
          * @return {Promise} Response promise
          */
         fetch: function(query) {
             var that = this,
-                url = this.urlRoot;
-            if (this.data[this.idAttribute]) {
-                url += '/' + this.data[this.idAttribute];
-            }
+                url = this.getEndpointUrl();
             url +=  owl.ajax.toQueryString(query);
             return owl.ajax.request({
                 url: url,
@@ -64,7 +96,7 @@
          */
         save: function(query) {
             var that = this;
-            var url  = this.urlRoot;
+            var url = this.getEndpointUrl();
             var id = this.data[this.idAttribute];
             if(id) {
                 url += '/' + this.data[this.idAttribute];
@@ -90,17 +122,15 @@
          * @return {Promise} Response promise
          */
         update: function(data, query) {
-            var that = this,
-                id = this.data[this.idAttribute];
+            var that = this;
+            var id = this.data[this.idAttribute];
             if(!id) {
                 return new Promise(function(resolve, reject) {
-                    reject('Can not update model without id');
+                    reject(new Error('Can not update model without id'));
                 });
             }
             this.data = owl.util.extend(this.data, data, true);
-            return this
-            .save(query)
-            .then(function(result) {
+            return this.save(query).then(function(result) {
                 that.updateCollection();
                 that.trigger('change', Object.keys(data));
                 return result;
@@ -113,22 +143,20 @@
          * @return {Promise} Response promise
          */
         patch: function(data, query) {
-            var that = this,
-                id = this.data[this.idAttribute],
-                url  = this.urlRoot + '/' + id;
+            var that = this;
+            var id = this.data[this.idAttribute];
             if (!id) {
                 return new Promise(function(resolve, reject) {
-                    reject('Can not patch model without id');
+                    reject(new Error('Can not patch model without id'));
                 });
             }
 
             this.data = owl.util.extend(this.data, data, true);
             return owl.ajax.request({
-                url: url + owl.ajax.toQueryString(query),
+                url: this.getEndpointUrl() + owl.ajax.toQueryString(query),
                 type: 'PATCH',
                 data: data
-            })
-            .then(function(result) {
+            }).then(function(result) {
                 that.updateCollection();
                 that.trigger('change', Object.keys(data));
                 return result;
@@ -148,18 +176,17 @@
          * @return {Promise} Response promise
          */
         destroy: function(query) {
-            var that = this,
-                id = this.data[this.idAttribute];
+            var that = this;
+            var id = this.data[this.idAttribute];
             if (!id) {
                 return new Promise(function(resolve, reject) {
-                    reject('Can not destroy model without id');
+                    reject(new Error('Can not destroy model without id'));
                 });
             }
             return owl.ajax.request({
-                url: this.urlRoot + '/' + id + owl.ajax.toQueryString(query),
+                url: this.getEndpointUrl() + owl.ajax.toQueryString(query),
                 type: 'DELETE'
-            })
-            .then(function(result) {
+            }).then(function(result) {
                 that.clear();
                 return result;
             });

@@ -34,14 +34,16 @@
                 </button>
 
                 <a href="/" class="title">
-                    <img src="{{ "/img/logo.png" | prepend: site.baseurl }}" class="hidden-xs" />
+                    <img src="{{ "/img/libbblog_v3.png" | prepend: site.baseurl }}" class="hidden-xs" alt="bluebird logo" />
 
                     <span class="tagline">bluebird</span>
                 </a>
             </div>
             <div id="navbar" class="navbar-collapse navbar-bluebird navbar-right collapse">
                 <ul class="nav navbar-nav bb-nav">
-                    {% if page.path == 'docs/support.md' %}
+                    {% if page.path == 'docs/api-reference.md' %}
+                        {% assign name = 'api' %}
+                    {% elsif page.path == 'docs/support.md' %}
                         {% assign name = 'support' %}
                     {% elsif page.path == 'docs/install.md' %}
                         {% assign name = 'install' %}
@@ -49,6 +51,7 @@
                         {% assign name = 'docs' %}
                     {% endif %}
 
+                    <li class="{% if name == 'api' %}active{% endif %}"><a href="{{ "/docs/api-reference.html" | prepend: site.baseurl }}">API</a></li>
                     <li class="{% if name == 'docs' %}active{% endif %}"><a href="{{ "/docs/getting-started.html" | prepend: site.baseurl }}">Docs</a></li>
                     <li class="{% if name == 'support' %}active{% endif %}"><a href="{{ "/docs/support.html" | prepend: site.baseurl }}">Support</a></li>
                     <li class="{% if name == 'install' %}active{% endif %}"><a href="{{ "/docs/install.html" | prepend: site.baseurl }}">Install</a></li>
@@ -72,6 +75,7 @@
                 <li><a href="{{ "/docs/contribute.html" | prepend: site.baseurl }}">Contribute</a></li>
                 <li><a href="{{ "/docs/benchmarks.html" | prepend: site.baseurl }}">Benchmarks</a></li>
                 <li><a href="{{ "/docs/deprecated-apis.html" | prepend: site.baseurl }}">Deprecated APIs</a></li>
+                <li><a href="{{ "/docs/download-api-reference.html" | prepend: site.baseurl }}">Download API Reference</a></li>
                 <li><hr></li>
                 <li>Why?
                     <ul class="nav nav-child">
@@ -99,6 +103,17 @@
                         <li><a href="{{ "/docs/coming-from-other-libraries.html" | prepend: site.baseurl }}">Coming from Other Libraries</a></li>
                     </ul>
                 </li>
+                <li><hr></li>
+                <li>
+                    <div class="supporters">
+                        <div class="reaktor supporter">
+                            <a href="https://reaktor.com">
+                                <img src="/img/supportlogo.png" alt="Supported by reaktor" title="Supported by Reaktor">
+                            </a>
+                        </div>
+                    </div>
+                </li>
+
             </ul>
         </div>
         <div class="col-sm-9">

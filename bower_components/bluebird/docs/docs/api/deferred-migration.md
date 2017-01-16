@@ -26,7 +26,7 @@ function defer() {
 }
 ```
 
-For old code that still uses deferred objects, see [the deprecated API docs ](/bluebird/web/docs/deprecated_apis.html#promise-resolution).
+For old code that still uses deferred objects, see [the deprecated API docs ](//bluebirdjs.com/docs/deprecated-apis.html#promise-resolution).
 </markdown></div>
 
 <div id="disqus_thread"></div>

@@ -1,12 +1,12 @@
 {
-  "name": "owl.js",
+  "name": "owljs",
   "version": "0.4.1",
   "homepage": "https://github.com/owljsorg/owl.js",
   "authors": [
     "omegascorp <omegascorp@gmail.com>"
   ],
   "description": "Simple Backbone-like library",
-  "main": "",
+  "main": "./dist/owl.min.js",
   "moduleType": [],
   "ignore": [
     "examples",

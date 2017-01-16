@@ -241,6 +241,8 @@ Promises can have a steep learning curve and it doesn't help that promise standa
 
 See [installation](install.html) on how to enable warnings in your environment.
 
+Note - in order to get full stack traces with warnings in Node 6.x+ you need to enable to `--trace-warnings` flag which will give you a full stack trace of where the warning is coming from.
+
 ###Promise monitoring
 
 This feature enables subscription to promise lifecycle events via standard global events mechanisms in browsers and Node.js.
@@ -291,6 +293,27 @@ window.onpromisechained = function(promise, child) {
 ##Resource management
 
 ##Cancellation and timeouts
+
+See [`Cancellation`](.) for how to use cancellation.
+
+```js
+// Enable cancellation
+Promise.config({cancellation: true});
+
+var fs = Promise.promisifyAll(require("fs"));
+
+// In 2000ms or less, load & parse a file 'config.json'
+var p = Promise.resolve('./config.json')
+ .timeout(2000)
+ .catch(console.error.bind(console, 'Failed to load config!'))
+ .then(fs.readFileAsync)
+ .then(JSON.parse);
+// Listen for exception event to trigger promise cancellation
+process.on('unhandledException', function(event) {
+ // cancel config loading
+ p.cancel();
+});
+```
 
 ##Scoped prototypes
 

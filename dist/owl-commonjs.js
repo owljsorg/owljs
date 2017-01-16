@@ -102,11 +102,13 @@ var owl = {
         /**
          * Opens the page by path
          * @param path
+         * @return {Promise} A promise that resolves to set destroyer function if any given
          */
         open: function(path) {
             var router;
             if (_destroyFunction) {
                 _destroyFunction();
+                _destroyFunction = null;
             }
             Object.keys(_routers).some(function(routerPath) {
                 if(path === routerPath ||
@@ -125,7 +127,10 @@ var owl = {
                 return;
             }
             this.trigger('change');
-            _destroyFunction = router.open(path);
+
+            return router.open(path).then(function (destroyer) {
+              _destroyFunction = destroyer;
+            });
         },
         /**
          * Sets router by name
@@ -314,48 +319,48 @@ var owl = {
         /**
          * Opens page by path
          * @param {string} path Page path
-         * @return {function} Function to destroy controller
+         * @return {Promise<?function>} Function to destroy controller
          */
         open: function(path) {
-            var route = this.getRoute(path);
+            var route = this.getRoute(path), that = this;
             if (!route) {
-                return;
+                return owl.Promise.resolve(null);
             }
 
-            if (this.resolve(route)) {
-                return this.run(path, route);
-            }
-            return null;
+            return this.resolve(route).then(function (resolveResult) {
+                return that.run(path, route, resolveResult);
+            }).catch(function (e) {
+                console.error('Error in Router.open', e.message, e.stack);
+                return that.run(path, that.defaultRoute, e);
+            });
         },
         /**
          * Calls resolve callback
          * @private
          * @param {object} route Route to resolve
-         * @return {boolean}
+         * @return {Promise<array>}
          */
         resolve: function(route) {
-            var resolves = route.resolves;
-            if (resolves && resolves.length) {
-                return resolves.every(function(resolve) {
-                    var callback = owl.history.getResolve(resolve);
-                    if(callback) {
-                        return callback();
-                    } else {
-                        console.info('Resolve' + resolve + 'is not found');
-                        return true;
-                    }
-                });
-            }
-            return true;
+            var resolves = route.resolves || [];
+            return owl.Promise.all(resolves.map(function (resolve) {
+                const callback = owl.history.getResolve(resolve);
+                if (callback) {
+                    return owl.Promise.resolve(callback());
+                } else {
+                    console.info('Resolve' + resolve + 'is not found');
+                    return owl.Promise.resolve(null);
+                }
+            }));
         },
         /**
          * Runs the route
          * @private
          * @param {string} path Path to run
          * @param {object} route Route to run
+         * @param {array} resolveResult Result of resolvers in router
          * @return {function} Function to destroy controller
          */
-        run: function(path, route) {
+        run: function(path, route, resolveResult) {
             var match,
                 controller,
                 action,
@@ -376,13 +381,13 @@ var owl = {
                 controller = new (route.controller || this.controller)(params);
                 action = route.action || 'init';
                 if (action && controller[action]) {
-                    controller[action](params);
+                    controller[action](params, resolveResult);
                 }
                 if (controller.destroy) {
                     return controller.destroy.bind(controller);
                 }
             } else if (route.callback) {
-                route.callback(params);
+                route.callback(params, resolveResult);
             } else {
                 console.error('Either controller and callback are missing');
             }
@@ -641,14 +646,31 @@ var owl = {
 (function(window, owl) {
     function Model(data, options){
         this.data = data || {};
-        this.urlRoot = options && options.urlRoot || '';
-        this.idAttribute = options && options.idAttribute || 'id';
+        this.url = options && options.url || '';
+        this.idAttribute = options && options.idAttribute || this.parseIdAttribute(this.url) || 'id';
         this.defaults = options && options.defaults || {};
         this.collection = options && options.collection || null;
         this.collectionIndex = options && typeof options.collectionIndex === 'number' ? options.collectionIndex : null;
         this.events = {};
+
+        // Deprecated
+        this.urlRoot = options && options.urlRoot || '';
+        if (options.urlRoot) {
+            console.log('urlRoot in Model is deprecated, use url instead.');
+        }
     }
     Model.prototype = {
+        /**
+         * Parses Id attribute from url
+         * @param url
+         */
+        parseIdAttribute: function(url) {
+            var found = url.match(/:([a-zA-z0-9]+)/);
+            if (found instanceof Array && found.length > 1) {
+                return found[1];
+            }
+            return null;
+        },
         /**
          * Gets attribute by name
          * @param {string} name Attribute name
@@ -668,16 +690,31 @@ var owl = {
             this.trigger('change', name);
         },
         /**
+         * Gets item url
+         * @return {string} item url
+         */
+        getEndpointUrl: function() {
+            var id = this.data[this.idAttribute];
+            if (this.url) {
+                if (id) {
+                    return this.url.replace(':' + this.idAttribute, id);
+                }
+                return this.url;
+            } else {
+                if (id) {
+                    return this.urlRoot + '/' + id;
+                }
+                return this.urlRoot;
+            }
+        },
+        /**
          * Gets data from the sever
          * @param {object} query Request query
          * @return {Promise} Response promise
          */
         fetch: function(query) {
             var that = this,
-                url = this.urlRoot;
-            if (this.data[this.idAttribute]) {
-                url += '/' + this.data[this.idAttribute];
-            }
+                url = this.getEndpointUrl();
             url +=  owl.ajax.toQueryString(query);
             return owl.ajax.request({
                 url: url,
@@ -704,7 +741,7 @@ var owl = {
          */
         save: function(query) {
             var that = this;
-            var url  = this.urlRoot;
+            var url = this.getEndpointUrl();
             var id = this.data[this.idAttribute];
             if(id) {
                 url += '/' + this.data[this.idAttribute];
@@ -730,17 +767,15 @@ var owl = {
          * @return {Promise} Response promise
          */
         update: function(data, query) {
-            var that = this,
-                id = this.data[this.idAttribute];
+            var that = this;
+            var id = this.data[this.idAttribute];
             if(!id) {
                 return new Promise(function(resolve, reject) {
-                    reject('Can not update model without id');
+                    reject(new Error('Can not update model without id'));
                 });
             }
             this.data = owl.util.extend(this.data, data, true);
-            return this
-            .save(query)
-            .then(function(result) {
+            return this.save(query).then(function(result) {
                 that.updateCollection();
                 that.trigger('change', Object.keys(data));
                 return result;
@@ -753,22 +788,20 @@ var owl = {
          * @return {Promise} Response promise
          */
         patch: function(data, query) {
-            var that = this,
-                id = this.data[this.idAttribute],
-                url  = this.urlRoot + '/' + id;
+            var that = this;
+            var id = this.data[this.idAttribute];
             if (!id) {
                 return new Promise(function(resolve, reject) {
-                    reject('Can not patch model without id');
+                    reject(new Error('Can not patch model without id'));
                 });
             }
 
             this.data = owl.util.extend(this.data, data, true);
             return owl.ajax.request({
-                url: url + owl.ajax.toQueryString(query),
+                url: this.getEndpointUrl() + owl.ajax.toQueryString(query),
                 type: 'PATCH',
                 data: data
-            })
-            .then(function(result) {
+            }).then(function(result) {
                 that.updateCollection();
                 that.trigger('change', Object.keys(data));
                 return result;
@@ -788,18 +821,17 @@ var owl = {
          * @return {Promise} Response promise
          */
         destroy: function(query) {
-            var that = this,
-                id = this.data[this.idAttribute];
+            var that = this;
+            var id = this.data[this.idAttribute];
             if (!id) {
                 return new Promise(function(resolve, reject) {
-                    reject('Can not destroy model without id');
+                    reject(new Error('Can not destroy model without id'));
                 });
             }
             return owl.ajax.request({
-                url: this.urlRoot + '/' + id + owl.ajax.toQueryString(query),
+                url: this.getEndpointUrl() + owl.ajax.toQueryString(query),
                 type: 'DELETE'
-            })
-            .then(function(result) {
+            }).then(function(result) {
                 that.clear();
                 return result;
             });

@@ -41,6 +41,15 @@ describe('owl.Model.js', function() {
         });
     });
 
+    describe('getEndpointUrl (urlRoot without idAttribute - deprecated)', function() {
+        var model = new owl.Model({}, {
+            urlRoot: '/things'
+        });
+        it('should get endpoint url', function() {
+            expect(model.getEndpointUrl()).to.be.equal('/things');
+        });
+    });
+
     describe('fetch', function() {
         var model = new owl.Model({}, {
             url: '/things'

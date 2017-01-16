@@ -2,8 +2,8 @@
 
 **Backbone-like frontend library**
 
-[![Build Status](https://travis-ci.org/owljsorg/owl.js.svg?branch=master)](https://travis-ci.org/owljsorg/owl.js)
-[![Coverage Status](https://coveralls.io/repos/github/owljsorg/owl.js/badge.svg?branch=master)](https://coveralls.io/github/owljsorg/owl.js?branch=master)
+[![Build Status](https://travis-ci.org/owljsorg/owljs.svg?branch=master)](https://travis-ci.org/owljsorg/owljs)
+[![Coverage Status](https://coveralls.io/repos/github/owljsorg/owljs/badge.svg?branch=master)](https://coveralls.io/github/owljsorg/owljs?branch=master)
 
 **Ask a question in [gitter](https://gitter.im/owljsorg/owl.js).**
 

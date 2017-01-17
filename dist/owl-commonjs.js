@@ -665,7 +665,7 @@ var owl = {
          * @param url
          */
         parseIdAttribute: function(url) {
-            var found = url.match(/:([a-zA-z0-9]+)/);
+            var found = url.match(/:([a-zA-z0-9_]+)/);
             if (found instanceof Array && found.length > 1) {
                 return found[1];
             }

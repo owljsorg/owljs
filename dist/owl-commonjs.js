@@ -785,20 +785,24 @@ var owl = {
          * Partially updates model
          * @param {object} data Data to patch
          * @param {object} query Request query
+         * * @param {string} path Additional path
          * @return {Promise} Response promise
          */
-        patch: function(data, query) {
+        patch: function(data, query, path) {
             var that = this;
-            var id = this.data[this.idAttribute];
-            if (!id) {
-                return new Promise(function(resolve, reject) {
-                    reject(new Error('Can not patch model without id'));
-                });
+            var url = this.getEndpointUrl();
+
+            if (typeof path === 'string') {
+                url += path;
+            }
+
+            if (typeof query === 'object' && query !== null) {
+                url += owl.ajax.toQueryString(query);
             }
 
             this.data = owl.util.extend(this.data, data, true);
             return owl.ajax.request({
-                url: this.getEndpointUrl() + owl.ajax.toQueryString(query),
+                url: url,
                 type: 'PATCH',
                 data: data
             }).then(function(result) {

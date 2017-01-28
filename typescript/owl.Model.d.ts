@@ -37,7 +37,7 @@ declare module owl {
         /**
          * Partially updates model
          */
-        patch(data: Object, query?: Object): Promise;
+        patch(data: Object, query?: Object, path?: String): Promise;
 
         /**
          * Removes a model

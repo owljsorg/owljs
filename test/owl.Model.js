@@ -259,6 +259,38 @@ describe('owl.Model.js', function() {
                 done();
             });
         });
+        it('should send PATCH request with query', function(done) {
+            model.patch({
+                key: 'value'
+            }, {
+                type: 'something'
+            }).then(function() {
+                assert(owl.ajax.request.calledWith({
+                    url: '/things/2?type=something',
+                    type: 'PATCH',
+                    data: {
+                        key: 'value'
+                    }
+                }));
+                done();
+            });
+        });
+
+        it('should send PATCH request with additional path', function(done) {
+            model.patch({
+                key: 'value'
+            }, null, '/something').then(function() {
+                assert(owl.ajax.request.calledWith({
+                    url: '/things/2/something',
+                    type: 'PATCH',
+                    data: {
+                        key: 'value'
+                    }
+                }));
+                done();
+            });
+        });
+
         it('should trigger change event', function(done) {
             model.patch({
                 key: 'value'
@@ -270,25 +302,6 @@ describe('owl.Model.js', function() {
         after(function() {
             owl.ajax.request.restore();
             model.trigger.restore();
-        });
-    });
-
-    describe('patch (id is not defined)', function() {
-        var model = new owl.Model({}, {
-            url: '/things'
-        });
-        before(function() {
-            sinon.stub(console, 'warn').returns();
-        });
-        it('should reject patch', function(done) {
-            model.patch({
-                name: 'something'
-            }).catch(function(error) {
-                done();
-            });
-        });
-        after(function() {
-            console.warn.restore();
         });
     });
 

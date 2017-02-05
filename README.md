@@ -4,6 +4,7 @@
 
 [![Build Status](https://travis-ci.org/owljsorg/owljs.svg?branch=master)](https://travis-ci.org/owljsorg/owljs)
 [![Coverage Status](https://coveralls.io/repos/github/owljsorg/owljs/badge.svg?branch=master)](https://coveralls.io/github/owljsorg/owljs?branch=master)
+[![Stories in Ready](https://badge.waffle.io/owljsorg/owljs.png?label=ready&title=Ready)](http://waffle.io/owljsorg/owljs)
 
 **Ask a question in [gitter](https://gitter.im/owljsorg/owl.js).**
 

@@ -1,3 +1,4 @@
 /node_modules
 /examples/node_modules
 /coverage
+/bower_components/bluebird/docs

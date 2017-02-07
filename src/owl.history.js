@@ -91,11 +91,13 @@
         /**
          * Opens the page by path
          * @param path
+         * @return {Promise} A promise that resolves to set destroyer function if any given
          */
         open: function(path) {
             var router;
             if (_destroyFunction) {
                 _destroyFunction();
+                _destroyFunction = null;
             }
             Object.keys(_routers).some(function(routerPath) {
                 if(path === routerPath ||
@@ -114,7 +116,10 @@
                 return;
             }
             this.trigger('change');
-            _destroyFunction = router.open(path);
+
+            return router.open(path).then(function (destroyer) {
+              _destroyFunction = destroyer;
+            });
         },
         /**
          * Sets router by name

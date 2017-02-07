@@ -17,9 +17,42 @@ describe('owl.Model.js', function() {
             expect(model.get('somethingElse')).to.be.equal('other');
         });
     });
-    describe('fetch', function() {
+
+    describe('getEndpointUrl', function() {
+        var model = new owl.Model({
+            alias: 'nexus5'
+        }, {
+            url: '/things/:alias'
+        });
+        it('should get endpoint url', function() {
+            expect(model.getEndpointUrl()).to.be.equal('/things/nexus5');
+        });
+    });
+
+    describe('getEndpointUrl (urlRoot - deprecated)', function() {
+        var model = new owl.Model({
+            alias: 'nexus5'
+        }, {
+            urlRoot: '/things',
+            idAttribute: 'alias'
+        });
+        it('should get endpoint url', function() {
+            expect(model.getEndpointUrl()).to.be.equal('/things/nexus5');
+        });
+    });
+
+    describe('getEndpointUrl (urlRoot without idAttribute - deprecated)', function() {
         var model = new owl.Model({}, {
             urlRoot: '/things'
+        });
+        it('should get endpoint url', function() {
+            expect(model.getEndpointUrl()).to.be.equal('/things');
+        });
+    });
+
+    describe('fetch', function() {
+        var model = new owl.Model({}, {
+            url: '/things'
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function (resolve) {
@@ -33,6 +66,8 @@ describe('owl.Model.js', function() {
                     type: 'GET'
                 }));
                 done();
+            }).catch(function(e) {
+                console.log(e);
             });
         });
         it('should set the internal value', function(done) {
@@ -46,9 +81,44 @@ describe('owl.Model.js', function() {
             owl.ajax.request.restore();
         });
     });
+
+    describe('fetch (custom Id attribute)', function() {
+        var model = new owl.Model({
+            alias: 'nexus5'
+        }, {
+            url: '/things/:alias'
+        });
+        before(function() {
+            sinon.stub(owl.ajax, 'request').returns(new Promise(function (resolve) {
+                resolve(thing);
+            }));
+        });
+        it('should make GET request', function(done) {
+            model.fetch().then(function() {
+                assert(owl.ajax.request.calledWith({
+                    url: '/things/nexus5',
+                    type: 'GET'
+                }));
+                done();
+            }).catch(function(e) {
+                console.log(e);
+            });
+        });
+        it('should set the internal value', function(done) {
+            model.fetch().then(function(result) {
+                expect(result).to.be.deep.equal(thing);
+                expect(model.getData()).to.be.deep.equal(thing);
+                done();
+            });
+        });
+        after(function() {
+            owl.ajax.request.restore();
+        });
+    });
+
     describe('clear', function() {
         var model = new owl.Model(newThing, {
-            urlRoot: '/things'
+            url: '/things'
         });
         before(function() {
             model.clear();
@@ -59,7 +129,7 @@ describe('owl.Model.js', function() {
     });
     describe('save (create entry)', function() {
         var model = new owl.Model(newThing, {
-            urlRoot: '/things'
+            url: '/things'
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function(resolve) {
@@ -92,7 +162,7 @@ describe('owl.Model.js', function() {
     });
     describe('save (update entry)', function() {
         var model = new owl.Model(thing, {
-            urlRoot: '/things'
+            url: '/things'
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function(resolve) {
@@ -126,7 +196,7 @@ describe('owl.Model.js', function() {
         var model = new owl.Model({
             id: 2
         }, {
-            urlRoot: '/things'
+            url: '/things'
         });
         before(function() {
             sinon.stub(model, 'save').returns(new Promise(function(resolve) {
@@ -146,7 +216,7 @@ describe('owl.Model.js', function() {
 
     describe('update (id is not defined)', function() {
         var model = new owl.Model({}, {
-            urlRoot: '/things'
+            url: '/things'
         });
         before(function() {
             sinon.stub(console, 'warn').returns();
@@ -167,7 +237,7 @@ describe('owl.Model.js', function() {
         var model = new owl.Model({
             id: 2
         }, {
-            urlRoot: '/things'
+            url: '/things/:id'
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function (resolve) {
@@ -189,6 +259,38 @@ describe('owl.Model.js', function() {
                 done();
             });
         });
+        it('should send PATCH request with query', function(done) {
+            model.patch({
+                key: 'value'
+            }, {
+                type: 'something'
+            }).then(function() {
+                assert(owl.ajax.request.calledWith({
+                    url: '/things/2?type=something',
+                    type: 'PATCH',
+                    data: {
+                        key: 'value'
+                    }
+                }));
+                done();
+            });
+        });
+
+        it('should send PATCH request with additional path', function(done) {
+            model.patch({
+                key: 'value'
+            }, null, '/something').then(function() {
+                assert(owl.ajax.request.calledWith({
+                    url: '/things/2/something',
+                    type: 'PATCH',
+                    data: {
+                        key: 'value'
+                    }
+                }));
+                done();
+            });
+        });
+
         it('should trigger change event', function(done) {
             model.patch({
                 key: 'value'
@@ -203,30 +305,11 @@ describe('owl.Model.js', function() {
         });
     });
 
-    describe('patch (id is not defined)', function() {
-        var model = new owl.Model({}, {
-            urlRoot: '/things'
-        });
-        before(function() {
-            sinon.stub(console, 'warn').returns();
-        });
-        it('should reject patch', function(done) {
-            model.patch({
-                name: 'something'
-            }).catch(function(error) {
-                done();
-            });
-        });
-        after(function() {
-            console.warn.restore();
-        });
-    });
-
     describe('destroy', function() {
         var model = new owl.Model({
             id: 2
         }, {
-            urlRoot: '/things'
+            url: '/things/:id'
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function (resolve) {
@@ -259,7 +342,7 @@ describe('owl.Model.js', function() {
 
     describe('destroy (id is not defined)', function() {
         var model = new owl.Model({}, {
-            urlRoot: '/things'
+            url: '/things'
         });
         before(function() {
             sinon.stub(console, 'warn').returns();
@@ -284,7 +367,7 @@ describe('owl.Model.js', function() {
         var model = new owl.Model({
             id: 2
         }, {
-            urlRoot: '/things'
+            url: '/things'
         });
         sinon.spy(model, 'updateCollection');
         sinon.spy(model, 'trigger');
@@ -304,7 +387,7 @@ describe('owl.Model.js', function() {
         var model = new owl.Model({
             id: 2,
         }, {
-            urlRoot: '/things',
+            url: '/things',
             collectionIndex: 1
         });
         it('should get collection index', function() {
@@ -314,7 +397,7 @@ describe('owl.Model.js', function() {
 
     describe('triggerSingle', function() {
         var model = new owl.Model({}, {
-            urlRoot: '/things'
+            url: '/things'
         });
         var firstListener = sinon.spy();
         var secondListener = sinon.spy();
@@ -333,7 +416,7 @@ describe('owl.Model.js', function() {
             url: ''
         });
         var model = new owl.Model({}, {
-            urlRoot: '/things',
+            url: '/things',
             collection: collection
         });
         before(function() {
@@ -349,7 +432,7 @@ describe('owl.Model.js', function() {
     });
     describe('off', function() {
         var model = new owl.Model({}, {
-            urlRoot: '/things'
+            url: '/things'
         });
         var firstListener = sinon.spy();
         var secondListener = sinon.spy();
@@ -369,7 +452,7 @@ describe('owl.Model.js', function() {
 
     describe('off (without listener)', function() {
         var model = new owl.Model({}, {
-            urlRoot: '/things'
+            url: '/things'
         });
         var firstListener = sinon.spy();
         var secondListener = sinon.spy();
@@ -386,7 +469,7 @@ describe('owl.Model.js', function() {
 
     describe('off (without event)', function() {
         var model = new owl.Model({}, {
-            urlRoot: '/things'
+            url: '/things'
         });
         var firstListener = sinon.spy();
         var secondListener = sinon.spy();
@@ -404,7 +487,7 @@ describe('owl.Model.js', function() {
 
     describe('trigger', function() {
         var model = new owl.Model({}, {
-            urlRoot: '/things'
+            url: '/things'
         });
         before(function() {
             sinon.stub(model, 'triggerSingle');
@@ -420,7 +503,7 @@ describe('owl.Model.js', function() {
 
     describe('trigger (with sub events)', function() {
         var model = new owl.Model({}, {
-            urlRoot: '/things'
+            url: '/things'
         });
         before(function() {
             sinon.stub(model, 'triggerSingle');

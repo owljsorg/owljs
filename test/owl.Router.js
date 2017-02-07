@@ -47,9 +47,9 @@ describe('owl.Router.js', function() {
         };
         before(function() {
             sinon.stub(router, 'getRoute').returns(route);
-            sinon.stub(router, 'resolve').returns(true);
+            sinon.stub(router, 'resolve').returns(owl.Promise.resolve([true]));
             sinon.stub(router, 'run');
-            router.open('/something');
+            return router.open('/something');
         });
         it('should get the route', function() {
             assert(router.getRoute.calledWith('/something'));
@@ -69,7 +69,7 @@ describe('owl.Router.js', function() {
         };
         before(function() {
             sinon.stub(router, 'getRoute').returns(route);
-            sinon.stub(router, 'resolve').returns(false);
+            sinon.stub(router, 'resolve').returns(owl.Promise.resolve([false]));
             sinon.stub(router, 'run');
             router.open('/something');
         });
@@ -87,7 +87,7 @@ describe('owl.Router.js', function() {
         var router = new owl.Router();
         before(function() {
             sinon.stub(router, 'getRoute').returns(null);
-            sinon.stub(router, 'resolve').returns(false);
+            sinon.stub(router, 'resolve').returns(owl.Promise.resolve([false]));
             sinon.stub(router, 'run');
             router.open('/something');
         });
@@ -96,6 +96,21 @@ describe('owl.Router.js', function() {
         });
         it('should not run the route', function() {
             assert(router.run.notCalled);
+        });
+    });
+    describe('open (a resolver is rejected)', function () {
+        var router = new owl.Router();
+        before(function () {
+            sinon.stub(router, 'resolve').returns(owl.Promise.reject([false]));
+            sinon.stub(console, 'error');
+            return router.open('/something');
+        });
+        it('resolve error should be catched', function () {
+            assert(console.error.calledOnce);
+        });
+        after(function() {
+            console.error.restore();
+            router.resolve.restore();
         });
     });
     describe('run (controller is not defined)', function() {

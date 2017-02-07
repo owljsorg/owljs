@@ -6,6 +6,16 @@ describe('owl.ajax', function() {
         { 'Content-Type': 'application/json' },
         JSON.stringify(response)
     ]);
+    server.respondWith('DELETE', '/things', [
+        200,
+        { 'Content-Type': 'application/json' },
+        JSON.stringify({})
+    ]);
+    server.respondWith('POST', '/things', [
+        200,
+        { 'Content-Type': 'application/json' },
+        JSON.stringify({})
+    ]);
     server.respondWith('GET', '/something', [
         404,
         { 'Content-Type': 'application/json' },
@@ -19,6 +29,31 @@ describe('owl.ajax', function() {
                 type: 'GET'
             }).then(function(result) {
                 expect(result).to.eql(response);
+                done();
+            });
+
+            server.respond();
+        });
+
+        it('should make DELETE request to /things', function(done) {
+            owl.ajax.request({
+                url: '/things',
+                type: 'DELETE'
+            }).then(function(result) {
+                expect(result).to.eql({});
+                done();
+            });
+
+            server.respond();
+        });
+
+        it('should make POST request to /things', function(done) {
+            owl.ajax.request({
+                url: '/things',
+                type: 'POST',
+                data: {}
+            }).then(function(result) {
+                expect(result).to.eql({});
                 done();
             });
 

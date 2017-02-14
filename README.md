@@ -40,7 +40,9 @@ If you know backbone.js you mostly know owl.js.
 
 The library uses [MVC](https://en.wikipedia.org/wiki/Model-view-controller) as main pattern.
 **owl.Model** is responsible for representing data from server based on [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) architecture.
-**owl.View** is responsible for rendering view it can use any template engine to do it or generate DOM manually.
+
+**owl.View** is responsible for rendering view it can use any template engine to do it or generate DOM manually. You can use **React** or any other UI library insted of **owl.View**.
+
 **owl.Controller** is responsible for business logic.
 
 Also there is few classes out of the main pattern.
@@ -50,8 +52,6 @@ It contains records named routes.
 Each route contains path and a controller that will be called for specified path.
 
 **owl.Collection** is an array of **owl.Models** it is created to represent model sets.
-
-In is not necessary to use all of those classes, for example you can use **React** components instead of **owl.View**.
 
 ## Development
 

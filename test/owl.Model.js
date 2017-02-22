@@ -129,7 +129,7 @@ describe('owl.Model.js', function() {
     });
     describe('save (create entry)', function() {
         var model = new owl.Model(newThing, {
-            url: '/things'
+            url: '/things/:id'
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function(resolve) {

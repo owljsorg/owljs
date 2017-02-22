@@ -699,7 +699,7 @@ var owl = {
                 if (id) {
                     return this.url.replace(':' + this.idAttribute, id);
                 }
-                return this.url;
+                return this.url.replace('/:' + this.idAttribute, '');
             } else {
                 if (id) {
                     return this.urlRoot + '/' + id;

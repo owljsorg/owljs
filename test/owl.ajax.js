@@ -23,6 +23,17 @@ describe('owl.ajax', function() {
     ]);
 
     describe('request', function() {
+        it('should make GET by default', function(done) {
+            owl.ajax.request({
+                url: '/things'
+            }).then(function(result) {
+                expect(result).to.eql(response);
+                done();
+            });
+
+            server.respond();
+        });
+
         it('should make GET request to /things', function(done) {
             owl.ajax.request({
                 url: '/things',
@@ -52,6 +63,25 @@ describe('owl.ajax', function() {
                 url: '/things',
                 type: 'POST',
                 data: {}
+
+            }).then(function(result) {
+                expect(result).to.eql({});
+                done();
+            });
+
+            server.respond();
+        });
+
+        it('should make POST request to /things with files', function(done) {
+            owl.ajax.request({
+                url: '/things',
+                type: 'POST',
+                data: {
+                    test: 'test'
+                },
+                files: {
+                    file: {}
+                }
             }).then(function(result) {
                 expect(result).to.eql({});
                 done();

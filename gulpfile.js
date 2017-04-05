@@ -16,7 +16,8 @@ var gulp = require('gulp'),
         'src/owl.Controller.js',
 
         'src/owl.ajax.js',
-        'src/owl.Promise.js'
+        'src/owl.Promise.js',
+        'src/owl.AjaxError.js'
     ],
 
     filesCommonjs = [
@@ -30,7 +31,8 @@ var gulp = require('gulp'),
         'src/owl.Controller.js',
 
         'src/owl.ajax.js',
-        'src/owl.Promise.js'
+        'src/owl.Promise.js',
+        'src/owl.AjaxError.js'
     ],
 
     filesAmd = [
@@ -44,10 +46,17 @@ var gulp = require('gulp'),
         'src/owl.Controller.js',
 
         'src/owl.ajax.js',
-        'src/owl.Promise.js'
+        'src/owl.Promise.js',
+        'src/owl.AjaxError.js'
+    ],
+
+    filesCommonJsAjax = [
+        'src/owl.ajax.js',
+        'src/owl.Promise.js',
+        'src/owl.AjaxError.js'
     ];
 
-gulp.task('default', ['build', 'build-commonjs', 'build-amd']);
+gulp.task('default', ['build', 'build-commonjs', 'build-commonjs-ajax', 'build-amd']);
 
 gulp.task('build', function() {
     gulp.src(files)
@@ -59,6 +68,16 @@ gulp.task('build', function() {
 gulp.task('build-commonjs', function() {
     gulp.src(filesCommonjs)
         .pipe(concat('owl-commonjs.js'))
+        .pipe(wrapper({
+            type: 'commonjs',
+            exports: 'owl'
+        }))
+        .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('build-commonjs-ajax', function() {
+    gulp.src(filesCommonjs)
+        .pipe(concat('owl-commonjs-ajax.js'))
         .pipe(wrapper({
             type: 'commonjs',
             exports: 'owl'

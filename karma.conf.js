@@ -5,6 +5,7 @@ module.exports = function(config) {
             'bower_components/bluebird/js/browser/bluebird.js',
             'src/owl.js',
             'src/owl.Promise.js',
+            'src/owl.AjaxError.js',
             'src/owl.util.js',
             'src/owl.history.js',
             'src/owl.ajax.js',

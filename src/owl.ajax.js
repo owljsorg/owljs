@@ -1,7 +1,5 @@
 (function(owl) {
-    var _headers = {
-        'Content-Type': 'application/json; charset=utf-8'
-    };
+    var _headers = {};
 
     owl.ajax = {
         /**
@@ -16,11 +14,20 @@
                     method = settings.type || 'GET',
                     url = settings.url,
                     data = settings.data,
+                    files = settings.files,
                     body = null,
                     key;
 
                 if (method === 'GET' || method === 'DELETE') {
                     url += that.toQueryString(data);
+                } else if (typeof files === 'object') {
+                    body = new FormData();
+                    Object.keys(data).forEach(function(key) {
+                        body.append(key, data[key]);
+                    });
+                    Object.keys(files).forEach(function(key) {
+                        body.append(key, files[key]);
+                    });
                 } else {
                     body = that.toJsonString(data);
                 }
@@ -35,20 +42,23 @@
                         } else {
                             owl.ajax.error(xhr);
                             settings.error && settings.error(xhr, xhr.statusText);
-                            error = new Error('Respond with ' + xhr.status);
-                            error.status = xhr.status;
-                            error.responseText = xhr.responseText;
-                            error.json = JSON.parse(xhr.responseText);
+                            error = new owl.AjaxError(xhr);
                             reject(error);
                         }
                     }
                 };
                 xhr.open(method, url, true);
-                for (key in _headers) {
-                    if (_headers.hasOwnProperty(key)) {
-                        xhr.setRequestHeader(key, _headers[key]);
-                    }
+
+                if (typeof files === 'object') {
+                    xhr.setRequestHeader('Content-Type', 'multipart/form-data; charset=utf-8');
+                } else {
+                    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
                 }
+
+                Object.keys(_headers).forEach(function(key) {
+                    xhr.setRequestHeader(key, _headers[key]);
+                });
+
                 xhr.send(body);
             });
         },

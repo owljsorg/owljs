@@ -16,6 +16,7 @@ declare module owl {
         type: string;
         url: string;
         data: Object;
+        files: {string: File};
     }
     /**
      * Model options

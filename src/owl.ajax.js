@@ -49,9 +49,7 @@
                 };
                 xhr.open(method, url, true);
 
-                if (typeof files === 'object') {
-                    xhr.setRequestHeader('Content-Type', 'multipart/form-data; charset=utf-8');
-                } else {
+                if (typeof files !== 'object') {
                     xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
                 }
 

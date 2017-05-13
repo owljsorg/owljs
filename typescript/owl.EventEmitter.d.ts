@@ -19,7 +19,7 @@ declare module owl {
          * Deprecated: use emit instead
          * Emits single event
          */
-        emit(event: string) : void;
+        emit(event: string, payload?: any) : void;
 
         /**
          * Deprecated: use emit instead

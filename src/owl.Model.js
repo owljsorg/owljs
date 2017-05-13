@@ -230,12 +230,13 @@
     /**
      * Trigger single event
      * @param {string} event Event name
+     * @param {any?} payload Payload
      */
-    Model.prototype.emit = function(event) {
+    Model.prototype.emit = function(event, payload) {
         if(this.collection) {
-            this.collection.trigger(event);
+            this.collection.emit(event, payload);
         }
-        return owl.EventEmitter.prototype.emit.apply(this, [event]);
+        return owl.EventEmitter.prototype.emit.apply(this, [event, payload]);
     };
     owl.Model = Model;
 })(window, owl);

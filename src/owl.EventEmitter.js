@@ -16,8 +16,8 @@
         },
         /**
          * Removes event listener
-         * @param {string} event Event name
-         * @param {function} listener Event listener
+         * @param {string?} event Event name
+         * @param {function?} listener Event listener
          */
         off: function(event, listener) {
             if (!event) {
@@ -33,12 +33,13 @@
         /**
          * Trigger single event
          * @param {string} event Event name
+         * @param {any?} payload Payload
          */
-        emit: function(event) {
+        emit: function(event, payload) {
             var listeners = this.events[event];
             if (listeners) {
                 listeners.forEach(function(listener) {
-                    listener();
+                    listener(payload);
                 });
             }
         },

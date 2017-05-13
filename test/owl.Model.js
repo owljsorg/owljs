@@ -395,6 +395,22 @@ describe('owl.Model.js', function() {
         });
     });
 
+    describe('emit', function() {
+        var model = new owl.Model({}, {
+            url: '/things'
+        });
+        var firstListener = sinon.spy();
+        var secondListener = sinon.spy();
+        model.on('event', firstListener);
+        model.on('event', secondListener);
+        it('should emit event', function () {
+            model.emit('event', 'value');
+
+            assert(firstListener.calledWith('value'));
+            assert(secondListener.calledWith('value'));
+        });
+    });
+
     describe('triggerSingle', function() {
         var model = new owl.Model({}, {
             url: '/things'
@@ -420,14 +436,14 @@ describe('owl.Model.js', function() {
             collection: collection
         });
         before(function() {
-            sinon.stub(collection, 'trigger');
+            sinon.stub(collection, 'emit');
         });
         it('should trigger event', function () {
             model.triggerSingle('event');
-            assert(collection.trigger.called);
+            assert(collection.emit.called);
         });
         after(function() {
-            collection.trigger.restore();
+            collection.emit.restore();
         });
     });
     describe('off', function() {

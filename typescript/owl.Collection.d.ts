@@ -2,7 +2,7 @@ declare module owl {
     /**
      * owl.Collection
      */
-    export class Collection {
+    export class Collection extends EventEmitter {
         constructor(data: Array<Object>, options: Object);
         /**
          * Gets data from the server
@@ -44,20 +44,5 @@ declare module owl {
          * In case when index is not defined updates whole collection
          */
         update(index?: number): void;
-
-        /**
-         * Adds event listener
-         */
-        on(event: string, listener: Function): void;
-
-        /**
-         * Removes event listener
-         */
-        off(event?: string, listener?: Function): void;
-
-        /**
-         * Triggers event
-         */
-        trigger(event: string): void;
     }
 }

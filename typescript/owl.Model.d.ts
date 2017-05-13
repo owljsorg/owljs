@@ -2,7 +2,7 @@ declare module owl {
     /**
      * owl.Model
      */
-    export class Model {
+    export class Model extends EventEmitter {
         constructor(data: Object, options: Object);
         /**
          * Gets attribute by name
@@ -58,25 +58,5 @@ declare module owl {
          * Gets model collection index
          */
         getCollectionIndex(): number;
-
-        /**
-         * Adds event listener
-         */
-        on(event: string, listener: Function): void;
-
-        /**
-         * Removes event listener
-         */
-        off(event?: string, listener?: Function): void;
-
-        /**
-         * Trigger single event
-         */
-        triggerSingle(event: string): void;
-
-        /**
-         * Triggers events
-         */
-        trigger(event: string, subEvents: Array<string>): void;
     }
 }

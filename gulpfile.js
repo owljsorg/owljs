@@ -27,17 +27,7 @@ const files = [
     ...filesCore
 ];
 
-const filesCommonjs = [
-    'src/owl-commonjs.js',
-    ...filesCore
-];
-
-const filesAmd = [
-    'src/owl-amd.js',
-    ...filesCore
-];
-
-gulp.task('default', ['build', 'build-commonjs', 'build-commonjs-ajax', 'build-amd']);
+gulp.task('default', ['build', 'build-core', 'build-commonjs', 'build-commonjs-ajax', 'build-amd']);
 
 gulp.task('build', function() {
     gulp.src(files)
@@ -47,8 +37,24 @@ gulp.task('build', function() {
 });
 
 gulp.task('build-commonjs', function() {
-    gulp.src(filesCommonjs)
+    gulp.src([
+            'src/owl-commonjs.js',
+            ...filesCore
+        ])
         .pipe(concat('owl-commonjs.js'))
+        .pipe(wrapper({
+            type: 'commonjs',
+            exports: 'owl'
+        }))
+        .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('build-core', function() {
+    gulp.src([
+            'src/owl-commonjs.js',
+            ...filesCore
+        ])
+        .pipe(concat('owl-commonjs-core.js'))
         .pipe(wrapper({
             type: 'commonjs',
             exports: 'owl'
@@ -67,7 +73,10 @@ gulp.task('build-commonjs-ajax', function() {
 });
 
 gulp.task('build-amd', function() {
-    gulp.src(filesAmd)
+    gulp.src([
+            'src/owl-amd.js',
+            ...filesCore
+        ])
         .pipe(concat('owl.js'))
         .pipe(wrapper({
             type: 'amd',

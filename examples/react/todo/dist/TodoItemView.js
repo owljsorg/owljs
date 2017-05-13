@@ -15,7 +15,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         function TodoItemView() {
             _classCallCheck(this, TodoItemView);
 
-            return _possibleConstructorReturn(this, Object.getPrototypeOf(TodoItemView).apply(this, arguments));
+            return _possibleConstructorReturn(this, (TodoItemView.__proto__ || Object.getPrototypeOf(TodoItemView)).apply(this, arguments));
         }
 
         _createClass(TodoItemView, [{

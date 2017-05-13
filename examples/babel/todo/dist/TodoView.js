@@ -15,7 +15,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         function TodoView(options) {
             _classCallCheck(this, TodoView);
 
-            var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TodoView).call(this, {
+            var _this = _possibleConstructorReturn(this, (TodoView.__proto__ || Object.getPrototypeOf(TodoView)).call(this, {
                 className: 'v-todo',
                 // you can use any template engine here
                 template: function template() {

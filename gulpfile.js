@@ -12,9 +12,9 @@ const filesAjax = [
 ];
 
 const filesCore = [
-    'src/owl.js',
     'src/owl.history.js',
     'src/owl.util.js',
+    'src/owl.EventEmitter.js',
     'src/owl.Router.js',
     'src/owl.Model.js',
     'src/owl.Collection.js',
@@ -23,6 +23,7 @@ const filesCore = [
 ];
 
 const files = [
+    'src/owl.js',
     'src/owl.View.js',
     ...filesCore
 ];

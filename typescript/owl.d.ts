@@ -2,6 +2,7 @@
 ///<reference path="owl.ajax.d.ts"/>
 ///<reference path="owl.history.d.ts"/>
 ///<reference path="owl.util.d.ts"/>
+///<reference path="owl.EventEmitter.d.ts"/>
 ///<reference path="owl.Router.d.ts"/>
 ///<reference path="owl.Collection.d.ts"/>
 ///<reference path="owl.Controller.d.ts"/>

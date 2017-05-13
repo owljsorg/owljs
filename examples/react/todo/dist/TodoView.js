@@ -15,7 +15,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         function TodoView(props) {
             _classCallCheck(this, TodoView);
 
-            var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TodoView).call(this, props));
+            var _this = _possibleConstructorReturn(this, (TodoView.__proto__ || Object.getPrototypeOf(TodoView)).call(this, props));
 
             _this.state = {
                 title: ''

@@ -17,8 +17,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
             // update links to data-element
             // and update special events (submit, focus, blur)
-
-            var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AppView).call(this, {
+            var _this = _possibleConstructorReturn(this, (AppView.__proto__ || Object.getPrototypeOf(AppView)).call(this, {
                 el: document.querySelector('html')
             }));
 

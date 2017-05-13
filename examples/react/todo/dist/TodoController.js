@@ -15,7 +15,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         function TodoController() {
             _classCallCheck(this, TodoController);
 
-            var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TodoController).call(this));
+            var _this = _possibleConstructorReturn(this, (TodoController.__proto__ || Object.getPrototypeOf(TodoController)).call(this));
 
             _this.appView = owl.require('appView');
             _this.todoItemCollection = new app.TodoItemCollection();

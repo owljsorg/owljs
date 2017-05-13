@@ -27,7 +27,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     console.log('404 page');
                 }
             };
-            return _possibleConstructorReturn(this, Object.getPrototypeOf(MainRouter).call(this, routes, defaultRoute));
+            return _possibleConstructorReturn(this, (MainRouter.__proto__ || Object.getPrototypeOf(MainRouter)).call(this, routes, defaultRoute));
         }
 
         return MainRouter;

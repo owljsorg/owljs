@@ -17,8 +17,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
             // update links to data-element
             // and update special events (submit, focus, blur)
-
-            var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TodoItemView).call(this, {
+            var _this = _possibleConstructorReturn(this, (TodoItemView.__proto__ || Object.getPrototypeOf(TodoItemView)).call(this, {
                 className: 'v-todo',
                 // you can use any template engine here
                 template: function template(data) {

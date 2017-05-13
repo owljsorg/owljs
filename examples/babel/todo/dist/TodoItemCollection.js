@@ -13,7 +13,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         function TodoItemCollection(data) {
             _classCallCheck(this, TodoItemCollection);
 
-            return _possibleConstructorReturn(this, Object.getPrototypeOf(TodoItemCollection).call(this, data, {
+            return _possibleConstructorReturn(this, (TodoItemCollection.__proto__ || Object.getPrototypeOf(TodoItemCollection)).call(this, data, {
                 url: 'todo/items',
                 model: app.TodoItemModel
             }));

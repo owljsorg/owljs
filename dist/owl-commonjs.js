@@ -9,39 +9,6 @@ var owl = {
         console.info('Please use module.exports instead of owl.define');
     }
 };
-(function(window) {
-    var callbacks = {},
-        modules = {};
-
-    /**
-     * owl
-     */
-    window.owl = {
-        /**
-         * Requires a module
-         * @param {string} name
-         * @return {object}
-         */
-        require: function(name) {
-            if (!modules[name] && callbacks[name]) {
-                modules[name] = callbacks[name]();
-            }
-            if (modules[name]) {
-                return modules[name];
-            } else {
-                throw new Error('Module ' + name + ' is not found');
-            }
-        },
-        /**
-         * Defines a module
-         * @param {string} name
-         * @param {function} callback
-         */
-        define: function(name, callback) {
-            callbacks[name] = callback;
-        }
-    };
-})(window);
 (function(window, owl) {
     var _options,
         _defaultOptions = {
@@ -324,6 +291,77 @@ var owl = {
         }
     };
 }(window, owl));
+(function(window, owl) {
+    function EventEmitter() {
+        this.events = {};
+    }
+    EventEmitter.prototype = {
+        /**
+         * Adds event listener
+         * @param {string} event Event name
+         * @param {function} listener Event listener
+         */
+        on: function(event, listener) {
+            if (!this.events[event]) {
+                this.events[event] = [];
+            }
+            this.events[event].push(listener);
+        },
+        /**
+         * Removes event listener
+         * @param {string} event Event name
+         * @param {function} listener Event listener
+         */
+        off: function(event, listener) {
+            if (!event) {
+                this.events = [];
+            } else if (!listener) {
+                delete this.events[event];
+            } else if (this.events[event]) {
+                this.events[event] = this.events[event].filter(function(currentListener) {
+                    return currentListener !== listener;
+                });
+            }
+        },
+        /**
+         * Trigger single event
+         * @param {string} event Event name
+         */
+        emit: function(event) {
+            var listeners = this.events[event];
+            if (listeners) {
+                listeners.forEach(function(listener) {
+                    listener();
+                });
+            }
+        },
+        /**
+         * Deprecated, use emit instead
+         * Triggers single event
+         * @param {string} event Event name
+         */
+        triggerSingle: function(event) {
+            this.emit(event);
+        },
+        /**
+         * Triggers events
+         * @param {string} event Event name
+         * @param {array} subEvents Sub events array
+         */
+        trigger: function(event, subEvents) {
+            var that = this;
+            this.triggerSingle(event);
+            if(subEvents && subEvents instanceof Array) {
+                subEvents.forEach(function(subEvent) {
+                    that.triggerSingle(event + ':' + subEvent);
+                });
+            } else if (subEvents) {
+                this.triggerSingle(event + ':' + subEvents);
+            }
+        }
+    };
+    owl.EventEmitter = EventEmitter;
+})(window, owl);
 (function(window, owl) {
     /**
      * owl.Router
@@ -735,7 +773,6 @@ var owl = {
         if(this.collection) {
             this.collection.trigger(event);
         }
-        console.log(owl.EventEmitter.prototype.emit);
         return owl.EventEmitter.prototype.emit.apply(this, [event]);
     };
     owl.Model = Model;

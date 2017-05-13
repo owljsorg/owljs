@@ -235,7 +235,6 @@
         if(this.collection) {
             this.collection.trigger(event);
         }
-        console.log(owl.EventEmitter.prototype.emit);
         return owl.EventEmitter.prototype.emit.apply(this, [event]);
     };
     owl.Model = Model;

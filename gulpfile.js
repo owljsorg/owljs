@@ -64,7 +64,10 @@ gulp.task('build-core', function() {
 });
 
 gulp.task('build-commonjs-ajax', function() {
-    gulp.src(filesAjax)
+    gulp.src([
+            'src/owl-commonjs.js',
+            ...filesAjax
+        ])
         .pipe(concat('owl-commonjs-ajax.js'))
         .pipe(wrapper({
             type: 'commonjs',

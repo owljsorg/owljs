@@ -177,11 +177,14 @@ describe('owl.Collection', function() {
         var secondListener = sinon.spy();
         collection.on('event', firstListener);
         collection.on('event', secondListener);
-        it('should trigger event', function () {
+        it('should trigger event', function (done) {
             collection.trigger('event');
 
-            assert(firstListener.calledOnce);
-            assert(secondListener.calledOnce);
+            setTimeout(function() {
+                assert(firstListener.calledOnce);
+                assert(secondListener.calledOnce);
+                done();
+            });
         });
     });
     describe('off', function() {

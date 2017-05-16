@@ -36,12 +36,15 @@
          * @param {any?} payload Payload
          */
         emit: function(event, payload) {
-            var listeners = this.events[event];
-            if (listeners) {
-                listeners.forEach(function(listener) {
-                    listener(payload);
-                });
-            }
+            var that = this;
+            setTimeout(function() {
+                var listeners = that.events[event];
+                if (listeners) {
+                    listeners.forEach(function(listener) {
+                        listener(payload);
+                    });
+                }
+            }, 0);
         },
         /**
          * Deprecated, use emit instead

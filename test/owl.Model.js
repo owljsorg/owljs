@@ -403,11 +403,15 @@ describe('owl.Model.js', function() {
         var secondListener = sinon.spy();
         model.on('event', firstListener);
         model.on('event', secondListener);
-        it('should emit event', function () {
+        it('should emit event', function (done) {
             model.emit('event', 'value');
 
-            assert(firstListener.calledWith('value'));
-            assert(secondListener.calledWith('value'));
+            setTimeout(function() {
+                assert(firstListener.calledWith('value'));
+                assert(secondListener.calledWith('value'));
+                done();
+            }, 0);
+
         });
     });
 
@@ -419,11 +423,14 @@ describe('owl.Model.js', function() {
         var secondListener = sinon.spy();
         model.on('event', firstListener);
         model.on('event', secondListener);
-        it('should trigger event', function () {
+        it('should trigger event', function (done) {
             model.triggerSingle('event');
 
-            assert(firstListener.calledOnce);
-            assert(secondListener.calledOnce);
+            setTimeout(function() {
+                assert(firstListener.calledOnce);
+                assert(secondListener.calledOnce);
+                done();
+            }, 0);
         });
     });
 
@@ -457,12 +464,15 @@ describe('owl.Model.js', function() {
         model.on('event', secondListener);
         model.off('event', firstListener);
         model.off('otherEvent', thirdListener);
-        it('should trigger right event', function () {
+        it('should trigger right event', function (done) {
             model.triggerSingle('event');
 
-            assert(firstListener.notCalled);
-            assert(secondListener.called);
-            assert(thirdListener.notCalled);
+            setTimeout(function () {
+                assert(firstListener.notCalled);
+                assert(secondListener.called);
+                assert(thirdListener.notCalled);
+                done();
+            }, 0);
         });
     });
 

@@ -2,7 +2,10 @@ declare module owl.history {
     /**
      * Makes request to the server
      */
-    export function init(options: Object): void;
+    export function init(options: {
+        baseUrl: string,
+        basePath: string
+    }): void;
 
     /**
      * Gets an option

@@ -3,11 +3,18 @@ describe('owl.history', function() {
     sinon.spy(window, 'addEventListener');
     sinon.spy(window, 'removeEventListener');
     describe('init', function() {
-        owl.history.init({
-            baseUrl: '/api'
+        before(function() {
+            owl.history.init({
+                baseUrl: '/base'
+            });
         });
         it('should set options', function() {
-            expect(owl.history.getOption('baseUrl')).to.be.deep.equal('/api');
+            expect(owl.history.getOption('baseUrl')).to.be.deep.equal('/base');
+        });
+        after(function() {
+            owl.history.init({
+                baseUrl: '/'
+            });
         });
     });
     describe('start', function() {
@@ -47,37 +54,165 @@ describe('owl.history', function() {
     describe('navigate', function() {
         before(function() {
             sinon.stub(owl.history, 'open');
-            owl.history.navigate('/something');
+            window.history.pushState = sinon.spy();
+            owl.history.navigate('something');
         });
-        it('open the path', function() {
-            assert(owl.history.open.calledWith('/something'));
+        it('should navigate to the path', function() {
+            assert(window.history.pushState.calledWith(null, null, '/something'));
+        });
+        it('should open the path', function() {
+            assert(owl.history.open.calledWith('something'));
         });
         after(function() {
             owl.history.open.restore();
+            owl.history.pushState = null;
         });
     });
+
+    describe('navigate (with base path)', function() {
+        before(function() {
+            sinon.stub(owl.history, 'open');
+            window.history.pushState = sinon.spy();
+            owl.history.init({
+                baseUrl: '/',
+                basePath: 'something'
+            });
+            owl.history.navigate('something');
+        });
+
+        it('should navigate to the path', function() {
+            assert(window.history.pushState.calledWith(null, null, '/something'));
+        });
+
+        it('should open the path', function() {
+            assert(owl.history.open.calledWith('something'));
+        });
+
+        after(function() {
+            owl.history.open.restore();
+            owl.history.pushState = null;
+            owl.history.init({
+                baseUrl: '/',
+                basePath: ''
+            });
+        });
+    });
+
+
+    describe('navigate (with not matching base path)', function() {
+        before(function() {
+            sinon.stub(window.location, 'assign');
+            owl.history.init({
+                baseUrl: '/',
+                basePath: 'something-else'
+            });
+            owl.history.navigate('something');
+        });
+
+        it('should navigate to the path', function() {
+            assert(window.location.assign.calledWith('/something'));
+        });
+
+        after(function() {
+            window.location.assign.restore();
+            owl.history.init({
+                baseUrl: '/',
+                basePath: ''
+            });
+        });
+    });
+
     describe('replace', function() {
         before(function() {
             sinon.stub(owl.history, 'open');
-            owl.history.replace('/something');
+            window.history.replaceState = sinon.spy();
+            owl.history.init({
+                baseUrl: '/',
+                basePath: ''
+            });
+            owl.history.replace('something');
         });
-        it('open the path', function() {
-            assert(owl.history.open.calledWith('/something'));
+
+        it('should replace the state', function() {
+            assert(window.history.replaceState.calledWith(null, null, '/something'));
         });
+
+        it('should open the path', function() {
+            assert(owl.history.open.calledWith('something'));
+        });
+
         after(function() {
             owl.history.open.restore();
+            window.history.replaceState = null;
+            owl.history.init({
+                baseUrl: '/',
+                basePath: ''
+            });
         });
     });
-    describe('getLocation', function() {
+
+    describe('replace (with base path)', function() {
         before(function() {
             sinon.stub(owl.history, 'open');
-            owl.history.navigate('/something');
+            window.history.replaceState = sinon.spy();
+            owl.history.init({
+                baseUrl: '/',
+                basePath: 'something'
+            });
+            owl.history.replace('something');
         });
-        it('set the hash', function() {
-            expect(owl.history.getLocation()).to.be.equal('/something');
+
+        it('should replace the path', function() {
+            assert(window.history.replaceState.calledWith(null, null, '/something'));
         });
+
+        it('should open the path', function() {
+            assert(owl.history.open.calledWith('something'));
+        });
+
         after(function() {
             owl.history.open.restore();
+            owl.history.replaceState = null;
+            owl.history.init({
+                baseUrl: '/',
+                basePath: ''
+            });
+        });
+    });
+
+
+    describe('replace (with not matching base path)', function() {
+        before(function() {
+            sinon.stub(window.location, 'replace');
+            owl.history.init({
+                baseUrl: '/',
+                basePath: 'something-else'
+            });
+            owl.history.replace('something');
+        });
+
+        it('should replace the path', function() {
+            assert(window.location.replace.calledWith('/something'));
+        });
+
+        after(function() {
+            window.location.replace.restore();
+            owl.history.init({
+                baseUrl: '/',
+                basePath: ''
+            });
+        });
+    });
+
+    describe('getLocation', function() {
+        before(function() {
+            owl.history.init({
+                baseUrl: '/',
+                basePath: ''
+            });
+        });
+        it('should get the location', function() {
+            expect(owl.history.getLocation()).to.be.equal('context.html');
         });
     });
     describe('getHash and setHash', function() {

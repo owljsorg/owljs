@@ -12,7 +12,8 @@ var owl = {
 (function(window, owl) {
     var _options,
         _defaultOptions = {
-            baseUrl: '/'
+            baseUrl: '/',
+            basePath: ''
         },
         _defaultRouter = null,
         _listener,
@@ -67,6 +68,10 @@ var owl = {
          * @param path
          */
         navigate: function(path) {
+            if (_options.basePath && path.indexOf(_options.basePath) !== 0) {
+                window.location.assign(_options.baseUrl + path);
+                return;
+            }
             window.history.pushState(null, null, _options.baseUrl + path);
             this.open(path);
         },
@@ -75,6 +80,10 @@ var owl = {
          * @param path
          */
         replace: function(path) {
+            if (_options.basePath && path.indexOf(_options.basePath) !== 0) {
+                window.location.replace(_options.baseUrl + path);
+                return;
+            }
             window.history.replaceState(null, null, _options.baseUrl + path);
             this.open(path);
         },
@@ -83,7 +92,7 @@ var owl = {
          * @return {string}
          */
         getLocation: function () {
-            return window.location.pathname.replace(_options.baseUrl, '').replace(/\/$/, '');
+            return window.location.pathname.replace(_options.baseUrl + _options.basePath, '').replace(/\/$/, '');
         },
         /**
          * Gets current hash

@@ -968,7 +968,12 @@ var owl = {
                         error;
                     if (xhr.readyState === 4) {
                         if (xhr.status >= 200 && xhr.status < 300) {
-                            response = JSON.parse(xhr.responseText);
+                            try {
+                                response = JSON.parse(xhr.responseText);
+                            } catch (err) {
+                                reject(err);
+                                return;
+                            }
                             settings.success && settings.success(response);
                             resolve(response);
                         } else {

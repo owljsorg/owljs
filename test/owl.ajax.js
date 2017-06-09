@@ -21,6 +21,11 @@ describe('owl.ajax', function() {
         { 'Content-Type': 'application/json' },
         '{}'
     ]);
+    server.respondWith('GET', '/something-wrong', [
+        200,
+        { 'Content-Type': 'application/json' },
+        '{somethingInvalid:'
+    ]);
 
     describe('request', function() {
         it('should make GET by default', function(done) {
@@ -103,6 +108,20 @@ describe('owl.ajax', function() {
                 assert(owl.ajax.error.called);
                 expect(error.status).to.eql(404);
                 expect(error.responseText).to.eql('{}');
+                done();
+                owl.ajax.restore();
+            });
+
+            server.respond();
+        });
+    });
+
+    describe('request (invalid)', function() {
+        it('should catch error', function(done) {
+            owl.ajax.request({
+                url: '/something-wrong',
+                type: 'GET'
+            }).catch(function(error) {
                 done();
                 owl.ajax.restore();
             });

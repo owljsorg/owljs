@@ -56,7 +56,11 @@ describe('owl.Model.js', function() {
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function (resolve) {
-                resolve(thing);
+                resolve({
+                    data: thing,
+                    status: 200,
+                    headers: {}
+                });
             }));
         });
         it('should make GET request', function(done) {
@@ -90,7 +94,11 @@ describe('owl.Model.js', function() {
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function (resolve) {
-                resolve(thing);
+                resolve({
+                    data: thing,
+                    status: 200,
+                    header: {}
+                });
             }));
         });
         it('should make GET request', function(done) {
@@ -134,7 +142,11 @@ describe('owl.Model.js', function() {
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function(resolve) {
                 resolve({
-                    id: 2
+                    data: {
+                        id: 2
+                    },
+                    status: 200,
+                    headers: {}
                 });
             }));
         });
@@ -166,7 +178,11 @@ describe('owl.Model.js', function() {
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function(resolve) {
-                resolve({});
+                resolve({
+                    data: {},
+                    status: 200,
+                    headers: {}
+                });
             }));
             sinon.stub(model, 'trigger');
         });
@@ -200,7 +216,11 @@ describe('owl.Model.js', function() {
         });
         before(function() {
             sinon.stub(model, 'save').returns(new Promise(function(resolve) {
-                resolve({});
+                resolve({
+                    data: {},
+                    status: 200,
+                    headers: {}
+                });
             }));
         });
         it('should save the object', function() {
@@ -241,7 +261,11 @@ describe('owl.Model.js', function() {
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function (resolve) {
-                resolve({});
+                resolve({
+                    data: {},
+                    status: 200,
+                    headers: {}
+                });
             }));
             sinon.stub(model, 'trigger');
         });
@@ -313,7 +337,11 @@ describe('owl.Model.js', function() {
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function (resolve) {
-                resolve({});
+                resolve({
+                    data: {},
+                    status: 200,
+                    headers: {}
+                });
             }));
             sinon.stub(model, 'clear');
         });

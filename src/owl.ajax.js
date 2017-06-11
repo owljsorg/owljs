@@ -32,16 +32,24 @@
                     body = that.toJsonString(data);
                 }
                 xhr.onreadystatechange = function() {
-                    var response,
+                    var response = {
+                            status: 0,
+                            headers: {},
+                            data: {}
+                        },
                         error;
                     if (xhr.readyState === 4) {
                         if (xhr.status >= 200 && xhr.status < 300) {
                             try {
-                                response = JSON.parse(xhr.responseText);
+                                response.data = JSON.parse(xhr.responseText);
                             } catch (err) {
                                 reject(err);
                                 return;
                             }
+
+                            response.headers = xhr.responseHeaders;
+                            response.status = xhr.status;
+
                             settings.success && settings.success(response);
                             resolve(response);
                         } else {

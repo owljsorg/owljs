@@ -9,9 +9,11 @@
         owl.EventEmitter.apply(this, [data, options]);
 
         this.url = options.url;
+
         this.model = options.model;
         this.data = [];
         this.models = [];
+        this.totalCount = 0;
 
         this.setData(data);
     }
@@ -28,8 +30,13 @@
             type: 'GET'
         })
         .then(function(result) {
-            that.setData(result);
-            return result;
+            that.setData(result.data);
+
+            if (result.headers['X-Total-Count']) {
+                that.setTotalCount(parseInt(result.headers['X-Total-Count'], 10));
+            }
+
+            return result.data;
         });
     };
 
@@ -70,6 +77,22 @@
      */
     Collection.prototype.getData = function() {
         return this.data;
+    };
+
+    /**
+     * Sets total count of elements
+     * @param {number} totalCount Total count of elements
+     */
+    Collection.prototype.setTotalCount = function(totalCount) {
+        this.totalCount = totalCount;
+    };
+
+    /**
+     * Gets total count of elements
+     * @return {number} total count of elements
+     */
+    Collection.prototype.getTotalCount = function() {
+        return this.totalCount;
     };
 
     /**

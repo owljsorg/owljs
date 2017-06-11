@@ -4,7 +4,7 @@ declare module owl.history {
      */
     export function init(options: {
         baseUrl: string,
-        basePath: string
+        basePath?: string
     }): void;
 
     /**

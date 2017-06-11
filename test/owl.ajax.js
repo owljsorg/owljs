@@ -32,7 +32,11 @@ describe('owl.ajax', function() {
             owl.ajax.request({
                 url: '/things'
             }).then(function(result) {
-                expect(result).to.eql(response);
+                expect(result.data).to.eql(response);
+                expect(result.status).to.eql(200);
+                expect(result.headers).to.eql({
+                    'Content-Type': 'application/json'
+                });
                 done();
             });
 
@@ -44,7 +48,7 @@ describe('owl.ajax', function() {
                 url: '/things',
                 type: 'GET'
             }).then(function(result) {
-                expect(result).to.eql(response);
+                expect(result.data).to.eql(response);
                 done();
             });
 
@@ -56,7 +60,7 @@ describe('owl.ajax', function() {
                 url: '/things',
                 type: 'DELETE'
             }).then(function(result) {
-                expect(result).to.eql({});
+                expect(result.data).to.eql({});
                 done();
             });
 
@@ -70,7 +74,7 @@ describe('owl.ajax', function() {
                 data: {}
 
             }).then(function(result) {
-                expect(result).to.eql({});
+                expect(result.data).to.eql({});
                 done();
             });
 
@@ -88,7 +92,7 @@ describe('owl.ajax', function() {
                     file: {}
                 }
             }).then(function(result) {
-                expect(result).to.eql({});
+                expect(result.data).to.eql({});
                 done();
             });
 

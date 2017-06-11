@@ -79,7 +79,8 @@
 	(function(window, owl) {
 	    var _options,
 	        _defaultOptions = {
-	            baseUrl: '/'
+	            baseUrl: '/',
+	            basePath: ''
 	        },
 	        _defaultRouter = null,
 	        _listener,
@@ -134,6 +135,10 @@
 	         * @param path
 	         */
 	        navigate: function(path) {
+	            if (_options.basePath && path.indexOf(_options.basePath) !== 0) {
+	                window.location.assign(_options.baseUrl + path);
+	                return;
+	            }
 	            window.history.pushState(null, null, _options.baseUrl + path);
 	            this.open(path);
 	        },
@@ -142,6 +147,10 @@
 	         * @param path
 	         */
 	        replace: function(path) {
+	            if (_options.basePath && path.indexOf(_options.basePath) !== 0) {
+	                window.location.replace(_options.baseUrl + path);
+	                return;
+	            }
 	            window.history.replaceState(null, null, _options.baseUrl + path);
 	            this.open(path);
 	        },
@@ -150,7 +159,7 @@
 	         * @return {string}
 	         */
 	        getLocation: function () {
-	            return window.location.pathname.replace(_options.baseUrl, '').replace(/\/$/, '');
+	            return window.location.pathname.replace(_options.baseUrl + _options.basePath, '').replace(/\/$/, '');
 	        },
 	        /**
 	         * Gets current hash
@@ -376,8 +385,8 @@
 	        },
 	        /**
 	         * Removes event listener
-	         * @param {string} event Event name
-	         * @param {function} listener Event listener
+	         * @param {string?} event Event name
+	         * @param {function?} listener Event listener
 	         */
 	        off: function(event, listener) {
 	            if (!event) {
@@ -393,14 +402,18 @@
 	        /**
 	         * Trigger single event
 	         * @param {string} event Event name
+	         * @param {any?} payload Payload
 	         */
-	        emit: function(event) {
-	            var listeners = this.events[event];
-	            if (listeners) {
-	                listeners.forEach(function(listener) {
-	                    listener();
-	                });
-	            }
+	        emit: function(event, payload) {
+	            var that = this;
+	            setTimeout(function() {
+	                var listeners = that.events[event];
+	                if (listeners) {
+	                    listeners.forEach(function(listener) {
+	                        listener(payload);
+	                    });
+	                }
+	            }, 0);
 	        },
 	        /**
 	         * Deprecated, use emit instead
@@ -683,10 +696,10 @@
 	            type: 'GET'
 	        })
 	        .then(function(result) {
-	            that.data = result;
+	            that.data = result.data;
 	            that.updateCollection();
 	            that.trigger('change', Object.keys(that.data));
-	            return result;
+	            return result.data;
 	        });
 	    };
 	    /**
@@ -714,12 +727,13 @@
 	            data: this.data
 	        })
 	        .then(function(result) {
-	            if(result[that.idAttribute]) {
-	                that.data[that.idAttribute] = result[that.idAttribute];
+	            const data = result.data;
+	            if(data[that.idAttribute]) {
+	                that.data[that.idAttribute] = data[that.idAttribute];
 	            }
 	            that.updateCollection();
 	            that.trigger('change', [that.idAttribute]);
-	            return result;
+	            return data;
 	        });
 	    };
 	    /**
@@ -740,7 +754,7 @@
 	        return this.save(query).then(function(result) {
 	            that.updateCollection();
 	            that.trigger('change', Object.keys(data));
-	            return result;
+	            return result.data;
 	        });
 	    };
 	    /**
@@ -770,7 +784,7 @@
 	        }).then(function(result) {
 	            that.updateCollection();
 	            that.trigger('change', Object.keys(data));
-	            return result;
+	            return result.data;
 	        });
 	    };
 	    /**
@@ -799,7 +813,7 @@
 	            type: 'DELETE'
 	        }).then(function(result) {
 	            that.clear();
-	            return result;
+	            return result.data;
 	        });
 	    };
 	    /**
@@ -835,13 +849,13 @@
 	    /**
 	     * Trigger single event
 	     * @param {string} event Event name
+	     * @param {any?} payload Payload
 	     */
-	    Model.prototype.emit = function(event) {
+	    Model.prototype.emit = function(event, payload) {
 	        if(this.collection) {
-	            this.collection.trigger(event);
+	            this.collection.emit(event, payload);
 	        }
-	        console.log(owl.EventEmitter.prototype.emit);
-	        return owl.EventEmitter.prototype.emit.apply(this, [event]);
+	        return owl.EventEmitter.prototype.emit.apply(this, [event, payload]);
 	    };
 	    owl.Model = Model;
 	})(window, owl);
@@ -856,9 +870,11 @@
 	        owl.EventEmitter.apply(this, [data, options]);
 
 	        this.url = options.url;
+
 	        this.model = options.model;
 	        this.data = [];
 	        this.models = [];
+	        this.totalCount = 0;
 
 	        this.setData(data);
 	    }
@@ -875,8 +891,13 @@
 	            type: 'GET'
 	        })
 	        .then(function(result) {
-	            that.setData(result);
-	            return result;
+	            that.setData(result.data);
+
+	            if (result.headers['X-Total-Count']) {
+	                that.setTotalCount(parseInt(result.headers['X-Total-Count'], 10));
+	            }
+
+	            return result.data;
 	        });
 	    };
 
@@ -917,6 +938,22 @@
 	     */
 	    Collection.prototype.getData = function() {
 	        return this.data;
+	    };
+
+	    /**
+	     * Sets total count of elements
+	     * @param {number} totalCount Total count of elements
+	     */
+	    Collection.prototype.setTotalCount = function(totalCount) {
+	        this.totalCount = totalCount;
+	    };
+
+	    /**
+	     * Gets total count of elements
+	     * @return {number} total count of elements
+	     */
+	    Collection.prototype.getTotalCount = function() {
+	        return this.totalCount;
 	    };
 
 	    /**
@@ -1018,11 +1055,24 @@
 	                    body = that.toJsonString(data);
 	                }
 	                xhr.onreadystatechange = function() {
-	                    var response,
+	                    var response = {
+	                            status: 0,
+	                            headers: {},
+	                            data: {}
+	                        },
 	                        error;
 	                    if (xhr.readyState === 4) {
 	                        if (xhr.status >= 200 && xhr.status < 300) {
-	                            response = JSON.parse(xhr.responseText);
+	                            try {
+	                                response.data = JSON.parse(xhr.responseText);
+	                            } catch (err) {
+	                                reject(err);
+	                                return;
+	                            }
+
+	                            response.headers = xhr.responseHeaders;
+	                            response.status = xhr.status;
+
 	                            settings.success && settings.success(response);
 	                            resolve(response);
 	                        } else {

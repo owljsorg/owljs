@@ -4,12 +4,16 @@ describe('owl.Collection', function() {
         url: '/things',
         model: owl.Model
     });
-    before(function() {
-        sinon.stub(owl.ajax, 'request').returns(new owl.Promise(function(resolve, reject) {
-            resolve(result);
-        }));
-    });
     describe('fetch', function() {
+        before(function() {
+            sinon.stub(owl.ajax, 'request').returns(new owl.Promise(function(resolve, reject) {
+                resolve({
+                    data: result,
+                    status: 200,
+                    headers: {}
+                });
+            }));
+        });
         it('should make GET request to /things', function(done) {
             collection.fetch().then(function() {
                 assert(owl.ajax.request.calledWith({
@@ -29,9 +33,55 @@ describe('owl.Collection', function() {
                 done();
             });
         });
+        after(function() {
+            owl.ajax.request.restore();
+        });
+    });
+
+    describe('fetch with X-Total-Count header', function() {
+        before(function() {
+            sinon.stub(owl.ajax, 'request').returns(new owl.Promise(function(resolve, reject) {
+                resolve({
+                    data: result,
+                    status: 200,
+                    headers: {
+                        'X-Total-Count': 100
+                    }
+                });
+            }));
+        });
+        it('should make GET request to /things', function(done) {
+            collection.fetch().then(function() {
+                assert(owl.ajax.request.calledWith({
+                    url: '/things',
+                    type: 'GET'
+                }));
+
+                done();
+            });
+
+        });
+        it('set the cound', function(done) {
+            collection.fetch().then(function() {
+                expect(collection.getTotalCount()).to.eql(100);
+                done();
+            });
+        });
+        after(function() {
+            owl.ajax.request.restore();
+        });
     });
 
     describe('fetch with data', function() {
+        before(function() {
+            sinon.stub(owl.ajax, 'request').returns(new owl.Promise(function(resolve, reject) {
+                resolve({
+                    data: result,
+                    status: 200,
+                    headers: {}
+                });
+            }));
+        });
         it('should make GET request to /things?type=tablet', function(done) {
             collection.fetch({
                 type: 'tablet'
@@ -50,6 +100,9 @@ describe('owl.Collection', function() {
 
                 done();
             });
+        });
+        after(function() {
+            owl.ajax.request.restore();
         });
     });
 
@@ -95,9 +148,6 @@ describe('owl.Collection', function() {
                 url: '/things',
                 model: owl.Model
             });
-            var data = [{
-                something: 'else'
-            }];
 
             collection.setData();
             expect(collection.getData()).to.eql([]);
@@ -240,9 +290,5 @@ describe('owl.Collection', function() {
             assert(secondListener.notCalled);
             assert(firstListener.notCalled);
         });
-    });
-
-    after(function() {
-        owl.ajax.request.restore();
     });
 });

@@ -629,10 +629,10 @@ var owl = {
             type: 'GET'
         })
         .then(function(result) {
-            that.data = result;
+            that.data = result.data;
             that.updateCollection();
             that.trigger('change', Object.keys(that.data));
-            return result;
+            return result.data;
         });
     };
     /**
@@ -660,12 +660,13 @@ var owl = {
             data: this.data
         })
         .then(function(result) {
-            if(result[that.idAttribute]) {
-                that.data[that.idAttribute] = result[that.idAttribute];
+            const data = result.data;
+            if(data[that.idAttribute]) {
+                that.data[that.idAttribute] = data[that.idAttribute];
             }
             that.updateCollection();
             that.trigger('change', [that.idAttribute]);
-            return result;
+            return data;
         });
     };
     /**
@@ -686,7 +687,7 @@ var owl = {
         return this.save(query).then(function(result) {
             that.updateCollection();
             that.trigger('change', Object.keys(data));
-            return result;
+            return result.data;
         });
     };
     /**
@@ -716,7 +717,7 @@ var owl = {
         }).then(function(result) {
             that.updateCollection();
             that.trigger('change', Object.keys(data));
-            return result;
+            return result.data;
         });
     };
     /**
@@ -745,7 +746,7 @@ var owl = {
             type: 'DELETE'
         }).then(function(result) {
             that.clear();
-            return result;
+            return result.data;
         });
     };
     /**
@@ -802,9 +803,11 @@ var owl = {
         owl.EventEmitter.apply(this, [data, options]);
 
         this.url = options.url;
+
         this.model = options.model;
         this.data = [];
         this.models = [];
+        this.totalCount = 0;
 
         this.setData(data);
     }
@@ -821,8 +824,13 @@ var owl = {
             type: 'GET'
         })
         .then(function(result) {
-            that.setData(result);
-            return result;
+            that.setData(result.data);
+
+            if (result.headers['X-Total-Count']) {
+                that.setTotalCount(parseInt(result.headers['X-Total-Count'], 10));
+            }
+
+            return result.data;
         });
     };
 
@@ -863,6 +871,22 @@ var owl = {
      */
     Collection.prototype.getData = function() {
         return this.data;
+    };
+
+    /**
+     * Sets total count of elements
+     * @param {number} totalCount Total count of elements
+     */
+    Collection.prototype.setTotalCount = function(totalCount) {
+        this.totalCount = totalCount;
+    };
+
+    /**
+     * Gets total count of elements
+     * @return {number} total count of elements
+     */
+    Collection.prototype.getTotalCount = function() {
+        return this.totalCount;
     };
 
     /**
@@ -964,16 +988,24 @@ var owl = {
                     body = that.toJsonString(data);
                 }
                 xhr.onreadystatechange = function() {
-                    var response,
+                    var response = {
+                            status: 0,
+                            headers: {},
+                            data: {}
+                        },
                         error;
                     if (xhr.readyState === 4) {
                         if (xhr.status >= 200 && xhr.status < 300) {
                             try {
-                                response = JSON.parse(xhr.responseText);
+                                response.data = JSON.parse(xhr.responseText);
                             } catch (err) {
                                 reject(err);
                                 return;
                             }
+
+                            response.headers = xhr.responseHeaders;
+                            response.status = xhr.status;
+
                             settings.success && settings.success(response);
                             resolve(response);
                         } else {

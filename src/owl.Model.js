@@ -78,10 +78,10 @@
             type: 'GET'
         })
         .then(function(result) {
-            that.data = result;
+            that.data = result.data;
             that.updateCollection();
             that.trigger('change', Object.keys(that.data));
-            return result;
+            return result.data;
         });
     };
     /**
@@ -109,12 +109,13 @@
             data: this.data
         })
         .then(function(result) {
-            if(result[that.idAttribute]) {
-                that.data[that.idAttribute] = result[that.idAttribute];
+            const data = result.data;
+            if(data[that.idAttribute]) {
+                that.data[that.idAttribute] = data[that.idAttribute];
             }
             that.updateCollection();
             that.trigger('change', [that.idAttribute]);
-            return result;
+            return data;
         });
     };
     /**
@@ -135,7 +136,7 @@
         return this.save(query).then(function(result) {
             that.updateCollection();
             that.trigger('change', Object.keys(data));
-            return result;
+            return result.data;
         });
     };
     /**
@@ -165,7 +166,7 @@
         }).then(function(result) {
             that.updateCollection();
             that.trigger('change', Object.keys(data));
-            return result;
+            return result.data;
         });
     };
     /**
@@ -194,7 +195,7 @@
             type: 'DELETE'
         }).then(function(result) {
             that.clear();
-            return result;
+            return result.data;
         });
     };
     /**

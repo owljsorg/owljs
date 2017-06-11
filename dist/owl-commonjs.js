@@ -1003,7 +1003,7 @@ var owl = {
                                 return;
                             }
 
-                            response.headers = xhr.responseHeaders;
+                            response.headers = that.parseHeaders(xhr);
                             response.status = xhr.status;
 
                             settings.success && settings.success(response);
@@ -1028,6 +1028,19 @@ var owl = {
 
                 xhr.send(body);
             });
+        },
+        parseHeaders: function(xhr) {
+            var headersString = xhr.getAllResponseHeaders(),
+                headers = {};
+            headersString.split('\n').forEach(function (item) {
+                var parts;
+                if (item.trim() === '') {
+                    return;
+                }
+                parts = item.split(':');
+                headers[parts[0].trim()] = parts[1].trim();
+            });
+            return headers;
         },
         /**
          * Sets a header for each request

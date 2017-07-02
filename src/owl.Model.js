@@ -109,7 +109,7 @@
             data: this.data
         })
         .then(function(result) {
-            const data = result.data;
+            var data = result.data;
             if(data[that.idAttribute]) {
                 that.data[that.idAttribute] = data[that.idAttribute];
             }

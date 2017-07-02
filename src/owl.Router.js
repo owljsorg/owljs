@@ -50,7 +50,7 @@
         resolve: function(route) {
             var resolves = route.resolves || [];
             return owl.Promise.all(resolves.map(function (resolve) {
-                const callback = owl.history.getResolve(resolve);
+                var callback = owl.history.getResolve(resolve);
                 if (callback) {
                     return owl.Promise.resolve(callback());
                 } else {

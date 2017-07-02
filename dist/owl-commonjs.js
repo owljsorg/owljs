@@ -427,7 +427,7 @@ var owl = {
         resolve: function(route) {
             var resolves = route.resolves || [];
             return owl.Promise.all(resolves.map(function (resolve) {
-                const callback = owl.history.getResolve(resolve);
+                var callback = owl.history.getResolve(resolve);
                 if (callback) {
                     return owl.Promise.resolve(callback());
                 } else {
@@ -660,7 +660,7 @@ var owl = {
             data: this.data
         })
         .then(function(result) {
-            const data = result.data;
+            var data = result.data;
             if(data[that.idAttribute]) {
                 that.data[that.idAttribute] = data[that.idAttribute];
             }

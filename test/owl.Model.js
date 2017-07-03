@@ -368,25 +368,6 @@ describe('owl.Model.js', function() {
         });
     });
 
-    describe('destroy (id is not defined)', function() {
-        var model = new owl.Model({}, {
-            url: '/things'
-        });
-        before(function() {
-            sinon.stub(console, 'warn').returns();
-        });
-        it('should reject patch', function(done) {
-            model
-            .destroy()
-            .catch(function() {
-                done();
-            });
-        });
-        after(function() {
-            console.warn.restore();
-        });
-    });
-
     describe('setData', function() {
         var data = {
             id: 3,

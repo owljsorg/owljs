@@ -184,12 +184,6 @@
      */
     Model.prototype.destroy = function(query) {
         var that = this;
-        var id = this.data[this.idAttribute];
-        if (!id) {
-            return new Promise(function(resolve, reject) {
-                reject(new Error('Can not destroy model without id'));
-            });
-        }
         return owl.ajax.request({
             url: this.getEndpointUrl() + owl.ajax.toQueryString(query),
             type: 'DELETE'

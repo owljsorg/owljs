@@ -28,7 +28,10 @@ const files = [
     ...filesCore
 ];
 
-gulp.task('default', ['build', 'build-core', 'build-commonjs', 'build-commonjs-ajax', 'build-amd']);
+gulp.task('default', [
+    'build', 'build-core', 'build-commonjs', 'build-commonjs-ajax',
+    'build-amd', 'build-amd-core', 'build-amd-ajax'
+]);
 
 gulp.task('build', function() {
     gulp.src(files)
@@ -88,5 +91,52 @@ gulp.task('build-amd', function() {
         }))
         .pipe(uglify())
         .pipe(rename('owl-amd.min.js'))
+        .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('build-amd', function() {
+    gulp.src([
+        'src/owl-amd.js',
+        'src/owl.View.js',
+        ...filesCore
+    ])
+        .pipe(concat('owl.js'))
+        .pipe(wrapper({
+            type: 'amd',
+            exports: 'owl'
+        }))
+        .pipe(uglify())
+        .pipe(rename('owl-amd.min.js'))
+        .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('build-amd-core', function() {
+    gulp.src([
+        'src/owl-amd.js',
+        ...filesCore
+    ])
+        .pipe(concat('owl.js'))
+        .pipe(wrapper({
+            type: 'amd',
+            exports: 'owl'
+        }))
+        .pipe(uglify())
+        .pipe(rename('owl-amd-core.min.js'))
+        .pipe(gulp.dest('dist/'));
+});
+
+
+gulp.task('build-amd-ajax', function() {
+    gulp.src([
+        'src/owl-amd.js',
+        ...filesAjax
+    ])
+        .pipe(concat('owl.js'))
+        .pipe(wrapper({
+            type: 'amd',
+            exports: 'owl'
+        }))
+        .pipe(uglify())
+        .pipe(rename('owl-amd-ajax.min.js'))
         .pipe(gulp.dest('dist/'));
 });

@@ -87,7 +87,8 @@ gulp.task('build-amd', function() {
         .pipe(concat('owl.js'))
         .pipe(wrapper({
             type: 'amd',
-            exports: 'owl'
+            exports: 'owl',
+            name: 'owljs'
         }))
         .pipe(uglify())
         .pipe(rename('owl-amd.min.js'))
@@ -103,7 +104,8 @@ gulp.task('build-amd', function() {
         .pipe(concat('owl.js'))
         .pipe(wrapper({
             type: 'amd',
-            exports: 'owl'
+            exports: 'owl',
+            name: 'owljs'
         }))
         .pipe(uglify())
         .pipe(rename('owl-amd.min.js'))
@@ -118,7 +120,8 @@ gulp.task('build-amd-core', function() {
         .pipe(concat('owl.js'))
         .pipe(wrapper({
             type: 'amd',
-            exports: 'owl'
+            exports: 'owl',
+            name: 'owljs'
         }))
         .pipe(uglify())
         .pipe(rename('owl-amd-core.min.js'))
@@ -134,7 +137,8 @@ gulp.task('build-amd-ajax', function() {
         .pipe(concat('owl.js'))
         .pipe(wrapper({
             type: 'amd',
-            exports: 'owl'
+            exports: 'owl',
+            name: 'owljs'
         }))
         .pipe(uglify())
         .pipe(rename('owl-amd-ajax.min.js'))

@@ -5,8 +5,9 @@ import {Collection} from './owl.Collection';
  * Model options
  */
 export interface IModelOptions {
-    collection: Collection;
-    collectionIndex: number;
+    url: string;
+    collection?: Collection;
+    collectionIndex?: number;
 }
 
 /**

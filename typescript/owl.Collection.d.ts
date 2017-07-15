@@ -2,10 +2,18 @@ import {Model} from './owl.Model';
 import {EventEmitter} from './owl.EventEmitter';
 
 /**
+ * Collection options
+ */
+export interface ICollectionOptions {
+    url: string;
+    model: Model;
+}
+
+/**
  * owl.Collection
  */
 export class Collection extends EventEmitter {
-    constructor(data: Array<Object>, options: Object);
+    constructor(data: Array<Object>, options: ICollectionOptions);
     /**
      * Gets data from the server
      */

@@ -5,13 +5,19 @@ export interface RequestSettings {
     type: string;
     url: string;
     data: Object;
-    files: {string: File};
+    files: {[key: string]: File};
+}
+
+export interface Response {
+    status: number;
+    headers: {[key: string]: string}
+    data: Object
 }
 
 /**
  * Makes request to the server
  */
-export function request(settings: RequestSettings): Promise;
+export function request(settings: RequestSettings): Promise<Response>;
 
 /**
  * Sets a header for each request

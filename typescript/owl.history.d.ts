@@ -54,7 +54,7 @@ export function setHash(hash: string): void;
 /**
  * Opens the page by path
  */
-export function open(path: string): Promise;
+export function open(path: string): Promise<null>;
 
 /**
  * Sets router by name

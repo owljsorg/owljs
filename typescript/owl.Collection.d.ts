@@ -9,7 +9,7 @@ export class Collection extends EventEmitter {
     /**
      * Gets data from the server
      */
-    fetch(query?: Object): Promise;
+    fetch(query?: Object): Promise<Object>;
 
     /**
      * Removes models from collection

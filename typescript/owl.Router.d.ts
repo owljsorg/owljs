@@ -24,12 +24,12 @@ export class Router {
      * Opens page by path
      * @return {Promise<function>} Function to destroy controller
      */
-    open(path: string): Promise;
+    open(path: string): Promise<() => void>;
 
     /**
      * Calls resolve callback
      */
-    resolve(route: IRoute): Promise;
+    resolve(route: IRoute): Promise<any>;
 
     /**
      * Runs the route

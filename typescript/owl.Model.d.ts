@@ -37,22 +37,22 @@ export class Model extends EventEmitter {
     /**
      * Saves a model to database
      */
-    save(query?: Object): Promise;
+    save(query?: Object): Promise<Object>;
 
     /**
      * Updates local data and saves model
      */
-    update(data: Object, query?: Object): Promise;
+    update(data: Object, query?: Object): Promise<Object>;
 
     /**
      * Partially updates model
      */
-    patch(data: Object, query?: Object, path?: String): Promise;
+    patch(data: Object, query?: Object, path?: String): Promise<Object>;
 
     /**
      * Removes a model
      */
-    destroy(query?: Object): Promise;
+    destroy(query?: Object): Promise<Object>;
 
     /**
      * Gets models data

@@ -7,8 +7,6 @@
 ///<reference path="owl.Controller.d.ts"/>
 ///<reference path="owl.Model.d.ts"/>
 ///<reference path="owl.View.d.ts"/>
-///<reference path="../ajax.d.ts"/>
-///<reference path="../core.d.ts"/>
 
 declare namespace owl {
     /**
@@ -65,4 +63,6 @@ declare namespace owl {
      */
     export function require(name: string): Object;
 }
+
+export = owl;
 export as namespace owl;

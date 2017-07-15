@@ -1,4 +1,4 @@
-declare module owl.util {
+declare namespace owl.util {
     /**
      * Clones an object
      */

@@ -1,4 +1,4 @@
-declare module owl.ajax {
+declare namespace owl.ajax {
     /**
      * Makes request to the server
      */

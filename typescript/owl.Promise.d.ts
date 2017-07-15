@@ -1,4 +1,4 @@
-declare module owl {
+declare namespace owl {
     /**
      * Promise should refer to any Promises/A+ library
      */

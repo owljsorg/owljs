@@ -1,4 +1,4 @@
-declare module owl {
+declare namespace owl {
     /**
      * owl.EventEmitter
      */

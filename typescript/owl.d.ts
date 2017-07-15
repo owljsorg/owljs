@@ -10,7 +10,7 @@
 ///<reference path="../ajax.d.ts"/>
 ///<reference path="../core.d.ts"/>
 
-declare module owl {
+declare namespace owl {
     /**
      * Request settings
      */
@@ -65,3 +65,4 @@ declare module owl {
      */
     export function require(name: string): Object;
 }
+export as namespace owl;

@@ -1,4 +1,4 @@
-declare module owl.history {
+declare namespace owl.history {
     /**
      * Makes request to the server
      */

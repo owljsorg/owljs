@@ -1,14 +1,14 @@
 /**
  * Request settings
  */
-export interface RequestSettings {
+export interface IRequestSettings {
     type: string;
     url: string;
     data?: Object;
     files?: {[key: string]: File};
 }
 
-export interface Response {
+export interface IResponse {
     status: number;
     headers: {[key: string]: string}
     data: Object
@@ -17,7 +17,7 @@ export interface Response {
 /**
  * Makes request to the server
  */
-export function request(settings: RequestSettings): Promise<Response>;
+export function request(settings: IRequestSettings): Promise<IResponse>;
 
 /**
  * Sets a header for each request

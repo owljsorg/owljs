@@ -1,4 +1,3 @@
-///<reference path="owl.Promise.d.ts"/>
 ///<reference path="owl.ajax.d.ts"/>
 ///<reference path="owl.history.d.ts"/>
 ///<reference path="owl.util.d.ts"/>

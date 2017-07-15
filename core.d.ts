@@ -1,1 +1,1 @@
-export * from "./typescript/owl.d.ts";
+export * from "./typescript/owl";

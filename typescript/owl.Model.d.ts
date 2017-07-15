@@ -27,7 +27,7 @@ export class Model extends EventEmitter {
     /**
      * Gets data from the server
      */
-    fetch(query?: Object): Promise;
+    fetch(query?: Object): Promise<Object>;
 
     /**
      * Removes all attributes from the model

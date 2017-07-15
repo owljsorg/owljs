@@ -4,8 +4,8 @@
 export interface RequestSettings {
     type: string;
     url: string;
-    data: Object;
-    files: {[key: string]: File};
+    data?: Object;
+    files?: {[key: string]: File};
 }
 
 export interface Response {

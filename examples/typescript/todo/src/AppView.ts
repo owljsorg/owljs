@@ -1,3 +1,5 @@
+import owl from "../../../../typescript/owl";
+
 module app {
     export class AppView extends owl.View {
         protected elements: {

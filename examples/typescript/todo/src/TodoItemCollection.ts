@@ -1,3 +1,5 @@
+import owl from "../../../../typescript/owl";
+
 module app {
     export class TodoItemCollection extends owl.Collection{
         constructor(data?: Array<app.TodoItem>) {

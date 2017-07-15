@@ -1,7 +1,9 @@
+import owl from "../../../../typescript/owl";
+
 module app {
     export class MainRouter extends owl.Router{
         constructor() {
-            var routes: Array<owl.Route> = [{
+            var routes: Array<owl.IRoute> = [{
                     path: '',
                     controller: app.TodoController
                 }, {
@@ -10,7 +12,7 @@ module app {
                         console.log('user');
                     }
                 }],
-                defaultRoute: owl.Route = {
+                defaultRoute: owl.IRoute = {
                     callback: function () {
                         console.log('404 page');
                     }

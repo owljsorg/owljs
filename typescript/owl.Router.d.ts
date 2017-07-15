@@ -1,54 +1,68 @@
-declare namespace owl {
+import {Controller} from './owl.Controller';
+
+/**
+ * Router
+ */
+export interface IRoute {
+    path?: string;
+    resolves?: Array<Function>;
+    callback?: Function;
+    controller?: new () => Controller;
+    action?: string;
+
+    params?: Array<Object>;
+    regexp?: RegExp;
+}
+
+/**
+ * owl.Router
+ */
+export class Router {
+    constructor(routes: Array<IRoute>, defaultRoute: IRoute, controller?: new () => Controller);
+
     /**
-     * owl.Router
+     * Opens page by path
+     * @return {Promise<function>} Function to destroy controller
      */
-    export class Router {
-        constructor(routes: Array<Route>, defaultRoute: Route, controller?: new () => Controller);
+    open(path: string): Promise;
 
-        /**
-         * Opens page by path
-         * @return {Promise<function>} Function to destroy controller
-         */
-        open(path: string): Promise;
+    /**
+     * Calls resolve callback
+     */
+    resolve(route: IRoute): Promise;
 
-        /**
-         * Calls resolve callback
-         */
-        resolve(route: Route): Promise;
+    /**
+     * Runs the route
+     * @return Function to destroy controller
+     */
+    run(path: string, route: IRoute, resolveResult: Array<any>): Function;
 
-        /**
-         * Runs the route
-         * @return Function to destroy controller
-         */
-        run(path: string, route: Route, resolveResult: Array<any>): Function;
+    /**
+     * Adds a route
+     */
+    addRoute(route: IRoute): void;
 
-        /**
-         * Adds a route
-         */
-        addRoute(route: Route): void;
+    /**
+     * Returns the route by path
+     */
+    getRoute(path: string): IRoute;
 
-        /**
-         * Returns the route by path
-         */
-        getRoute(path: string): Route;
+    /**
+     * Sets default route
+     */
+    setDefaultRoute(route: IRoute): void;
 
-        /**
-         * Sets default route
-         */
-        setDefaultRoute(route: Route): void;
+    /**
+     * Gets default route
+     */
+    getDefaultRoute(): IRoute;
 
-        /**
-         * Gets default route
-         */
-        getDefaultRoute(): Route;
-
-        /**
-         * Sets controller
-         */
-        setController(controller: new () => Controller): void;
-        /**
-         * Gets controller
-         */
-        getController(): new () => Controller;
-    }
+    /**
+     * Sets controller
+     */
+    setController(controller: new () => Controller): void;
+    /**
+     * Gets controller
+     */
+    getController(): new () => Controller;
 }

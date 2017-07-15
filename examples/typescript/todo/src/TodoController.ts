@@ -1,3 +1,5 @@
+import owl from "../../../../typescript/owl";
+
 module app {
     export class TodoController extends owl.Controller {
         private appView: app.AppView;

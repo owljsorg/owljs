@@ -1,3 +1,5 @@
+import * as owl from "../../../../typescript/owl";
+
 module app {
     interface TodoCountData {
         countLeft: number;
@@ -12,7 +14,7 @@ module app {
         };
         protected controller: TodoController;
 
-        constructor(options: owl.ViewOptions) {
+        constructor(options: owl.IViewOptions) {
             super({
                 className: 'v-todo',
                 // you can use any template engine here

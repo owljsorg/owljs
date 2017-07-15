@@ -1,8 +1,10 @@
+import owl from "../../../../typescript/owl";
+
 module app {
     export class TodoItemView extends owl.View{
         protected controller: TodoController;
 
-        constructor(options: owl.ViewOptions) {
+        constructor(options: owl.IViewOptions) {
             super({
                 className: 'v-todo',
                 // you can use any template engine here

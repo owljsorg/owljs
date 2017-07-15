@@ -7,8 +7,8 @@
 ///<reference path="owl.Controller.d.ts"/>
 ///<reference path="owl.Model.d.ts"/>
 ///<reference path="owl.View.d.ts"/>
-///<reference path="ajax.d.ts"/>
-///<reference path="core.d.ts"/>
+///<reference path="../ajax.d.ts"/>
+///<reference path="../core.d.ts"/>
 
 declare module owl {
     /**

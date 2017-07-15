@@ -1,8 +1,9 @@
 {
   "name": "owljs",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "Backbone-like frontend library",
   "main": "index.js",
+  "typings": "typescript/owl.d.ts",
   "directories": {
     "example": "examples"
   },

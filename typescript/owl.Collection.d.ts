@@ -13,6 +13,8 @@ export interface ICollectionOptions {
  * owl.Collection
  */
 export class Collection extends EventEmitter {
+    protected url: string;
+
     constructor(data: Array<Object>, options: ICollectionOptions);
     /**
      * Gets data from the server

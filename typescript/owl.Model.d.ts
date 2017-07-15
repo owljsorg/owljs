@@ -14,6 +14,8 @@ export interface IModelOptions {
  * owl.Model
  */
 export class Model extends EventEmitter {
+    protected url: string;
+
     constructor(data: Object, options: IModelOptions);
     /**
      * Gets attribute by name

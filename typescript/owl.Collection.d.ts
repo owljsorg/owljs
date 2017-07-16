@@ -6,7 +6,7 @@ import {EventEmitter} from './owl.EventEmitter';
  */
 export interface ICollectionOptions {
     url: string;
-    model: Model;
+    model: typeof Model;
 }
 
 /**

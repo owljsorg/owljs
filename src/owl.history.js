@@ -81,7 +81,10 @@
          * @return {string}
          */
         getLocation: function () {
-            return window.location.pathname.replace(_options.baseUrl + _options.basePath, '').replace(/\/$/, '');
+            return window.location.pathname
+                .replace(_options.baseUrl + _options.basePath, '')
+                .replace(/\/$/, '')
+                .replace(/^\//, '');
         },
         /**
          * Gets current hash

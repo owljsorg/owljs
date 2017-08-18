@@ -37,6 +37,11 @@ export function navigate(path: string): void;
 export function replace(path: string): void;
 
 /**
+ * Removes base path and trims slashes
+ */
+export function normalizePath(path: string): string;
+
+/**
  * Gets current location
  */
 export function getLocation(): string;
@@ -54,7 +59,7 @@ export function setHash(hash: string): void;
 /**
  * Opens the page by path
  */
-export function open(path: string): Promise<null>;
+export function open(path: string): Promise<void>;
 
 /**
  * Sets router by name

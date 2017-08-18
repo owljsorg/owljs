@@ -159,7 +159,10 @@
 	         * @return {string}
 	         */
 	        getLocation: function () {
-	            return window.location.pathname.replace(_options.baseUrl + _options.basePath, '').replace(/\/$/, '');
+	            return window.location.pathname
+	                .replace(_options.baseUrl + _options.basePath, '')
+	                .replace(/\/$/, '')
+	                .replace(/^\//, '');
 	        },
 	        /**
 	         * Gets current hash
@@ -494,7 +497,7 @@
 	        resolve: function(route) {
 	            var resolves = route.resolves || [];
 	            return owl.Promise.all(resolves.map(function (resolve) {
-	                const callback = owl.history.getResolve(resolve);
+	                var callback = owl.history.getResolve(resolve);
 	                if (callback) {
 	                    return owl.Promise.resolve(callback());
 	                } else {
@@ -727,7 +730,7 @@
 	            data: this.data
 	        })
 	        .then(function(result) {
-	            const data = result.data;
+	            var data = result.data;
 	            if(data[that.idAttribute]) {
 	                that.data[that.idAttribute] = data[that.idAttribute];
 	            }
@@ -802,12 +805,6 @@
 	     */
 	    Model.prototype.destroy = function(query) {
 	        var that = this;
-	        var id = this.data[this.idAttribute];
-	        if (!id) {
-	            return new Promise(function(resolve, reject) {
-	                reject(new Error('Can not destroy model without id'));
-	            });
-	        }
 	        return owl.ajax.request({
 	            url: this.getEndpointUrl() + owl.ajax.toQueryString(query),
 	            type: 'DELETE'
@@ -1070,7 +1067,7 @@
 	                                return;
 	                            }
 
-	                            response.headers = xhr.responseHeaders;
+	                            response.headers = that.parseHeaders(xhr);
 	                            response.status = xhr.status;
 
 	                            settings.success && settings.success(response);
@@ -1095,6 +1092,19 @@
 
 	                xhr.send(body);
 	            });
+	        },
+	        parseHeaders: function(xhr) {
+	            var headersString = xhr.getAllResponseHeaders(),
+	                headers = {};
+	            headersString.split('\n').forEach(function (item) {
+	                var parts;
+	                if (item.trim() === '') {
+	                    return;
+	                }
+	                parts = item.split(':');
+	                headers[parts[0].trim()] = parts[1].trim();
+	            });
+	            return headers;
 	        },
 	        /**
 	         * Sets a header for each request

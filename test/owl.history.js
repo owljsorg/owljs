@@ -243,7 +243,7 @@ describe('owl.history', function() {
             assert(owl.history.trigger.calledWith('change'));
         });
         it('should open router page', function() {
-            assert(router.open.calledWith('/somethingOther'));
+            assert(router.open.calledWith('somethingOther'));
         });
         it('should call destroyer on opening again', function () {
             return owl.history.open('/somethingOther').then(function () {
@@ -278,7 +278,7 @@ describe('owl.history', function() {
             sinon.stub(router, 'open').returns(Promise.resolve(close()));
             sinon.stub(owl.history, 'trigger');
 
-            owl.history.setRouter('/something', router);
+            owl.history.setRouter('something', router);
             owl.history.open('/something/else');
             owl.history.open('/something/other');
         });

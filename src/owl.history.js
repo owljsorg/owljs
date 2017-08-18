@@ -77,14 +77,28 @@
             this.open(path);
         },
         /**
+         * Removes base path and trims slashes
+         * @param path
+         * @return {string}
+         */
+        normalizePath: function (path) {
+            return (
+                path
+                .replace(_options.basePath, '')
+                .replace(/\/$/, '')
+                .replace(/^\//, '')
+            );
+        },
+        /**
          * Gets current location
          * @return {string}
          */
         getLocation: function () {
-            return window.location.pathname
-                .replace(_options.baseUrl + _options.basePath, '')
+            return (
+                window.location.pathname
+                .replace(_options.baseUrl, '')
                 .replace(/\/$/, '')
-                .replace(/^\//, '');
+            );
         },
         /**
          * Gets current hash
@@ -106,16 +120,24 @@
          * @return {Promise} A promise that resolves to set destroyer function if any given
          */
         open: function(path) {
-            var router;
+            var router,
+                normalizedPath = this.normalizePath(path);
+
             if (_destroyFunction) {
                 _destroyFunction();
                 _destroyFunction = null;
             }
             Object.keys(_routers).some(function(routerPath) {
-                if(path === routerPath ||
-                    (path.indexOf(routerPath) === 0 && path.length > routerPath.length && path[routerPath.length] === '/')) {
+                if (
+                    normalizedPath === routerPath ||
+                    (
+                        normalizedPath.indexOf(routerPath) === 0 &&
+                        normalizedPath.length > routerPath.length &&
+                        normalizedPath[routerPath.length] === '/'
+                    )
+                ) {
                     router = _routers[routerPath];
-                    path = path.replace(routerPath, '');
+                    normalizedPath = normalizedPath.replace(routerPath, '');
                     return true;
                 }
                 return false;
@@ -129,7 +151,7 @@
             }
             this.trigger('change');
 
-            return router.open(path).then(function (destroyer) {
+            return router.open(normalizedPath).then(function (destroyer) {
               _destroyFunction = destroyer;
             });
         },

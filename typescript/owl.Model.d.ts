@@ -58,9 +58,14 @@ export class Model extends EventEmitter {
     destroy(query?: Object): Promise<Object>;
 
     /**
-     * Gets models data
+     * Gets model data
      */
     getData(): Object;
+
+    /**
+     * Sets model data
+     */
+    setData(Object): void;
 
     /**
      * Gets model collection

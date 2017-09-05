@@ -15,6 +15,7 @@ export interface IModelOptions {
  */
 export class Model extends EventEmitter {
     protected url: string;
+    protected idAttribute: string;
 
     constructor(data: Object, options: IModelOptions);
     /**
@@ -76,4 +77,9 @@ export class Model extends EventEmitter {
      * Gets model collection index
      */
     getCollectionIndex(): number;
+
+    /**
+     * Parses ID attribute from URL
+     */
+    parseIdAttribute(url: string): string;
 }

@@ -26,7 +26,7 @@
         if (found instanceof Array && found.length > 1) {
             return found[1];
         }
-        return null;
+        return '';
     };
     /**
      * Gets attribute by name

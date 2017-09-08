@@ -2,7 +2,8 @@
     var _options,
         _defaultOptions = {
             baseUrl: '/',
-            basePath: ''
+            basePath: '',
+            debug: true
         },
         _defaultRouter = null,
         _listener,
@@ -248,6 +249,12 @@
             _events[event] && _events[event].forEach(function(listener) {
                 listener();
             });
+        },
+        /**
+         * Is debug turned on
+         */
+        isDebug: function() {
+            return _options.debug;
         }
     };
 })(window, owl);

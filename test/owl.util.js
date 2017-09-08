@@ -85,4 +85,18 @@ describe('owl.util.js', function() {
             expect(result.sub.something).to.be.equal(second.sub.something);
         });
     });
+
+    describe('toQueryString', function() {
+        var object = {key1: 'value1', key2: 'value2'};
+
+        it('should convert object to query string', function() {
+            var result = owl.util.toQueryString(object);
+            expect(result).to.be.equal('?key1=value1&key2=value2');
+        });
+
+        it('should return empty string when input parameter is not an object', function() {
+            var result = owl.util.toQueryString('something');
+            expect(result).to.be.equal('');
+        });
+    });
 });

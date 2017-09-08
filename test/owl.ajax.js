@@ -135,22 +135,14 @@ describe('owl.ajax', function() {
     });
 
     describe('toJsonString', function() {
-        it('stringify object', function() {
+        it('should stringify object', function() {
             expect(owl.ajax.toJsonString({
                 aaa: 'bbb'
             })).to.eql('{"aaa":"bbb"}');
         });
-    });
 
-    describe('toJsonString (not object)', function() {
-        it('stringify object', function() {
-            expect(owl.ajax.toJsonString(123)).to.eql(123);
-        });
-    });
-
-    describe('toJsonString (undefined)', function() {
-        it('stringify object', function() {
-            expect(owl.ajax.toJsonString(undefined)).to.eql('');
+        it('stringify return empty string when input is not an object', function() {
+            expect(owl.ajax.toJsonString(123)).to.eql('');
         });
     });
 });

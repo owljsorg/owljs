@@ -110,21 +110,13 @@
         },
         /**
          * Makes query string from data
+         * Deprecated will be removed in 11.0.0
+         * Use owl.util.
          * @param {object} data
          * @return {string}
          */
         toQueryString: function(data) {
-            var query = [],
-                key;
-            if (!(typeof data === 'object')) {
-                return data || '';
-            }
-            for (key in data) {
-                if (data.hasOwnProperty(key)) {
-                    query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
-                }
-            }
-            return '?' + query.join('&');
+            return owl.util.toQueryString(data);
         },
         /**
          * Stringify an object
@@ -133,7 +125,7 @@
          */
         toJsonString: function(data) {
             if (!(typeof data === 'object')) {
-                return data || '';
+                return '';
             }
             return JSON.stringify(data);
         }

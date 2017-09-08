@@ -57,6 +57,27 @@
             });
 
             return result;
+        },
+        /**
+         * Makes query string from data
+         * @param {object} data
+         * @return {string}
+         */
+        toQueryString: function(data) {
+            var query = [],
+                key;
+            if (!(typeof data === 'object')) {
+                return '';
+            }
+            for (key in data) {
+                if (data.hasOwnProperty(key)) {
+                    query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+                }
+            }
+            return '?' + query.join('&');
+        },
+        deprecated: function(messsage) {
+
         }
     };
 }(window, owl));

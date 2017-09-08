@@ -371,4 +371,18 @@ describe('owl.history', function() {
             owl.history.off('change', listener);
         });
     });
+
+    describe('is debug turned on', function() {
+        it('should be on by default', function() {
+            owl.history.init({});
+            expect(owl.history.isDebug()).to.be.equal(true);
+        });
+
+        it('should be off when initialised with debug:false', function() {
+            owl.history.init({
+                debug: false
+            });
+            expect(owl.history.isDebug()).to.be.equal(false);
+        });
+    });
 });

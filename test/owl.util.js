@@ -99,4 +99,36 @@ describe('owl.util.js', function() {
             expect(result).to.be.equal('');
         });
     });
+
+    describe('deprecated', function() {
+        before(function() {
+            sinon.stub(console, 'log');
+            sinon.stub(owl.history, 'debugEnabled').returns(true);
+
+            owl.util.deprecated('Deprecated');
+        });
+        it('should not trigger change event', function() {
+            assert(console.log.calledOnce);
+        });
+        after(function() {
+            owl.history.debugEnabled.restore();
+            console.log.restore();
+        });
+    });
+
+    describe('deprecated (when debug is disabled)', function() {
+        before(function() {
+            sinon.stub(console, 'log');
+            sinon.stub(owl.history, 'debugEnabled').returns(false);
+
+            owl.util.deprecated('Deprecated');
+        });
+        it('should not trigger change event', function() {
+            assert(console.log.notCalled);
+        });
+        after(function() {
+            owl.history.debugEnabled.restore();
+            console.log.restore();
+        });
+    });
 });

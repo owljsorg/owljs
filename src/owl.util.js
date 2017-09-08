@@ -76,8 +76,15 @@
             }
             return '?' + query.join('&');
         },
-        deprecated: function(messsage) {
 
+        /**
+         * Logs deprecation message when debug is enabled
+         * @param {string} message
+         */
+        deprecated: function(message) {
+            if (owl.history.debugEnabled()) {
+                console.log(message);
+            }
         }
     };
 }(window, owl));

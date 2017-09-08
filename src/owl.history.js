@@ -253,7 +253,7 @@
         /**
          * Is debug turned on
          */
-        isDebug: function() {
+        debugEnabled: function() {
             return _options.debug;
         }
     };

@@ -13,11 +13,11 @@ export interface IModelOptions {
 /**
  * owl.Model
  */
-export class Model extends EventEmitter {
+export class Model<T> extends EventEmitter {
     protected url: string;
     protected idAttribute: string;
 
-    constructor(data: Object, options: IModelOptions);
+    constructor(data: T, options: IModelOptions);
     /**
      * Gets attribute by name
      */
@@ -31,7 +31,7 @@ export class Model extends EventEmitter {
     /**
      * Gets data from the server
      */
-    fetch(query?: Object): Promise<Object>;
+    fetch(query?: Object): Promise<T>;
 
     /**
      * Removes all attributes from the model
@@ -46,12 +46,12 @@ export class Model extends EventEmitter {
     /**
      * Updates local data and saves model
      */
-    update(data: Object, query?: Object): Promise<Object>;
+    update(data: T, query?: Object): Promise<Object>;
 
     /**
      * Partially updates model
      */
-    patch(data: Object, query?: Object, path?: String): Promise<Object>;
+    patch(data: T, query?: Object, path?: String): Promise<Object>;
 
     /**
      * Removes a model
@@ -61,12 +61,12 @@ export class Model extends EventEmitter {
     /**
      * Gets model data
      */
-    getData(): Object;
+    getData(): T;
 
     /**
      * Sets model data
      */
-    setData(Object): void;
+    setData(T): void;
 
     /**
      * Gets model collection

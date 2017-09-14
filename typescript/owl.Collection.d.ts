@@ -12,14 +12,14 @@ export interface ICollectionOptions {
 /**
  * owl.Collection
  */
-export class Collection extends EventEmitter {
+export class Collection<T> extends EventEmitter {
     protected url: string;
 
-    constructor(data: Array<Object>, options: ICollectionOptions);
+    constructor(data: T[], options: ICollectionOptions);
     /**
      * Gets data from the server
      */
-    fetch(query?: Object): Promise<Object>;
+    fetch(query?: Object): Promise<T[]>;
 
     /**
      * Removes models from collection
@@ -29,17 +29,17 @@ export class Collection extends EventEmitter {
     /**
      * Sets collection data
      */
-    setData(data?: Array<Object>): void;
+    setData(data?: T[]): void;
 
     /**
      * Gets collection data
      */
-    getData(): Array<Object>;
+    getData(): T[];
 
     /**
      * Gets collection models
      */
-    getModels(): Array<Model>;
+    getModels(): Model[];
 
     /**
      * Gets collection length

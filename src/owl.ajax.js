@@ -116,6 +116,9 @@
          * @return {string}
          */
         toQueryString: function(data) {
+            owl.util.deprecated(
+                'owl.ajax.toQueryString is deprecated and will be removed in 11.0.0 use owl.util.toQueryString instead'
+            );
             return owl.util.toQueryString(data);
         },
         /**

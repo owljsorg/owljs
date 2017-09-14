@@ -4,22 +4,22 @@ import {EventEmitter} from './owl.EventEmitter';
 /**
  * Collection options
  */
-export interface ICollectionOptions {
+export interface ICollectionOptions<M> {
     url: string;
-    model: typeof Model;
+    model: M;
 }
 
 /**
  * owl.Collection
  */
-export class Collection<T> extends EventEmitter {
+export class Collection<I, M> extends EventEmitter {
     protected url: string;
 
-    constructor(data: T[], options: ICollectionOptions);
+    constructor(data: I[], options: ICollectionOptions<M>);
     /**
      * Gets data from the server
      */
-    fetch(query?: Object): Promise<T[]>;
+    fetch(query?: Object): Promise<I[]>;
 
     /**
      * Removes models from collection
@@ -29,17 +29,17 @@ export class Collection<T> extends EventEmitter {
     /**
      * Sets collection data
      */
-    setData(data?: T[]): void;
+    setData(data?: I[]): void;
 
     /**
      * Gets collection data
      */
-    getData(): T[];
+    getData(): I[];
 
     /**
      * Gets collection models
      */
-    getModels(): Model[];
+    getModels(): M[];
 
     /**
      * Gets collection length
@@ -49,7 +49,7 @@ export class Collection<T> extends EventEmitter {
     /**
      * Gets model by index
      */
-    get(index: number): Model;
+    get(index: number): M;
 
     /**
      * Updates collection internal data value based on index

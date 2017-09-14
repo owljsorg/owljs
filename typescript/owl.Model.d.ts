@@ -51,7 +51,7 @@ export class Model<I> extends EventEmitter {
     /**
      * Partially updates model
      */
-    patch(data: I, query?: Object, path?: String): Promise<Object>;
+    patch(data: I | object, query?: Object, path?: String): Promise<Object>;
 
     /**
      * Removes a model

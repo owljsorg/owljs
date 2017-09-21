@@ -32,7 +32,8 @@
         .then(function(result) {
             that.setData(result.data);
 
-            if (result.headers['X-Total-Count']) {
+            var count = result.headers['x-total-count'] || result.headers['X-Total-Count'];
+            if (count) {
                 that.setTotalCount(parseInt(result.headers['X-Total-Count'], 10));
             }
 

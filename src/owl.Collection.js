@@ -34,7 +34,7 @@
 
             var count = result.headers['x-total-count'] || result.headers['X-Total-Count'];
             if (count) {
-                that.setTotalCount(parseInt(result.headers['X-Total-Count'], 10));
+                that.setTotalCount(Number(count));
             }
 
             return result.data;

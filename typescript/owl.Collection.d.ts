@@ -56,4 +56,14 @@ export class Collection<I, M> extends EventEmitter {
      * In case when index is not defined updates whole collection
      */
     update(index?: number): void;
+
+    /**
+     * Sets total count of elements
+     */
+    setTotalCount(count: number): void;
+
+    /**
+     * Gets total count of elements
+     */
+    getTotalCount(): number;
 }

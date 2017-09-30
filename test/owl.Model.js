@@ -52,7 +52,7 @@ describe('owl.Model.js', function() {
 
     describe('fetch', function() {
         var model = new owl.Model({}, {
-            url: '/things'
+            url: '/things/:id'
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function (resolve) {
@@ -126,7 +126,7 @@ describe('owl.Model.js', function() {
 
     describe('clear', function() {
         var model = new owl.Model(newThing, {
-            url: '/things'
+            url: '/things/:id'
         });
         before(function() {
             model.clear();
@@ -174,7 +174,7 @@ describe('owl.Model.js', function() {
     });
     describe('save (update entry)', function() {
         var model = new owl.Model(thing, {
-            url: '/things'
+            url: '/things/:id'
         });
         before(function() {
             sinon.stub(owl.ajax, 'request').returns(new Promise(function(resolve) {
@@ -212,7 +212,7 @@ describe('owl.Model.js', function() {
         var model = new owl.Model({
             id: 2
         }, {
-            url: '/things'
+            url: '/things/:id'
         });
         before(function() {
             sinon.stub(model, 'save').returns(new Promise(function(resolve) {
@@ -236,7 +236,7 @@ describe('owl.Model.js', function() {
 
     describe('update (id is not defined)', function() {
         var model = new owl.Model({}, {
-            url: '/things'
+            url: '/things/:id'
         });
         before(function() {
             sinon.stub(console, 'warn').returns();
@@ -376,7 +376,7 @@ describe('owl.Model.js', function() {
         var model = new owl.Model({
             id: 2
         }, {
-            url: '/things'
+            url: '/things/:id'
         });
         sinon.spy(model, 'updateCollection');
         sinon.spy(model, 'trigger');
@@ -396,7 +396,7 @@ describe('owl.Model.js', function() {
         var model = new owl.Model({
             id: 2,
         }, {
-            url: '/things',
+            url: '/things/:id',
             collectionIndex: 1
         });
         it('should get collection index', function() {
@@ -406,7 +406,7 @@ describe('owl.Model.js', function() {
 
     describe('emit', function() {
         var model = new owl.Model({}, {
-            url: '/things'
+            url: '/things/:id'
         });
         var firstListener = sinon.spy();
         var secondListener = sinon.spy();
@@ -426,7 +426,7 @@ describe('owl.Model.js', function() {
 
     describe('triggerSingle', function() {
         var model = new owl.Model({}, {
-            url: '/things'
+            url: '/things/:id'
         });
         var firstListener = sinon.spy();
         var secondListener = sinon.spy();
@@ -448,7 +448,7 @@ describe('owl.Model.js', function() {
             url: ''
         });
         var model = new owl.Model({}, {
-            url: '/things',
+            url: '/things/:id',
             collection: collection
         });
         before(function() {
@@ -464,7 +464,7 @@ describe('owl.Model.js', function() {
     });
     describe('off', function() {
         var model = new owl.Model({}, {
-            url: '/things'
+            url: '/things/:id'
         });
         var firstListener = sinon.spy();
         var secondListener = sinon.spy();
@@ -487,7 +487,7 @@ describe('owl.Model.js', function() {
 
     describe('off (without listener)', function() {
         var model = new owl.Model({}, {
-            url: '/things'
+            url: '/things/:id'
         });
         var firstListener = sinon.spy();
         var secondListener = sinon.spy();
@@ -504,7 +504,7 @@ describe('owl.Model.js', function() {
 
     describe('off (without event)', function() {
         var model = new owl.Model({}, {
-            url: '/things'
+            url: '/things/:id'
         });
         var firstListener = sinon.spy();
         var secondListener = sinon.spy();
@@ -522,7 +522,7 @@ describe('owl.Model.js', function() {
 
     describe('trigger', function() {
         var model = new owl.Model({}, {
-            url: '/things'
+            url: '/things/:id'
         });
         before(function() {
             sinon.stub(model, 'triggerSingle');
@@ -538,7 +538,7 @@ describe('owl.Model.js', function() {
 
     describe('trigger (with sub events)', function() {
         var model = new owl.Model({}, {
-            url: '/things'
+            url: '/things/:id'
         });
         before(function() {
             sinon.stub(model, 'triggerSingle');

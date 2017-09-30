@@ -100,9 +100,6 @@
         var that = this;
         var url = this.getEndpointUrl();
         var id = this.data[this.idAttribute];
-        if(id) {
-            url += '/' + this.data[this.idAttribute];
-        }
         return owl.ajax.request({
             url: url + owl.ajax.toQueryString(query),
             type: id ? 'PUT' : 'POST',

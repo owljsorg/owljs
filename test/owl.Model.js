@@ -236,20 +236,28 @@ describe('owl.Model.js', function() {
 
     describe('update (id is not defined)', function() {
         var model = new owl.Model({}, {
-            url: '/things/:id'
+            url: '/things'
         });
         before(function() {
-            sinon.stub(console, 'warn').returns();
+            sinon.stub(model, 'save').returns(new Promise(function(resolve) {
+                resolve({
+                    data: {},
+                    status: 200,
+                    headers: {}
+                });
+            }));
         });
-        it('should reject update', function(done) {
+        it('should update a object', function(done) {
             model.update({
                 name: 'something'
-            }).catch(function(error) {
+            }).then(function() {
+                assert(model.save.calledOnce);
+
                 done();
             });
         });
         after(function() {
-            console.warn.restore();
+            model.save.restore();
         });
     });
 

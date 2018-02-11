@@ -123,12 +123,6 @@
      */
     Model.prototype.update = function(data, query) {
         var that = this;
-        var id = this.data[this.idAttribute];
-        if(!id) {
-            return new Promise(function(resolve, reject) {
-                reject(new Error('Can not update model without id'));
-            });
-        }
         this.data = owl.util.extend(this.data, data, true);
         return this.save(query).then(function(result) {
             that.updateCollection();
